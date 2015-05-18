@@ -29,10 +29,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class OrderAdapter extends BaseAdapter {
-
+    //-1:已取消0:未支付 1:已支付 2:联票检票中3:已检票 4:已结算，5:已结算已支付8：请求退款9：已退票10：过期票
+    private static final String[] TYPE_NAME = {"已取消", "未支付", "已购票", "联票检票中", "已检票", "已结算", "已结算已支付",
+        "请求退款", "已退票", "过期票"};
+    private static final String[] TYPE_ID = {"-1", "0", "1", "2", "3", "4", "5", "8", "9", "10"};
+ 
     private Context mContext;
     private List<OrderInfo> list;
     private String mType;
+    private HashMap<String, String> mTypeMap = new HashMap<String, String>();
 
     public OrderAdapter(Context context) {
         this.mContext = context;
@@ -40,6 +45,9 @@ public class OrderAdapter extends BaseAdapter {
     }
 
     private void init() {
+        for (int i = 0; i < TYPE_ID.length; i++) {
+            mTypeMap.put(TYPE_ID[i], TYPE_NAME[i]);
+        }
     }
 
     @Override
@@ -93,6 +101,10 @@ public class OrderAdapter extends BaseAdapter {
 
         if (!TextUtils.isEmpty(mType)) {
             holder.orderState.setText(mType);
+        } else {
+            if (mTypeMap.containsKey(info.getOrderState())) {
+                holder.orderState.setText(mTypeMap.get(info.getOrderState()));
+            }
         }
 
         convertView.setOnClickListener(new OnClickListener() {

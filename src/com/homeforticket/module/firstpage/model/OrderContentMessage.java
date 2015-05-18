@@ -23,6 +23,10 @@ public class OrderContentMessage extends ReturnMessage {
 	private String notice;
 	private String costs;
 	private List<OrderContentInfo> infos = new ArrayList<OrderContentInfo>();
+	private String city;
+	private String sceneAddress;
+	private String provice;
+	private String county;
     /**
      * @return the list
      */
@@ -214,6 +218,54 @@ public class OrderContentMessage extends ReturnMessage {
      */
     public void setInfos(List<OrderContentInfo> infos) {
         this.infos = infos;
+    }
+    /**
+     * @return the city
+     */
+    public String getCity() {
+        return city;
+    }
+    /**
+     * @param city the city to set
+     */
+    public void setCity(String city) {
+        this.city = city;
+    }
+    /**
+     * @return the provice
+     */
+    public String getProvice() {
+        return provice;
+    }
+    /**
+     * @param provice the provice to set
+     */
+    public void setProvice(String provice) {
+        this.provice = provice;
+    }
+    /**
+     * @return the sceneAddress
+     */
+    public String getSceneAddress() {
+        return sceneAddress;
+    }
+    /**
+     * @param sceneAddress the sceneAddress to set
+     */
+    public void setSceneAddress(String sceneAddress) {
+        this.sceneAddress = sceneAddress;
+    }
+    /**
+     * @return the county
+     */
+    public String getCounty() {
+        return county;
+    }
+    /**
+     * @param county the county to set
+     */
+    public void setCounty(String county) {
+        this.county = county;
     }
 
 

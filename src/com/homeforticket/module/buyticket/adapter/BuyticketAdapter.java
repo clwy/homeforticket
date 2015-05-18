@@ -74,8 +74,8 @@ public class BuyticketAdapter extends BaseAdapter {
         holder.posName.setText(ticketInfo.getCity());
         holder.TicketName.setText(ticketInfo.getSceneName());
         holder.TicketLevel.setText(ticketInfo.getSceneLevel());
-        holder.currentCost.setText(ticketInfo.getPrice());
-        holder.originalCost.setText(ticketInfo.getRetailPrice());
+        holder.currentCost.setText(ticketInfo.getRetailPrice());
+        holder.originalCost.setText(ticketInfo.getMarketPrice());
         
         if (convertView != null) {
             convertView.setOnClickListener(new OnClickListener() {

@@ -44,6 +44,10 @@ public class OrderContentMessageParser extends AbstractParser<OrderContentMessag
             message.setRefundTicketType(getString(jb, "refundTicketType"));
             message.setNotice(getString(jb, "notice"));
             message.setCosts(getString(jb, "costs"));
+            message.setCity(getString(jb, "city"));
+            message.setSceneAddress(getString(jb, "sceneAddress"));
+            message.setProvice(getString(jb, "provice"));
+            message.setCounty(getString(jb, "county"));
 
             List<OrderContentInfo> infos = new ArrayList<OrderContentInfo>();
             String list = getString(jb, "list");
