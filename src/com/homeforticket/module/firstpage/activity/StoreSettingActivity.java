@@ -202,7 +202,7 @@ public class StoreSettingActivity extends BaseActivity implements OnClickListene
                 SharedPreferencesUtil.saveString(SysConstants.TOKEN, token);
             }
 
-            Glide.with(this).load(mStoreStatisticsMessage.getImg())
+            Glide.with(this).load(mStoreStatisticsMessage.getImg()).transform(new CircleTransform(this))
                     .into(mStoreHeadimg);
             mStoreName.setText(mStoreStatisticsMessage.getName());
             mStoreInfo.setText(mStoreStatisticsMessage.getDescription());
