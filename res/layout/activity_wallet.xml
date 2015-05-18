@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f4f8ff" >
+
+    <RelativeLayout
+        android:id="@+id/wallet_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/wallet_background" >
+
+        <TextView
+            android:id="@+id/right_arrow_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="83dp"
+            android:drawablePadding="5dp"
+            android:drawableRight="@drawable/right_arrow_img"
+            android:text="@string/wallet_record"
+            android:textColor="@color/head_title_color"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/total_wallet_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="22dp"
+            android:layout_marginTop="83dp"
+            android:text="@string/wallet_count"
+            android:textColor="@color/head_title_color"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/total_wallet_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/total_wallet_title"
+            android:layout_marginLeft="22dp"
+            android:layout_marginTop="15dp"
+            android:text="@string/income_init_count"
+            android:textColor="@color/head_title_color"
+            android:textSize="53dp" />
+    </RelativeLayout>
+
+    <include
+        android:id="@+id/title_layout"
+        layout="@layout/head_title_layout" />
+
+    <RelativeLayout
+        android:id="@+id/income_layout"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_below="@id/wallet_layout"
+        android:background="@null" >
+
+        <TextView
+            android:id="@+id/total_income_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="22dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/total_income_title"
+            android:textColor="@color/function_title_color"
+            android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/total_income_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/total_income_title"
+            android:layout_marginLeft="22dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/income_init_count"
+            android:textColor="#ff9024"
+            android:textSize="32dp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/wallet_in_detail_layout"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:layout_below="@id/income_layout"
+        android:background="@null" >
+
+        <LinearLayout
+            android:id="@+id/first_layout"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:background="@null"
+            android:orientation="horizontal" >
+
+            <RelativeLayout
+                android:id="@+id/available_money"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_weight="1" >
+
+                <TextView
+                    android:id="@+id/available_money_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="14dp"
+                    android:text="@string/wallet_available_money"
+                    android:textColor="@color/function_title_color"
+                    android:textSize="13dp" />
+
+                <TextView
+                    android:id="@+id/available_money_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/available_money_title"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="11dp"
+                    android:text="@string/income_init_count"
+                    android:textColor="#ff9024"
+                    android:textSize="16dp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/freeze_money"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_weight="1" >
+
+                <TextView
+                    android:id="@+id/freeze_money_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="14dp"
+                    android:text="@string/wallet_freeze_money"
+                    android:textColor="@color/function_title_color"
+                    android:textSize="13dp" />
+
+                <TextView
+                    android:id="@+id/freeze_money_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/freeze_money_title"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="11dp"
+                    android:text="@string/income_init_count"
+                    android:textColor="@color/function_title_color"
+                    android:textSize="16dp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/withholding_money"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_weight="1" >
+
+                <TextView
+                    android:id="@+id/withholding_money_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="14dp"
+                    android:text="@string/wallet_withholding_money"
+                    android:textColor="@color/function_title_color"
+                    android:textSize="13dp" />
+
+                <TextView
+                    android:id="@+id/withholding_money_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/withholding_money_title"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="11dp"
+                    android:text="@string/income_init_count"
+                    android:textColor="#ff9024"
+                    android:textSize="16dp" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/second_layout"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_below="@id/first_layout"
+            android:background="@null"
+            android:orientation="horizontal" >
+
+            <RelativeLayout
+                android:id="@+id/brought_money"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_weight="1" >
+
+                <TextView
+                    android:id="@+id/brought_money_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="14dp"
+                    android:text="@string/wallet_brought_money"
+                    android:textColor="@color/function_title_color"
+                    android:textSize="13dp" />
+
+                <TextView
+                    android:id="@+id/brought_money_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/brought_money_title"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="11dp"
+                    android:text="@string/income_init_count"
+                    android:textColor="@color/function_title_color"
+                    android:textSize="16dp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/sell_money"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_weight="1" >
+
+                <TextView
+                    android:id="@+id/sell_money_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="14dp"
+                    android:text="@string/wallet_sell_money"
+                    android:textColor="@color/function_title_color"
+                    android:textSize="13dp" />
+
+                <TextView
+                    android:id="@+id/sell_money_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/sell_money_title"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="11dp"
+                    android:text="@string/income_init_count"
+                    android:textColor="@color/function_title_color"
+                    android:textSize="16dp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_weight="1" >
+            </RelativeLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@drawable/tab_bottom_line" />
+
+        <View
+            android:layout_width="0.5dp"
+            android:layout_height="160dp"
+            android:layout_marginLeft="120dp"
+            android:background="@drawable/middle_line" />
+
+        <View
+            android:layout_width="0.5dp"
+            android:layout_height="160dp"
+            android:layout_marginLeft="240dp"
+            android:background="@drawable/middle_line" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_alignBottom="@id/first_layout"
+            android:background="@drawable/tab_bottom_line" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_alignBottom="@id/wallet_in_detail_layout"
+        android:background="@drawable/tab_bottom_line" />
+
+    <Button
+        android:id="@+id/fetch_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/wallet_in_detail_layout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="56dp"
+        android:background="@drawable/fetch_button_layout"
+        android:gravity="center"
+        android:text="@string/fetch_money"
+        android:textColor="#ffffff" />
+
+</RelativeLayout>

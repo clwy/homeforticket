@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/title_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#1db2f6" >
+
+    <RelativeLayout
+        android:id="@+id/top_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/head_title_layout_height"
+        android:background="@color/head_bg_color" >
+
+        <RelativeLayout
+            android:id="@+id/left_top_button"
+            android:layout_width="@dimen/head_left_button_width"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:drawableLeft="@drawable/button_back"
+                android:gravity="center"
+                android:singleLine="true"
+                android:textColor="#0079ff"
+                android:textSize="@dimen/head_title_small_size" />
+        </RelativeLayout>
+
+        <ImageButton
+            android:id="@+id/right_top_button"
+            android:layout_width="@dimen/head_title_layout_height"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:background="@android:color/transparent" />
+
+        <Button
+            android:id="@+id/right_button"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:background="@android:color/transparent"
+            android:gravity="center"
+            android:minWidth="@dimen/head_title_layout_height"
+            android:paddingRight="10dp"
+            android:singleLine="true"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/head_title_small_size"
+            android:visibility="gone" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/head_left_button_width"
+            android:layout_marginRight="@dimen/head_left_button_width" >
+
+            <TextView
+                android:id="@+id/top_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textColor="@color/head_title_color"
+                android:textSize="@dimen/head_title_size" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

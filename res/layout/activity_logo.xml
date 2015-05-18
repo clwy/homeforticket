@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/logo" >
+
+    <ImageView
+        android:id="@+id/advertisement"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#f4f4f4" >
+    </ImageView>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+         />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="22dp"
+        android:paddingBottom="13dp"
+        android:text="@string/copyright_en"
+        android:textColor="#8c8c8c"
+        android:textSize="12dp" />
+
+</RelativeLayout>

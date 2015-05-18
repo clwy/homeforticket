@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffffff" >
+
+    <TextView
+        android:id="@+id/system_message_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/system_message_string"
+        android:textColor="#414358"
+        android:textSize="15dp" />
+
+    <TextView
+        android:id="@+id/message_remark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/system_message_title"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="12dp"
+        android:textColor="#979797"
+        android:textSize="14dp" />
+
+    <TextView
+        android:id="@+id/message_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="12dp"
+        android:layout_marginTop="12dp"
+        android:textColor="#c3c3c3"
+        android:textSize="10dp" />
+
+    <View
+        android:id="@+id/middle_line"
+        android:layout_width="293dp"
+        android:layout_height="0.5dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="70dp"
+        android:background="@drawable/me_short_line" />
+
+    <TextView
+        android:id="@+id/message_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/middle_line"
+        android:padding="12dp"
+        android:textColor="#979797"
+        android:textSize="13dp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_below="@id/message_content"
+        android:background="#f4f8ff" >
+    </RelativeLayout>
+
+</RelativeLayout>

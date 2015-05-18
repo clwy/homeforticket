@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="white">#FFFFFF</color>
+    
+    <color name="head_bg_color">#1db2f6</color>
+    <color name="head_title_color">#ffffff</color>
+    <color name="function_title_color">#7e7f8a</color>
+    <color name="me_item_color">#414358</color>
+</resources>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <RelativeLayout
+        android:id="@+id/pop_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#ffffff" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:text="@string/upload_headimg_title"
+            android:textColor="#414358"
+            android:textSize="16dp" />
+
+        <ImageView
+            android:id="@+id/line"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="58dp"
+            android:background="@drawable/upload_photo_line" />
+
+        <Button
+            android:id="@+id/take_photo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/line"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="23dp"
+            android:background="@drawable/upload_blue_layout"
+            android:gravity="center"
+            android:text="@string/take_photo"
+            android:textColor="#ffffff"
+            android:textSize="17dp" />
+
+        <Button
+            android:id="@+id/take_local"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/take_photo"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="23dp"
+            android:background="@drawable/upload_blue_layout"
+            android:gravity="center"
+            android:text="@string/take_local"
+            android:textColor="#ffffff"
+            android:textSize="17dp" />
+
+        <Button
+            android:id="@+id/btn_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/take_local"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/upload_cancel_layout"
+            android:gravity="center"
+            android:text="@string/cancel"
+            android:textColor="#ffffff"
+            android:textSize="17dp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="23dp"
+            android:layout_below="@id/btn_cancel"
+            android:background="@null" >
+        </RelativeLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

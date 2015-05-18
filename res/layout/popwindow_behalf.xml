@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#b0000000" >
+
+    <RelativeLayout
+        android:id="@+id/center_layout"
+        android:layout_width="match_parent"
+        android:layout_height="226dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:background="@drawable/popwindow_background" >
+
+        <RelativeLayout
+            android:id="@+id/behalf_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="113dp" >
+
+            <TextView
+                android:id="@+id/behalf_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:drawableLeft="@drawable/common_behalf"
+                android:drawablePadding="20dp"
+                android:gravity="center"
+                android:text="@string/common_behalf"
+                android:textColor="#414368"
+                android:textSize="18dp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/me_right_arrow" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/store_navigation_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="113dp"
+            android:layout_below="@id/behalf_layout" >
+
+            <TextView
+                android:id="@+id/store_navigation_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:drawableLeft="@drawable/store_navigation"
+                android:drawablePadding="20dp"
+                android:gravity="center"
+                android:text="@string/store_navigation"
+                android:textColor="#414368"
+                android:textSize="18dp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/me_right_arrow" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_centerVertical="true"
+            android:background="@drawable/me_short_line" />
+
+        <ImageView
+            android:id="@+id/cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/close_button_layout" />
+    </RelativeLayout>
+
+</RelativeLayout>

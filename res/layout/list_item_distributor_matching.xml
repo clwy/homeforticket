@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:background="#ffffff" >
+
+    <ImageView
+        android:id="@+id/distributor_img"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/default_head_img" />
+
+    <TextView
+        android:id="@+id/distributor_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="26dp"
+        android:layout_toRightOf="@id/distributor_img"
+        android:textColor="#414358"
+        android:textSize="15dp" />
+
+    <TextView
+        android:id="@+id/des"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/distributor_name"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="20dp"
+        android:layout_toRightOf="@id/distributor_img"
+        android:textColor="#979797"
+        android:textSize="14dp" />
+
+    <Button
+        android:id="@+id/matching_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="12dp"
+        android:background="@drawable/manage_button_layout"
+        android:gravity="center"
+        android:text="@string/matching_text"
+        android:textColor="#ffffff"
+        android:textSize="15dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/me_long_line" />
+
+</RelativeLayout>

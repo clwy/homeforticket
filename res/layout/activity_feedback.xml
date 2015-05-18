@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f4f8ff" >
+
+    <include
+        android:id="@+id/title_layout"
+        layout="@layout/head_title_layout" />
+
+    <RelativeLayout
+        android:id="@+id/input_feedback_layout"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_below="@id/title_layout"
+        android:layout_marginTop="20dp"
+        android:background="#ffffff" >
+
+        <EditText
+            android:id="@+id/input_feedback"
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="15dp"
+            android:background="@null"
+            android:gravity="top"
+            android:hint="@string/input_feedback"
+            android:maxLength="1000"
+            android:textColor="#414358"
+            android:textColorHint="#c3c3c3"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/input_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="169dp"
+            android:text="@string/input_length_right"
+            android:textColor="#c3c3c3"
+            android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="169dp"
+            android:layout_toLeftOf="@id/input_end"
+            android:text="0"
+            android:textColor="#c3c3c3"
+            android:textSize="15dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="169dp"
+            android:layout_toLeftOf="@id/count"
+            android:text="@string/input_length_left"
+            android:textColor="#c3c3c3"
+            android:textSize="15dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@drawable/me_long_line" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/me_long_line" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/input_your_address_layout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@id/input_feedback_layout"
+        android:layout_marginTop="20dp"
+        android:background="#ffffff" >
+
+        <EditText
+            android:id="@+id/input_your_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@null"
+            android:hint="@string/input_your_address"
+            android:singleLine="true"
+            android:textColor="#414358"
+            android:textColorHint="#c3c3c3"
+            android:textSize="15dp" />
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/submit_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/input_your_address_layout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/blue_button_layout"
+        android:gravity="center"
+        android:text="@string/submit"
+        android:textColor="#ffffff"
+        android:textSize="16dp" />
+
+</RelativeLayout>

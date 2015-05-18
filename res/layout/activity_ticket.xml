@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f4f8ff" >
+
+    <RelativeLayout
+        android:id="@+id/bottom_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/reserve_button_layout" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/immediately_buy"
+            android:textColor="#ffffff"
+            android:textSize="16dp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottom_button" >
+
+        <include
+            android:id="@+id/title_layout"
+            layout="@layout/head_title_layout" />
+
+        <RelativeLayout
+            android:id="@+id/top_layout"
+            android:layout_width="match_parent"
+            android:layout_height="106dp"
+            android:layout_below="@id/title_layout" >
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/viewpager_top"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <LinearLayout
+                android:id="@+id/layout_top_dots"
+                android:layout_width="match_parent"
+                android:layout_height="7dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="93dp"
+                android:gravity="center"
+                android:orientation="horizontal" >
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/scenic_name_layout"
+            android:layout_width="match_parent"
+            android:layout_height="33dp"
+            android:layout_below="@id/top_layout"
+            android:layout_marginTop="5dp"
+            android:background="#ffffff" >
+
+            <TextView
+                android:id="@+id/scenic_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="12dp"
+                android:textColor="#000000"
+                android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/scenic_level"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="22dp"
+                android:layout_toRightOf="@id/scenic_name"
+                android:textColor="#f8a900"
+                android:textSize="14dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@drawable/me_long_line" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/me_long_line" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/price_layout"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:layout_below="@id/scenic_name_layout"
+            android:background="#ffffff" >
+
+            <TextView
+                android:id="@+id/current_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="12dp"
+                android:textColor="#ff9024"
+                android:textSize="26dp" />
+
+            <TextView
+                android:id="@+id/original_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="42dp"
+                android:layout_toRightOf="@id/current_price"
+                android:textColor="#c3c3c3"
+                android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/commission_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="14dp"
+                android:textColor="#ffb278"
+                android:textSize="13dp" />
+
+            <TextView
+                android:id="@+id/commission_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="11dp"
+                android:layout_toLeftOf="@id/commission_count"
+                android:text="@string/commission_title"
+                android:textColor="#c3c3c3"
+                android:textSize="16dp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/location_layout"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_below="@id/price_layout"
+            android:background="#ffffff" >
+
+            <RelativeLayout
+                android:id="@+id/location_city_layout"
+                android:layout_width="match_parent"
+                android:layout_height="30dp" >
+
+                <TextView
+                    android:id="@+id/location_city_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="12dp"
+                    android:text="@string/scenic_city"
+                    android:textColor="#979797"
+                    android:textSize="14dp" />
+
+                <TextView
+                    android:id="@+id/location_city"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/location_city_name"
+                    android:textColor="#979797"
+                    android:textSize="14dp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/location_address_layout"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_below="@id/location_city_layout" >
+
+                <TextView
+                    android:id="@+id/location_address_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="12dp"
+                    android:text="@string/scenic_address"
+                    android:textColor="#979797"
+                    android:textSize="14dp" />
+
+                <TextView
+                    android:id="@+id/location_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/location_address_name"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:textColor="#979797"
+                    android:textSize="14dp" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@drawable/me_long_line" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/me_long_line" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/ticket_operation_layout"
+            android:layout_width="match_parent"
+            android:layout_height="33dp"
+            android:layout_below="@id/location_layout"
+            android:background="#ffffff"
+            android:orientation="horizontal" >
+
+            <RelativeLayout
+                android:id="@+id/buy_ticket"
+                android:layout_width="0dp"
+                android:layout_height="33dp"
+                android:layout_weight="1" >
+
+                <TextView
+                    android:id="@+id/buy_ticket_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="@string/ticket_reserve"
+                    android:textColor="#1db2f6"
+                    android:textSize="16dp" />
+
+                <ImageView
+                    android:id="@+id/buy_ticket_bottom_line"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/scenic_oper_bottom_line" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="33dp"
+                android:background="@drawable/middle_line" />
+
+            <RelativeLayout
+                android:id="@+id/scenic_introduce"
+                android:layout_width="0dp"
+                android:layout_height="33dp"
+                android:layout_weight="1" >
+
+                <TextView
+                    android:id="@+id/scenic_introduce_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="@string/scenic_introduce"
+                    android:textColor="#979797"
+                    android:textSize="16dp" />
+
+                <ImageView
+                    android:id="@+id/scenic_introduce_bottom_line"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/scenic_oper_bottom_line"
+                    android:visibility="gone" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_below="@id/ticket_operation_layout"
+            android:background="@drawable/me_long_line" />
+
+        <com.homeforticket.framework.pullrefrash.PullToRefreshListView
+            android:id="@+id/ticket_type_list"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_below="@id/ticket_operation_layout"
+            android:layout_marginTop="10dp"
+            android:cacheColorHint="#b1b1b3"
+            android:divider="@null"
+            android:listSelector="#00000000" >
+        </com.homeforticket.framework.pullrefrash.PullToRefreshListView>
+
+        <RelativeLayout
+            android:id="@+id/scenic_introduce_layout"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@id/ticket_operation_layout"
+            android:layout_marginTop="10dp"
+            android:background="#ffffff"
+            android:visibility="invisible" >
+
+            <TextView
+                android:id="@+id/scenic_introduce_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="12dp"
+                android:text="@string/scenic_introduce"
+                android:textColor="#000000"
+                android:textSize="16dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/me_long_line" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/scenic_introduce_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/scenic_introduce_layout"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginTop="14dp"
+            android:scrollbars="vertical"
+            android:textColor="#979797"
+            android:textSize="13dp"
+            android:visibility="invisible" />
+    </RelativeLayout>
+
+</RelativeLayout>

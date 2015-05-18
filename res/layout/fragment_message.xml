@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f4f8ff" >
+
+    <include
+        android:id="@+id/title_layout"
+        layout="@layout/head_title_layout" />
+
+    <RelativeLayout
+        android:id="@+id/system_message_layout"
+        android:layout_width="match_parent"
+        android:layout_height="67dp"
+        android:layout_below="@id/title_layout" >
+
+        <RelativeLayout
+            android:id="@+id/system_message_icon_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginBottom="7dp"
+            android:layout_marginTop="7dp" >
+
+            <ImageView
+                android:id="@+id/system_message_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/system_message" />
+
+            <TextView
+                android:id="@+id/system_message_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignRight="@id/system_message_icon"
+                android:background="@drawable/notice_background"
+                android:gravity="center" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/system_message_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="13dp"
+            android:layout_marginTop="13dp"
+            android:layout_toRightOf="@id/system_message_icon_layout"
+            android:text="@string/system_message_string"
+            android:textColor="#414358"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/system_message_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:textColor="#c3c3c3"
+            android:textSize="11dp" />
+
+        <TextView
+            android:id="@+id/system_message_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/system_message_title"
+            android:layout_marginLeft="13dp"
+            android:layout_marginTop="12dp"
+            android:layout_toRightOf="@id/system_message_icon_layout"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textColor="#979797"
+            android:textSize="13dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/item_bottom_line" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/order_message_layout"
+        android:layout_width="match_parent"
+        android:layout_height="67dp"
+        android:layout_below="@id/system_message_layout" >
+
+        <RelativeLayout
+            android:id="@+id/order_message_icon_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginBottom="7dp"
+            android:layout_marginTop="7dp" >
+
+            <ImageView
+                android:id="@+id/order_message_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/order_message" />
+
+            <TextView
+                android:id="@+id/order_message_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignRight="@id/order_message_icon"
+                android:background="@drawable/notice_background"
+                android:gravity="center"
+                android:visibility="invisible" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/order_message_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="13dp"
+            android:layout_marginTop="13dp"
+            android:layout_toRightOf="@id/order_message_icon_layout"
+            android:text="@string/order_message_string"
+            android:textColor="#414358"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/order_message_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:textColor="#c3c3c3"
+            android:textSize="11dp" />
+
+        <TextView
+            android:id="@+id/order_message_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/order_message_title"
+            android:layout_marginLeft="13dp"
+            android:layout_marginTop="12dp"
+            android:layout_toRightOf="@id/order_message_icon_layout"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textColor="#979797"
+            android:textSize="13dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/item_bottom_line" />
+    </RelativeLayout>
+
+</RelativeLayout>

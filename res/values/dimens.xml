@@ -1,0 +1,27 @@
+<resources>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    
+    <dimen name="head_title_layout_height">44dp</dimen>
+    <dimen name="head_left_button_width">48dp</dimen>
+    <dimen name="head_title_small_size">15dp</dimen>
+    <dimen name="head_title_size">17dp</dimen>
+    <dimen name="bottom_text_size">11dp</dimen>
+    <dimen name="function_title_size">14dp</dimen>
+    <dimen name="me_item_size">16dp</dimen>
+	<dimen name="top_pageradapter_height">106dp</dimen>
+	
+	<dimen name="user_name_top">14dp</dimen>
+	<dimen name="user_left">20dp</dimen>
+	<dimen name="delete_top">16dp</dimen>
+	<dimen name="delete_right">20dp</dimen>
+	<dimen name="name_left">33dp</dimen>
+	<dimen name="tel_left">23dp</dimen>
+	<dimen name="bottom_line_top">17dp</dimen>
+	<dimen name="bottom_height">7dp</dimen>
+	
+	<dimen name="order_status_width">120dp</dimen>
+	<dimen name="order_status_height">50dp</dimen>
+</resources>

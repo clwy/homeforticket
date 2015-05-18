@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f4f8ff" >
+
+    <RelativeLayout
+        android:id="@+id/store_title_layout"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@drawable/wallet_background" >
+
+        <ImageView
+            android:id="@+id/user_head_img"
+            android:layout_width="86dp"
+            android:layout_height="86dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/default_head_img" />
+
+
+        <TextView
+            android:id="@+id/user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/user_head_img"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="13dp"
+            android:text="@string/store_end"
+            android:textColor="#ffffff"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/store_setting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="20dp"
+            android:drawablePadding="10dp"
+            android:drawableTop="@drawable/setting"
+            android:gravity="center"
+            android:paddingBottom="7dp"
+            android:text="@string/store_setting"
+            android:textColor="#ffffff"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/store_share"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
+            android:drawablePadding="10dp"
+            android:drawableTop="@drawable/share"
+            android:paddingBottom="7dp"
+            android:text="@string/store_share"
+            android:textColor="#ffffff"
+            android:textSize="16dp" />
+    </RelativeLayout>
+
+    <include
+        android:id="@+id/title_layout"
+        layout="@layout/head_title_layout" />
+
+    <LinearLayout
+        android:id="@+id/oper_layout"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@id/store_title_layout"
+        android:background="#ffffff"
+        android:orientation="horizontal" >
+
+        <RelativeLayout
+            android:id="@+id/new_layout"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1" >
+
+            <TextView
+                android:id="@+id/new_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/new_text"
+                android:textColor="#1db2f6"
+                android:textSize="16dp" />
+
+            <ImageView
+                android:id="@+id/new_bottom_line"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/scenic_oper_bottom_line" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/commission_layout"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1" >
+
+            <TextView
+                android:id="@+id/commission_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/commission_text"
+                android:textColor="#979797"
+                android:textSize="16dp" />
+
+            <ImageView
+                android:id="@+id/commission_bottom_line"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/scenic_oper_bottom_line"
+                android:visibility="invisible" />
+        </RelativeLayout>
+    </LinearLayout>
+    
+    <com.homeforticket.framework.pullrefrash.PullToRefreshListView
+        android:id="@+id/store_list"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/oper_layout"
+        android:cacheColorHint="#b1b1b3"
+        android:layout_marginTop="10dp"
+        android:divider="@null"
+        android:listSelector="#00000000" >
+    </com.homeforticket.framework.pullrefrash.PullToRefreshListView>
+
+</RelativeLayout>

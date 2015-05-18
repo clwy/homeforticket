@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f4f8ff" >
+
+    <RelativeLayout
+        android:id="@+id/order_name_layout"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="#ffffff" >
+
+        <TextView
+            android:id="@+id/order_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="12dp"
+            android:textColor="#1db2f6"
+            android:textSize="14dp" />
+
+        <TextView
+            android:id="@+id/order_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="12dp"
+            android:textColor="#ff9024"
+            android:textSize="13dp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/order_img_layout"
+        android:layout_width="match_parent"
+        android:layout_height="114dp"
+        android:layout_below="@id/order_name_layout"
+        android:background="#ffffff" >
+
+        <ImageView
+            android:id="@+id/order_img"
+            android:layout_width="74dp"
+            android:layout_height="74dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/order_default_img" />
+
+        <TextView
+            android:id="@+id/order_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="30dp"
+            android:layout_toRightOf="@id/order_img"
+            android:textColor="#414358"
+            android:textSize="13dp" />
+
+        <TextView
+            android:id="@+id/order_leave_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/order_title"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="25dp"
+            android:layout_toRightOf="@id/order_img"
+            android:textColor="#c3c3c3"
+            android:textSize="13dp" />
+
+        <TextView
+            android:id="@+id/order_pay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="12dp"
+            android:layout_marginTop="29dp"
+            android:textColor="#979797"
+            android:textSize="13dp" />
+
+        <TextView
+            android:id="@+id/order_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/order_pay"
+            android:layout_marginRight="12dp"
+            android:layout_marginTop="29dp"
+            android:textColor="#979797"
+            android:textSize="13dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@drawable/me_long_line" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/me_long_line" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/sence_title_layout"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@id/order_img_layout"
+        android:layout_marginTop="10dp"
+        android:background="#ffffff" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="12dp"
+            android:text="@string/sence_info"
+            android:textColor="#979797"
+            android:textSize="13dp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/sence_city_layout"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@id/sence_title_layout"
+        android:background="#ffffff" >
+
+        <TextView
+            android:id="@+id/sence_city_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="12dp"
+            android:text="@string/sence_city"
+            android:textColor="#414358"
+            android:textSize="13dp" />
+
+        <TextView
+            android:id="@+id/sence_city"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/sence_city_title"
+            android:textColor="#414358"
+            android:textSize="13dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@drawable/me_long_line" />
+
+        <View
+            android:layout_width="293dp"
+            android:layout_height="0.5dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/me_short_line" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/sence_address_layout"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@id/sence_city_layout"
+        android:background="#ffffff" >
+
+        <TextView
+            android:id="@+id/sence_address_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="12dp"
+            android:text="@string/sence_address"
+            android:textColor="#414358"
+            android:textSize="13dp" />
+
+        <TextView
+            android:id="@+id/sence_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/sence_address_title"
+            android:textColor="#414358"
+            android:textSize="13dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/me_long_line" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@id/sence_address_layout"
+        android:layout_marginTop="10dp"
+        android:background="#ffffff" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="12dp"
+            android:text="@string/profile_info"
+            android:textColor="#979797"
+            android:textSize="13dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@drawable/me_long_line" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/me_long_line" />
+    </RelativeLayout>
+
+</RelativeLayout>
