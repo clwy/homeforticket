@@ -59,7 +59,7 @@ import com.homeforticket.util.ToastUtil;
 public class UserInfoActivity extends BaseActivity implements OnClickListener, RequestListener {
     private static final int REQUEST_CODE_PICK_IMAGE = 0;
     private static final int REQUEST_CODE_CAPTURE_CAMEIA = 1;
-    private static final String PATH = SysConstants.LOCALPATH + "capture.png";
+    private String mPath;
     private TextView mTxtTitle;
     private RelativeLayout mBtnBack;
     private TextView mUserName;
@@ -113,6 +113,7 @@ public class UserInfoActivity extends BaseActivity implements OnClickListener, R
     }
 
     private void initData() {
+        mPath = SysConstants.LOCALPATH;
         Glide.with(this).load(SharedPreferencesUtil.readString(SysConstants.USER_PHOTO, ""))
                 .transform(new CircleTransform(this)).into(mUserHeadImg);
         mTxtTitle.setText(R.string.profile_title);
@@ -155,7 +156,8 @@ public class UserInfoActivity extends BaseActivity implements OnClickListener, R
             }
 
             SharedPreferencesUtil.saveString(SysConstants.USER_PHOTO, uploadImgMessage.getPath());
-            Glide.with(UserInfoActivity.this).load(SharedPreferencesUtil.readString(SysConstants.USER_PHOTO, ""))
+            Glide.with(UserInfoActivity.this)
+                    .load(SharedPreferencesUtil.readString(SysConstants.USER_PHOTO, ""))
                     .transform(new CircleTransform(this)).into(mUserHeadImg);
         } else {
             if ("10004".equals(code)) {
@@ -231,31 +233,38 @@ public class UserInfoActivity extends BaseActivity implements OnClickListener, R
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         mSelectBottomPopupWindow.dismiss();
-        final File cacheFile = new File(SysConstants.LOCALPATH + "capture.png");
-        if (cacheFile.exists()) {
-            cacheFile.delete();
+        File cacheFile = new File(mPath);
+        if (!cacheFile.exists()) {
+            cacheFile.mkdirs();
         }
 
-        if (requestCode == REQUEST_CODE_PICK_IMAGE) {
-            Uri uri = data.getData();
-            ContentResolver cr = this.getContentResolver();
-            try {
-                Bitmap bitmap = BitmapFactory.decodeStream(cr.openInputStream(uri));
-                dealBitmap(bitmap);
-            } catch (FileNotFoundException e) {
+        String path = mPath + "capture.png";
+        try {
+
+            if (requestCode == REQUEST_CODE_PICK_IMAGE) {
+                Uri uri = data.getData();
+                ContentResolver cr = this.getContentResolver();
+                try {
+                    Bitmap bitmap = BitmapFactory.decodeStream(cr.openInputStream(uri));
+                    dealBitmap(bitmap, path);
+                } catch (FileNotFoundException e) {
+                }
+            } else if (requestCode == REQUEST_CODE_CAPTURE_CAMEIA) {
+                Bundle bundle = data.getExtras();
+                if (bundle != null) {
+                    Bitmap photo = (Bitmap) bundle.get("data"); // get bitmap
+                    dealBitmap(photo, path);
+                }
             }
-        } else if (requestCode == REQUEST_CODE_CAPTURE_CAMEIA) {
-            Bundle bundle = data.getExtras();
-            if (bundle != null) {
-                Bitmap photo = (Bitmap) bundle.get("data"); // get bitmap
-                dealBitmap(photo);
-            }
+
+        } catch (Exception e) {
+            ToastUtil.showToast("选取图片出错，请重新选择");
         }
     }
-    
-    private void dealBitmap(Bitmap bm) {
-        BitmapUtils.saveImage(bm, PATH);
-        BitmapUtils.getSmallBitmap(PATH);
-        uploadHeadImgRequest(PATH);
+
+    private void dealBitmap(Bitmap bm, String path) {
+        BitmapUtils.saveImage(bm, path);
+        BitmapUtils.saveImage(BitmapUtils.getSmallBitmap(path), path);
+        uploadHeadImgRequest(path);
     }
 }

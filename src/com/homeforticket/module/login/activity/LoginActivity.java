@@ -85,24 +85,24 @@ public class LoginActivity extends BaseActivity implements OnClickListener, Requ
         String username = mEditUsername.getText().toString().trim();
         String password = mEditPassword.getText().toString().trim();
 
-//        if (TextUtils.isEmpty(username) || TextUtils.isEmpty(password)) {
-//            ToastUtil.showToast(R.string.no_input_up);
-//            return;
-//        }
-//
-//        if (username.length() < MIN_USERNAME_LENGTH) {
-//            ToastUtil.showToast(R.string.username_length_short);
-//            return;
-//        }
-//
-//        if (password.length() < MIN_PASSWORD_LENGTH) {
-//            ToastUtil.showToast(R.string.password_length_short);
-//            return;
-//        }
+        if (TextUtils.isEmpty(username) || TextUtils.isEmpty(password)) {
+            ToastUtil.showToast(R.string.no_input_up);
+            return;
+        }
+
+        if (username.length() < MIN_USERNAME_LENGTH) {
+            ToastUtil.showToast(R.string.username_length_short);
+            return;
+        }
+
+        if (password.length() < MIN_PASSWORD_LENGTH) {
+            ToastUtil.showToast(R.string.password_length_short);
+            return;
+        }
 
         hideInput();
-        doLoginRequest("13400000002", "13400000002");
-//        doLoginRequest(username, password);
+//        doLoginRequest("13400000002", "13400000002");
+        doLoginRequest(username, password);
     }
 
     private void hideInput() {

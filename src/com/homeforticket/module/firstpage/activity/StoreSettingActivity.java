@@ -16,6 +16,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -23,6 +24,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -59,7 +61,7 @@ public class StoreSettingActivity extends BaseActivity implements OnClickListene
     private static final int REQUEST_CODE_CAPTURE_CAMEIA = 1;
     private static final int REQUEST_CODE_STORE_CONTENT = 2;
     private static final int REQUEST_CODE_STORE_HEADIMG = 3;
-    private static final String PATH = SysConstants.LOCALPATH + "store.png";
+    private String mPath;
     private TextView mTxtTitle;
     private RelativeLayout mBtnBack;
 
@@ -128,6 +130,7 @@ public class StoreSettingActivity extends BaseActivity implements OnClickListene
     }
 
     private void initData() {
+        mPath = SysConstants.LOCALPATH;
         mTxtTitle.setText(R.string.store_setting_title);
     }
 
@@ -305,26 +308,33 @@ public class StoreSettingActivity extends BaseActivity implements OnClickListene
 
         if (requestCode == REQUEST_CODE_PICK_IMAGE || requestCode == REQUEST_CODE_CAPTURE_CAMEIA) {
             mSelectBottomPopupWindow.dismiss();
-            final File cacheFile = new File(SysConstants.LOCALPATH + "store.png");
-            if (cacheFile.exists()) {
-                cacheFile.delete();
+            File cacheFile = new File(mPath);
+            if (!cacheFile.exists()) {
+                cacheFile.mkdirs();
             }
 
-            if (requestCode == REQUEST_CODE_PICK_IMAGE) {
-                Uri uri = data.getData();
-                ContentResolver cr = this.getContentResolver();
-                try {
-                    Bitmap bitmap = BitmapFactory.decodeStream(cr.openInputStream(uri));
-                    dealBitmap(bitmap);
-                } catch (FileNotFoundException e) {
-                }
-            } else if (requestCode == REQUEST_CODE_CAPTURE_CAMEIA) {
-                Bundle bundle = data.getExtras();
-                if (bundle != null) {
-                    Bitmap photo = (Bitmap) bundle.get("data"); // get bitmap
-                    dealBitmap(photo);
-                }
+            String path = mPath + "store.png";
+            try {
 
+                if (requestCode == REQUEST_CODE_PICK_IMAGE) {
+                    Uri uri = data.getData();
+                    ContentResolver cr = this.getContentResolver();
+                    try {
+                        Bitmap bitmap = BitmapFactory.decodeStream(cr.openInputStream(uri));
+                        dealBitmap(bitmap, path);
+                    } catch (FileNotFoundException e) {
+                    }
+                } else if (requestCode == REQUEST_CODE_CAPTURE_CAMEIA) {
+                    Bundle bundle = data.getExtras();
+                    if (bundle != null) {
+                        Bitmap photo = (Bitmap) bundle.get("data"); // get
+                                                                    // bitmap
+                        dealBitmap(photo, path);
+                    }
+
+                }
+            } catch (Exception e) {
+                ToastUtil.showToast("选取图片出错，请重新选择");
             }
         } else if (requestCode == REQUEST_CODE_STORE_CONTENT) {
             doGetWebsite();
@@ -350,11 +360,11 @@ public class StoreSettingActivity extends BaseActivity implements OnClickListene
             job.doRequest("1");
         }
     }
-    
-    private void dealBitmap(Bitmap bm) {
-        BitmapUtils.saveImage(bm, PATH);
-        BitmapUtils.getSmallBitmap(PATH);
-        uploadHeadImgRequest(PATH);
+
+    private void dealBitmap(Bitmap bm, String path) {
+        BitmapUtils.saveImage(bm, path);
+        BitmapUtils.saveImage(BitmapUtils.getSmallBitmap(path), path);
+        uploadHeadImgRequest(path);
     }
 
 }
