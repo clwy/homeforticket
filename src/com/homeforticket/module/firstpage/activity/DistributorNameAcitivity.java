@@ -48,6 +48,7 @@ import com.homeforticket.util.ToastUtil;
 public class DistributorNameAcitivity extends BaseActivity implements OnClickListener, RequestListener, OnRefreshListener<ListView> {
     private static final int REQUEST_DISTRIBUTOR_LIST = 0;
     private static final int REQUEST_DISTRIBUTOR_NEXT_LIST = REQUEST_DISTRIBUTOR_LIST + 1;
+    private static final int REQUEST_CHANGE_STATUS = REQUEST_DISTRIBUTOR_NEXT_LIST + 1;
     
     private TextView mTxtTitle;
     private RelativeLayout mBtnBack;

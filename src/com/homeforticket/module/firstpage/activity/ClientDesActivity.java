@@ -19,9 +19,11 @@ import com.homeforticket.constant.SysConstants;
 import com.homeforticket.framework.BaseActivity;
 import com.homeforticket.module.firstpage.model.ClientInfo;
 import com.homeforticket.module.firstpage.model.ResellerMessage;
+import com.homeforticket.module.firstpage.model.SetClientInfoMessage;
 import com.homeforticket.module.firstpage.model.SetStoreInfoMessage;
 import com.homeforticket.module.firstpage.model.StoreStatisticsMessage;
 import com.homeforticket.module.firstpage.parser.ResellerMessageParser;
+import com.homeforticket.module.firstpage.parser.SetClientInfoMessageParser;
 import com.homeforticket.module.firstpage.parser.SetStoreInfoMessageParser;
 import com.homeforticket.module.login.activity.LoginActivity;
 import com.homeforticket.module.me.model.SetUserInfoMessage;
@@ -68,17 +70,19 @@ public class ClientDesActivity extends BaseActivity implements OnClickListener, 
         mEditText.setText(mInfo.getNote());
     }
 
-    private void setStoreInfo() {
+    private void setClinetInfo() {
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("method", "updateWebsite");
+            jsonObject.put("method", "updateCustomers");
+            jsonObject.put("id", mInfo.getId());
+            jsonObject.put("text", mEditText.getText().toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
         if (jsonObject != null) {
             RequestJob job = new RequestJob(SysConstants.SERVER, jsonObject.toString(),
-                    new SetStoreInfoMessageParser(), SysConstants.REQUEST_POST);
+                    new SetClientInfoMessageParser(), SysConstants.REQUEST_POST);
             job.setRequestListener(this);
             job.doRequest();
         }
@@ -91,7 +95,7 @@ public class ClientDesActivity extends BaseActivity implements OnClickListener, 
 
     @Override
     public void onSuccess(RequestJob job) {
-        SetStoreInfoMessage message = (SetStoreInfoMessage) job.getBaseType();
+        SetClientInfoMessage message = (SetClientInfoMessage) job.getBaseType();
         String code = message.getCode();
 
         if ("10000".equals(code)) {
@@ -100,11 +104,14 @@ public class ClientDesActivity extends BaseActivity implements OnClickListener, 
                 SharedPreferencesUtil.saveString(SysConstants.TOKEN, token);
             }
 
+            Intent intent = new Intent();
+            intent.putExtra("des", mEditText.getText().toString());
+            setResult(SysConstants.SET_CLIENT_INFO, intent);
             finish();
         } else {
             if ("10004".equals(code)) {
                 Intent intent = new Intent(this, LoginActivity.class);
-                startActivityForResult(intent, SysConstants.SET_STORE_NAME);
+                startActivityForResult(intent, SysConstants.SET_CLIENT_INFO);
             }
         }
         
@@ -119,8 +126,8 @@ public class ClientDesActivity extends BaseActivity implements OnClickListener, 
     @Override
     public void onActivityResult(int requestCode, int responseCode, Intent data) {
         if (responseCode == SysConstants.REQUEST_TYPE_LOGIN) {
-            if (requestCode == SysConstants.SET_STORE_NAME) {
-                setStoreInfo();
+            if (requestCode == SysConstants.SET_CLIENT_INFO) {
+                setClinetInfo();
             } 
         }
         super.onActivityResult(requestCode, responseCode, data);
@@ -133,7 +140,7 @@ public class ClientDesActivity extends BaseActivity implements OnClickListener, 
                 finish();
                 break;
             case R.id.save_button:
-//                setStoreInfo();
+                setClinetInfo();
                 break;
             default:
                 break;

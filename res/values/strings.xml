@@ -19,7 +19,7 @@
     <string name="input_password">密码</string>
     <string name="confirm_button">登录</string>
     <string name="no_input_up">请输入账号和密码</string>
-    <string name="username_length_short">您输入的账号长度不足5位</string>
+    <string name="username_length_short">您输入的账号长度不足6位</string>
     <string name="password_length_short">您输入的密码长度不足6位</string>
     <string name="username_first_no_char">您输入的账户名首字母不是字母</string>
 

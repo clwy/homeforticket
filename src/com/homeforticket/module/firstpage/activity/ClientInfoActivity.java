@@ -108,11 +108,20 @@ public class ClientInfoActivity extends BaseActivity implements OnClickListener,
             case R.id.client_setting_layout:
                 Intent intent = new Intent(this, ClientDesActivity.class);
                 intent.putExtra("ClientInfo", mInfo);
-                startActivity(intent);
+                startActivityForResult(intent, SysConstants.SET_CLIENT_INFO);
                 break;
             default:
                 break;
         }
+    }
+    
+    @Override
+    public void onActivityResult(int requestCode, int responseCode, Intent data) {
+        if (responseCode == SysConstants.SET_CLIENT_INFO) {
+            mSettingText.setText(data.getStringExtra("des"));
+            mInfo.setNote(data.getStringExtra("des"));
+        }
+        super.onActivityResult(requestCode, responseCode, data);
     }
 
 }

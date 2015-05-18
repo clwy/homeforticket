@@ -6,12 +6,14 @@ import com.bumptech.glide.Glide;
 import com.homeforticket.R;
 import com.homeforticket.module.buyticket.model.BuyticketInfo;
 import com.homeforticket.module.buyticket.model.TicketInfo;
+import com.homeforticket.module.firstpage.activity.OrderManageActivity;
 import com.homeforticket.module.firstpage.model.DistributorInfo;
 import com.homeforticket.module.firstpage.model.RecordInfo;
 import com.homeforticket.module.message.model.MessageInfo;
 import com.homeforticket.util.CircleTransform;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.text.TextUtils;
@@ -79,7 +81,9 @@ public class DistributorOrderAdapter extends BaseAdapter {
             
             @Override
             public void onClick(View v) {
-                
+                Intent intent = new Intent(mContext, OrderManageActivity.class);
+                intent.putExtra("id", info.getId());
+                mContext.startActivity(intent);
             }
         });
         return convertView;

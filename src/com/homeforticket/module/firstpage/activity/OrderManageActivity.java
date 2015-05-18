@@ -66,6 +66,8 @@ public class OrderManageActivity extends BaseActivity implements OnRefreshListen
     private List<OrderStatusInfo> mStatusList = new ArrayList<OrderStatusInfo>();
     private String mOrderType;
     
+    private String mId;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -115,6 +117,8 @@ public class OrderManageActivity extends BaseActivity implements OnRefreshListen
     }
 
     private void initData() {
+        Intent intent = getIntent();
+        mId = intent.getStringExtra("id");
         mTxtTitle.setText(R.string.order_manage_title);
         mOrderListView.setAdapter(mOrderAdapter);
         mOrderListView.setMode(Mode.BOTH);
@@ -151,6 +155,9 @@ public class OrderManageActivity extends BaseActivity implements OnRefreshListen
             if (!TextUtils.isEmpty(searchText)) {
                 jsonObject.put("orderId", searchText);
             } 
+            if (!TextUtils.isEmpty(mId)) {
+                jsonObject.put("resellerId", mId);
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -170,6 +177,9 @@ public class OrderManageActivity extends BaseActivity implements OnRefreshListen
             jsonObject.put("method", "queryOrderStatus");
             jsonObject.put("currentPage", 1);
             jsonObject.put("pageSize", "20");
+            if (!TextUtils.isEmpty(mId)) {
+                jsonObject.put("resellerId", mId);
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -107,6 +107,7 @@ public class SysConstants {
 	public static final int ADD_PRODUCT = 20;
 	public static final int SAVE_LOG = 21;
 	public static final int GET_DISTRIBUTOR = 22;
+	public static final int SET_CLIENT_INFO = 23;
 	
 	/************************* REQUEST_PARIS ******************************/
 	public static final String CLIENT_FROM = "client";

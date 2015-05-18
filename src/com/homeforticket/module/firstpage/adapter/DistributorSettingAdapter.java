@@ -2,14 +2,24 @@ package com.homeforticket.module.firstpage.adapter;
 
 import java.util.List;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.bumptech.glide.Glide;
 import com.homeforticket.R;
+import com.homeforticket.constant.SysConstants;
 import com.homeforticket.module.buyticket.model.BuyticketInfo;
 import com.homeforticket.module.buyticket.model.TicketInfo;
 import com.homeforticket.module.firstpage.model.DistributorInfo;
 import com.homeforticket.module.firstpage.model.RecordInfo;
+import com.homeforticket.module.firstpage.model.SetDistributorInfoMessage;
+import com.homeforticket.module.firstpage.parser.SetDistributorInfoMessageParser;
 import com.homeforticket.module.message.model.MessageInfo;
+import com.homeforticket.request.RequestJob;
+import com.homeforticket.request.RequestListener;
 import com.homeforticket.util.CircleTransform;
+import com.homeforticket.util.SharedPreferencesUtil;
+import com.homeforticket.util.ToastUtil;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -24,10 +34,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class DistributorSettingAdapter extends BaseAdapter {
+public class DistributorSettingAdapter extends BaseAdapter implements RequestListener{
 
 	private Context mContext;
 	private List<DistributorInfo> list;
+	private int mPos;
 
     public DistributorSettingAdapter(Context context) {
         this.mContext = context;
@@ -69,6 +80,7 @@ public class DistributorSettingAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
+        final int pos = position;
         final DistributorInfo info = list.get(position);
         if (!TextUtils.isEmpty(info.getImg())) {
             Glide.with(mContext).load(info.getImg()).transform(new CircleTransform(mContext)).into(holder.headimg);
@@ -79,7 +91,7 @@ public class DistributorSettingAdapter extends BaseAdapter {
             
             @Override
             public void onClick(View v) {
-                
+                requestStatus(info.getId(), "3", pos);
             }
         });
         return convertView;
@@ -105,5 +117,51 @@ public class DistributorSettingAdapter extends BaseAdapter {
 	    TextView name;
 	    Button cancel;
 	}
+	
+    private void requestStatus(String id, String status, int pos) {
+        mPos = pos;
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("method", "resellerStatus");
+            jsonObject.put("id", id);
+            jsonObject.put("status", status);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        if (jsonObject != null) {
+            RequestJob job = new RequestJob(SysConstants.SERVER, jsonObject.toString(),
+                    new SetDistributorInfoMessageParser(), SysConstants.REQUEST_POST);
+            job.setRequestListener(this);
+            job.doRequest();
+        }
+    }
+
+    @Override
+    public void onStartRequest(RequestJob job) {
+        
+    }
+
+    @Override
+    public void onSuccess(RequestJob job) {
+        SetDistributorInfoMessage message = (SetDistributorInfoMessage) job.getBaseType();
+        String code = message.getCode();
+        if ("10000".equals(code)) {
+            String token = message.getToken();
+            if (!TextUtils.isEmpty(token)) {
+                SharedPreferencesUtil.saveString(SysConstants.TOKEN, token);
+            }
+            
+            list.remove(mPos);
+            notifyDataSetChanged();
+        } else {
+            ToastUtil.showToast(message.getMessage());
+        }
+    }
+
+    @Override
+    public void onFail(RequestJob job) {
+        ToastUtil.showToast(job.getFailNotice());
+    }
 
 }

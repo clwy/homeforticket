@@ -10,6 +10,7 @@ import com.homeforticket.module.firstpage.activity.ClientInfoActivity;
 import com.homeforticket.module.firstpage.model.ClientInfo;
 import com.homeforticket.module.firstpage.model.RecordInfo;
 import com.homeforticket.module.message.model.MessageInfo;
+import com.homeforticket.util.CircleTransform;
 
 import android.content.Context;
 import android.content.Intent;
@@ -71,7 +72,7 @@ public class ClientAdapter extends BaseAdapter {
         }
 
         final ClientInfo info = list.get(position);
-        Glide.with(mContext).load(info.getHeadimg()).into(holder.userHeadImg);
+        Glide.with(mContext).load(info.getHeadimg()).transform(new CircleTransform(mContext)).into(holder.userHeadImg);
         holder.userName.setText(info.getName());
         holder.userTel.setText(info.getTel());
         holder.manageButton.setOnClickListener(new OnClickListener() {
