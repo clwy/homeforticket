@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.bumptech.glide.Glide;
 import com.homeforticket.R;
+import com.homeforticket.module.buyticket.activity.TicketActivity;
 import com.homeforticket.module.buyticket.model.BuyticketInfo;
 import com.homeforticket.module.buyticket.model.TicketInfo;
 import com.homeforticket.module.firstpage.activity.ClientInfoActivity;
@@ -140,6 +141,13 @@ public class ProductAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
 
+                if (ProductNavigationManageActivity.TYPE_TICKET.equals(mType)) {
+                    Intent intent = new Intent(mContext, TicketActivity.class);
+                    intent.putExtra("id", info.getSceneId());
+                    intent.putExtra("current", info.getRetailPrice());
+                    intent.putExtra("original", info.getMarketPrice());
+                    mContext.startActivity(intent);
+                }
             }
         });
 

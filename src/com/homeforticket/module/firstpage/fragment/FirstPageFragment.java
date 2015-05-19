@@ -95,11 +95,13 @@ public class FirstPageFragment extends BaseFragment implements OnClickListener, 
     private void initData() {
         mTotalIncomeNum.setText(SharedPreferencesUtil.readString(SysConstants.TOTAL_MONEY, "0.00"));
         mCurrentMonthIncomeNum.setText(SharedPreferencesUtil.readString(SysConstants.CURRENT_MONEY, "0.00"));
-//        if ("4".equals(SharedPreferencesUtil.readString(SysConstants.ROLE, "0"))) {
-//            mSellManageButton.setVisibility(View.INVISIBLE);
-//        } else {
-//            mSellManageButton.setVisibility(View.VISIBLE);
-//        }
+        if ("4".equals(SharedPreferencesUtil.readString(SysConstants.ROLE, "4"))) {
+            mSellManageButton.setVisibility(View.INVISIBLE);
+        } else if ("5".equals(SharedPreferencesUtil.readString(SysConstants.ROLE, "4"))) {
+            mSellManageButton.setVisibility(View.VISIBLE);
+        } else {
+            mSellManageButton.setVisibility(View.INVISIBLE);
+        }
         getResellerRequest();
     }
 

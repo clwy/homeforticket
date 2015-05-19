@@ -1,7 +1,12 @@
 
 package com.homeforticket.module.me.activity;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -12,9 +17,15 @@ import android.widget.TextView;
 import com.homeforticket.R;
 import com.homeforticket.constant.SysConstants;
 import com.homeforticket.framework.BaseActivity;
+import com.homeforticket.module.firstpage.model.WalletMessage;
+import com.homeforticket.module.firstpage.parser.WalletMessageParser;
+import com.homeforticket.module.login.activity.LoginActivity;
+import com.homeforticket.module.me.model.BindAccountMessage;
+import com.homeforticket.module.me.parser.BindAccountMessageParser;
 import com.homeforticket.request.RequestJob;
 import com.homeforticket.request.RequestListener;
 import com.homeforticket.util.SharedPreferencesUtil;
+import com.homeforticket.util.ToastUtil;
 
 public class UserBindAccountActivity extends BaseActivity implements OnClickListener, RequestListener {
     private TextView mTxtTitle;
@@ -23,6 +34,8 @@ public class UserBindAccountActivity extends BaseActivity implements OnClickList
     private TextView mGetAccountTime;
     private EditText mEditText;
     private Button mNextButton;
+    private String mBcard;
+    private String mBname;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +64,23 @@ public class UserBindAccountActivity extends BaseActivity implements OnClickList
 
     private void initData() {
         mTxtTitle.setText(R.string.fetch_account_title);
+        getBindAccountRequest();
+    }
+    
+    private void getBindAccountRequest() {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("method", "getBank");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        if (jsonObject != null) {
+            RequestJob job = new RequestJob(SysConstants.SERVER, jsonObject.toString(),
+                    new BindAccountMessageParser(), SysConstants.REQUEST_POST);
+            job.setRequestListener(this);
+            job.doRequest();
+        }
     }
 
     @Override
@@ -60,12 +90,43 @@ public class UserBindAccountActivity extends BaseActivity implements OnClickList
 
     @Override
     public void onSuccess(RequestJob job) {
+        BindAccountMessage message = (BindAccountMessage) job.getBaseType();
+        String code = message.getCode();
 
+        if ("10000".equals(code)) {
+            String token = message.getToken();
+            if (!TextUtils.isEmpty(token)) {
+                SharedPreferencesUtil.saveString(SysConstants.TOKEN, token);
+            }
+            
+            mBcard = message.getBcard();
+            mBname = message.getBname();
+            mBankCard.setText(mBname + " " + getResources().getString(R.string.bank_card_end) + mBcard);
+            mEditText.setHint(getResources().getString(R.string.current_remain_count) + "元");
+
+        } else {
+            if ("10004".equals(code)) {
+                Intent intent = new Intent(this, LoginActivity.class);
+                startActivityForResult(intent, SysConstants.GET_BIND_BANK);
+            } 
+                
+            ToastUtil.showToast(message.getMessage());
+        }
     }
 
     @Override
     public void onFail(RequestJob job) {
-
+        ToastUtil.showToast(job.getFailNotice());
+    }
+    
+    @Override
+    public void onActivityResult(int requestCode, int responseCode, Intent data) {
+        if (responseCode == SysConstants.REQUEST_TYPE_LOGIN) {
+            if (requestCode == SysConstants.GET_BIND_BANK) {
+                getBindAccountRequest();
+            } 
+        }
+        super.onActivityResult(requestCode, responseCode, data);
     }
 
     @Override

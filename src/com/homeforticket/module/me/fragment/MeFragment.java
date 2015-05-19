@@ -62,6 +62,11 @@ public class MeFragment extends BaseFragment implements OnClickListener {
                 Glide.with(getActivity())
                         .load(SharedPreferencesUtil.readString(SysConstants.USER_PHOTO, ""))
                         .transform(new CircleTransform(getActivity())).into(mUserHeadImg);
+                if ("0".equals(SharedPreferencesUtil.readString(SysConstants.BIND_ACCOUNT, "0"))) {
+                    mIsBind.setText(R.string.account_unbind);
+                } else {
+                    mIsBind.setText(R.string.account_bind);
+                }
             }
         });
     }

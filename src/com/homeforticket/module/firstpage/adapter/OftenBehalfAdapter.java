@@ -85,8 +85,8 @@ public class OftenBehalfAdapter extends BaseAdapter {
                 public void onClick(View v) {
                     Intent intent = new Intent(mContext, TicketActivity.class);
                     intent.putExtra("id", behalfInfo.getSceneId());
-                    intent.putExtra("current", behalfInfo.getPrice());
-                    intent.putExtra("original", behalfInfo.getRetailPrice());
+                    intent.putExtra("current", behalfInfo.getRetailPrice());
+                    intent.putExtra("original", behalfInfo.getMarketPrice());
                     mContext.startActivity(intent);
                 }
             });

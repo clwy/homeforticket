@@ -19,6 +19,8 @@ import com.homeforticket.module.firstpage.model.WalletMessage;
 import com.homeforticket.module.firstpage.parser.ResellerMessageParser;
 import com.homeforticket.module.firstpage.parser.WalletMessageParser;
 import com.homeforticket.module.login.activity.LoginActivity;
+import com.homeforticket.module.me.activity.UserBindAccountActivity;
+import com.homeforticket.module.me.activity.UserUnBindActivity;
 import com.homeforticket.request.RequestJob;
 import com.homeforticket.request.RequestListener;
 import com.homeforticket.util.SharedPreferencesUtil;
@@ -127,9 +129,9 @@ public class WalletAcitivity extends BaseActivity implements OnClickListener, Re
             if ("10004".equals(code)) {
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivityForResult(intent, SysConstants.GET_WALLET_CODE);
-            } else {
-                ToastUtil.showToast(walletMessage.getMessage());
-            }
+            } 
+                
+            ToastUtil.showToast(walletMessage.getMessage());
         }
     }
 
@@ -159,6 +161,11 @@ public class WalletAcitivity extends BaseActivity implements OnClickListener, Re
                 startActivity(new Intent(this, RecordAcitivity.class));
                 break;
             case R.id.fetch_button:
+                if ("0".equals(SharedPreferencesUtil.readString(SysConstants.BIND_ACCOUNT, "0"))) {
+                    startActivity(new Intent(this, UserUnBindActivity.class));
+                } else {
+                    startActivity(new Intent(this, UserBindAccountActivity.class));
+                }
                 break;
         }
     }

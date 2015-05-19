@@ -242,6 +242,8 @@
     <string name="money_count">金额（元）</string>
     <string name="get_account_time">预计到账时间:</string>
     <string name="next">下一步</string>
+    <string name="bank_card_end">尾号</string>
+    <string name="current_remain_count">当前零钱余额</string>
 
     <!-- 未绑定账户 -->
     <string name="unbind_account_title">绑定提现账户</string>
