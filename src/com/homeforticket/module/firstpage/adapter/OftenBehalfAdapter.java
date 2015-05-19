@@ -75,8 +75,8 @@ public class OftenBehalfAdapter extends BaseAdapter {
         holder.posName.setText(behalfInfo.getCity());
         holder.TicketName.setText(behalfInfo.getSceneName());
         holder.TicketLevel.setText(behalfInfo.getSceneLevel());
-        holder.currentCost.setText(behalfInfo.getPrice());
-        holder.originalCost.setText(behalfInfo.getRetailPrice());
+        holder.currentCost.setText(behalfInfo.getRetailPrice());
+        holder.originalCost.setText(behalfInfo.getMarketPrice());
         
         if (convertView != null) {
             convertView.setOnClickListener(new OnClickListener() {
