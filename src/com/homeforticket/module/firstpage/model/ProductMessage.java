@@ -12,7 +12,7 @@ public class ProductMessage extends ReturnMessage {
 	private String currentPage;
 	private String list;
 	private String pageSize;
-	private List<OrderInfo> infos = new ArrayList<OrderInfo>();
+	private List<ProductInfo> infos = new ArrayList<ProductInfo>();
     /**
      * @return the count
      */
@@ -64,13 +64,13 @@ public class ProductMessage extends ReturnMessage {
     /**
      * @return the infos
      */
-    public List<OrderInfo> getInfos() {
+    public List<ProductInfo> getInfos() {
         return infos;
     }
     /**
      * @param infos the infos to set
      */
-    public void setInfos(List<OrderInfo> infos) {
+    public void setInfos(List<ProductInfo> infos) {
         this.infos = infos;
     }
 

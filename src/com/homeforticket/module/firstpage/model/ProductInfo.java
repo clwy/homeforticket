@@ -7,64 +7,133 @@ import com.homeforticket.model.BaseType;
 public class ProductInfo implements BaseType, Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private String createTime;
-	private String orderId;
-	private String orderState;
-	private String paidAmount;
-	private String productName;
-	private String totalnum;
-	private String sceneName;
 	private String price;
-	private String pic;
-	private String buyName;
-	private String contractNote;
+	private String id;
+	private String img;
+	private String name;
+	private String level;
+	private String address;
+	private String commission;
+	private String type;
+	private String retailPrice;
+	private String productName;
+	private String city;
+	private String latitude;
+	private String altitude;
+	private String marketPrice;
+	private String sceneId;
+	private String sceneName;
+	private String sceneLevel;
+	private String picName;
+
+
     /**
-     * @return the createTime
+     * @return the price
      */
-    public String getCreateTime() {
-        return createTime;
+    public String getPrice() {
+        return price;
     }
     /**
-     * @param createTime the createTime to set
+     * @param price the price to set
      */
-    public void setCreateTime(String createTime) {
-        this.createTime = createTime;
+    public void setPrice(String price) {
+        this.price = price;
     }
     /**
-     * @return the orderId
+     * @return the id
      */
-    public String getOrderId() {
-        return orderId;
+    public String getId() {
+        return id;
     }
     /**
-     * @param orderId the orderId to set
+     * @param id the id to set
      */
-    public void setOrderId(String orderId) {
-        this.orderId = orderId;
+    public void setId(String id) {
+        this.id = id;
     }
     /**
-     * @return the orderState
+     * @return the img
      */
-    public String getOrderState() {
-        return orderState;
+    public String getImg() {
+        return img;
     }
     /**
-     * @param orderState the orderState to set
+     * @param img the img to set
      */
-    public void setOrderState(String orderState) {
-        this.orderState = orderState;
+    public void setImg(String img) {
+        this.img = img;
     }
     /**
-     * @return the paidAmount
+     * @return the name
      */
-    public String getPaidAmount() {
-        return paidAmount;
+    public String getName() {
+        return name;
     }
     /**
-     * @param paidAmount the paidAmount to set
+     * @param name the name to set
      */
-    public void setPaidAmount(String paidAmount) {
-        this.paidAmount = paidAmount;
+    public void setName(String name) {
+        this.name = name;
+    }
+    /**
+     * @return the level
+     */
+    public String getLevel() {
+        return level;
+    }
+    /**
+     * @param level the level to set
+     */
+    public void setLevel(String level) {
+        this.level = level;
+    }
+    /**
+     * @return the address
+     */
+    public String getAddress() {
+        return address;
+    }
+    /**
+     * @param address the address to set
+     */
+    public void setAddress(String address) {
+        this.address = address;
+    }
+    /**
+     * @return the commission
+     */
+    public String getCommission() {
+        return commission;
+    }
+    /**
+     * @param commission the commission to set
+     */
+    public void setCommission(String commission) {
+        this.commission = commission;
+    }
+    /**
+     * @return the type
+     */
+    public String getType() {
+        return type;
+    }
+    /**
+     * @param type the type to set
+     */
+    public void setType(String type) {
+        this.type = type;
+    }
+    /**
+     * @return the retailPrice
+     */
+    public String getRetailPrice() {
+        return retailPrice;
+    }
+    /**
+     * @param retailPrice the retailPrice to set
+     */
+    public void setRetailPrice(String retailPrice) {
+        this.retailPrice = retailPrice;
     }
     /**
      * @return the productName
@@ -79,16 +148,64 @@ public class ProductInfo implements BaseType, Serializable {
         this.productName = productName;
     }
     /**
-     * @return the totalnum
+     * @return the city
      */
-    public String getTotalnum() {
-        return totalnum;
+    public String getCity() {
+        return city;
     }
     /**
-     * @param totalnum the totalnum to set
+     * @param city the city to set
      */
-    public void setTotalnum(String totalnum) {
-        this.totalnum = totalnum;
+    public void setCity(String city) {
+        this.city = city;
+    }
+    /**
+     * @return the latitude
+     */
+    public String getLatitude() {
+        return latitude;
+    }
+    /**
+     * @param latitude the latitude to set
+     */
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+    /**
+     * @return the altitude
+     */
+    public String getAltitude() {
+        return altitude;
+    }
+    /**
+     * @param altitude the altitude to set
+     */
+    public void setAltitude(String altitude) {
+        this.altitude = altitude;
+    }
+    /**
+     * @return the marketPrice
+     */
+    public String getMarketPrice() {
+        return marketPrice;
+    }
+    /**
+     * @param marketPrice the marketPrice to set
+     */
+    public void setMarketPrice(String marketPrice) {
+        this.marketPrice = marketPrice;
+    }
+    /**
+     * @return the sceneId
+     */
+    public String getSceneId() {
+        return sceneId;
+    }
+    /**
+     * @param sceneId the sceneId to set
+     */
+    public void setSceneId(String sceneId) {
+        this.sceneId = sceneId;
     }
     /**
      * @return the sceneName
@@ -103,52 +220,27 @@ public class ProductInfo implements BaseType, Serializable {
         this.sceneName = sceneName;
     }
     /**
-     * @return the price
+     * @return the sceneLevel
      */
-    public String getPrice() {
-        return price;
+    public String getSceneLevel() {
+        return sceneLevel;
     }
     /**
-     * @param price the price to set
+     * @param sceneLevel the sceneLevel to set
      */
-    public void setPrice(String price) {
-        this.price = price;
+    public void setSceneLevel(String sceneLevel) {
+        this.sceneLevel = sceneLevel;
     }
     /**
-     * @return the pic
+     * @return the picName
      */
-    public String getPic() {
-        return pic;
+    public String getPicName() {
+        return picName;
     }
     /**
-     * @param pic the pic to set
+     * @param picName the picName to set
      */
-    public void setPic(String pic) {
-        this.pic = pic;
+    public void setPicName(String picName) {
+        this.picName = picName;
     }
-    /**
-     * @return the buyName
-     */
-    public String getBuyName() {
-        return buyName;
-    }
-    /**
-     * @param buyName the buyName to set
-     */
-    public void setBuyName(String buyName) {
-        this.buyName = buyName;
-    }
-    /**
-     * @return the contractNote
-     */
-    public String getContractNote() {
-        return contractNote;
-    }
-    /**
-     * @param contractNote the contractNote to set
-     */
-    public void setContractNote(String contractNote) {
-        this.contractNote = contractNote;
-    }
-	 
 }

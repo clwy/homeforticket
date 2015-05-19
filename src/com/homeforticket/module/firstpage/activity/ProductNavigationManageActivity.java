@@ -34,15 +34,19 @@ import com.homeforticket.framework.pullrefrash.PullToRefreshBase.OnRefreshListen
 import com.homeforticket.module.firstpage.adapter.HorizontalGridAdapter;
 import com.homeforticket.module.firstpage.adapter.HorizontalProductChannelGridAdapter;
 import com.homeforticket.module.firstpage.adapter.OrderAdapter;
+import com.homeforticket.module.firstpage.adapter.ProductAdapter;
 import com.homeforticket.module.firstpage.model.OrderInfo;
 import com.homeforticket.module.firstpage.model.OrderInfoMessage;
 import com.homeforticket.module.firstpage.model.OrderStatusInfo;
 import com.homeforticket.module.firstpage.model.OrderStatusMessage;
 import com.homeforticket.module.firstpage.model.ProductChannelInfo;
 import com.homeforticket.module.firstpage.model.ProductChannelMessage;
+import com.homeforticket.module.firstpage.model.ProductInfo;
+import com.homeforticket.module.firstpage.model.ProductMessage;
 import com.homeforticket.module.firstpage.parser.OrderInfoMessageParser;
 import com.homeforticket.module.firstpage.parser.OrderStatusMessageParser;
 import com.homeforticket.module.firstpage.parser.ProductChannelMessageParser;
+import com.homeforticket.module.firstpage.parser.ProductMessageParser;
 import com.homeforticket.module.login.activity.LoginActivity;
 import com.homeforticket.request.RequestJob;
 import com.homeforticket.request.RequestListener;
@@ -51,6 +55,12 @@ import com.homeforticket.util.ToastUtil;
 
 public class ProductNavigationManageActivity extends BaseActivity implements
         OnRefreshListener<ListView>, OnClickListener, RequestListener, OnItemClickListener {
+    public static final String TYPE_TICKET = "1";
+    public static final String TYPE_HOTEL = "2";
+    public static final String TYPE_TRAVEL = "3";
+    public static final String TYPE_LOCAL = "4";
+    public static final String TYPE_SPECIAL = "5";
+
     private static final int REQUEST_PRODUCT_LIST = 0;
     private static final int REQUEST_PRODUCT_NEXT_LIST = REQUEST_PRODUCT_LIST + 1;
     private static final int REQUEST_PRODUCT_NAVIGATION = REQUEST_PRODUCT_NEXT_LIST + 1;
@@ -60,8 +70,8 @@ public class ProductNavigationManageActivity extends BaseActivity implements
     private EditText mEditText;
     private TextView mSearchHintText;
     private PullToRefreshListView mProductListView;
-    private OrderAdapter mOrderAdapter;
-    private List<OrderInfo> mList = new ArrayList<OrderInfo>();
+    private ProductAdapter mProductAdapter;
+    private List<ProductInfo> mList = new ArrayList<ProductInfo>();
     private RequestJob mJob;
     private int mPageCount;
     private int pos = 0;
@@ -69,6 +79,7 @@ public class ProductNavigationManageActivity extends BaseActivity implements
     private GridView mNavigationListView;
     private HorizontalProductChannelGridAdapter mNavigationAdapter;
     private List<ProductChannelInfo> mProductChannelInfoList = new ArrayList<ProductChannelInfo>();
+    private String mTypeId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +97,7 @@ public class ProductNavigationManageActivity extends BaseActivity implements
         mEditText = (EditText) findViewById(R.id.search_order);
         mSearchHintText = (TextView) findViewById(R.id.search_text);
         mProductListView = (PullToRefreshListView) findViewById(R.id.product_list);
-        mOrderAdapter = new OrderAdapter(this);
+        mProductAdapter = new ProductAdapter(this);
 
         mNavigationListView = (GridView) findViewById(R.id.horizontal_grid);
         mNavigationAdapter = new HorizontalProductChannelGridAdapter(this);
@@ -119,7 +130,7 @@ public class ProductNavigationManageActivity extends BaseActivity implements
 
     private void initData() {
         mTxtTitle.setText(R.string.product_channel_title);
-        mProductListView.setAdapter(mOrderAdapter);
+        mProductListView.setAdapter(mProductAdapter);
         mProductListView.setMode(Mode.BOTH);
         mProductListView.setOnRefreshListener(this);
 
@@ -128,7 +139,7 @@ public class ProductNavigationManageActivity extends BaseActivity implements
         getProductChannelRequest();
     }
 
-    private void doQueryCustomersRequest(int requestId, String searchText, String state) {
+    private void doQueryProductRequest(int requestId, String searchText, String type) {
         if (mJob != null && mJob.getRequestTask().getStatus() == AsyncTask.Status.RUNNING) {
             mJob.cancelRequest();
             mProductListView.onRefreshComplete();
@@ -141,19 +152,30 @@ public class ProductNavigationManageActivity extends BaseActivity implements
             mPageCount++;
         }
 
-        queryCustomersRequest(requestId, String.valueOf(mPageCount), searchText, state);
+        queryProductRequest(requestId, String.valueOf(mPageCount), searchText, type);
     }
 
-    private void queryCustomersRequest(int requestId, String pageNum, String searchText,
-            String state) {
+    private void queryProductRequest(int requestId, String pageNum, String searchText,
+            String type) {
+        mTypeId = type;
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("method", "queryOrders");
+            if (TYPE_HOTEL.equals(mTypeId)) {
+                jsonObject.put("method", "hotelList");
+            } else if (TYPE_TRAVEL.equals(mTypeId) || TYPE_LOCAL.equals(mTypeId)
+                    || TYPE_SPECIAL.equals(mTypeId)) {
+                jsonObject.put("method", "getProduct");
+                jsonObject.put("type", type);
+            } else if (TYPE_TICKET.equals(mTypeId)) {
+                jsonObject.put("method", "queryScenes");
+                jsonObject.put("isCurrent", "1");
+                jsonObject.put("productType", "1");
+            }
+
             jsonObject.put("currentPage", pageNum);
             jsonObject.put("pageSize", "10");
-            jsonObject.put("orderState", state);
             if (!TextUtils.isEmpty(searchText)) {
-                jsonObject.put("orderId", searchText);
+                jsonObject.put("searchText", searchText);
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -161,7 +183,7 @@ public class ProductNavigationManageActivity extends BaseActivity implements
 
         if (jsonObject != null) {
             RequestJob job = new RequestJob(SysConstants.SERVER, jsonObject.toString(),
-                    new OrderInfoMessageParser(), SysConstants.REQUEST_POST);
+                    new ProductMessageParser(), SysConstants.REQUEST_POST);
             job.setRequestListener(this);
             job.setRequestId(requestId);
             job.doRequest();
@@ -197,7 +219,7 @@ public class ProductNavigationManageActivity extends BaseActivity implements
         switch (job.getRequestId()) {
             case REQUEST_PRODUCT_LIST:
             case REQUEST_PRODUCT_NEXT_LIST:
-                dealOrderInfoMessage(job);
+                dealProductInfoMessage(job);
                 break;
 
             case REQUEST_PRODUCT_NAVIGATION:
@@ -218,9 +240,9 @@ public class ProductNavigationManageActivity extends BaseActivity implements
     @Override
     public void onActivityResult(int requestCode, int responseCode, Intent data) {
         if (responseCode == SysConstants.REQUEST_TYPE_LOGIN) {
-            if (requestCode == SysConstants.GET_ORDER_CODE) {
+            if (requestCode == SysConstants.GET_PRODUCT_CODE) {
                 if (mProductChannelInfoList != null && mProductChannelInfoList.size() > 0) {
-                    doQueryCustomersRequest(REQUEST_PRODUCT_LIST,
+                    doQueryProductRequest(REQUEST_PRODUCT_LIST,
                             mEditText.getText().toString().trim(), mProductChannelInfoList.get(pos)
                                     .getId());
                 } else {
@@ -233,8 +255,8 @@ public class ProductNavigationManageActivity extends BaseActivity implements
         super.onActivityResult(requestCode, responseCode, data);
     }
 
-    private void dealOrderInfoMessage(RequestJob job) {
-        OrderInfoMessage orderInfoMessage = (OrderInfoMessage) job.getBaseType();
+    private void dealProductInfoMessage(RequestJob job) {
+        ProductMessage orderInfoMessage = (ProductMessage) job.getBaseType();
         String code = orderInfoMessage.getCode();
         if ("10000".equals(code)) {
             String token = orderInfoMessage.getToken();
@@ -248,8 +270,11 @@ public class ProductNavigationManageActivity extends BaseActivity implements
             mList.addAll(orderInfoMessage.getInfos());
 
             if (mList.size() > 0) {
-                mOrderAdapter.setList(mList);
-                mOrderAdapter.notifyDataSetChanged();
+                if (!TextUtils.isEmpty(mTypeId)) {
+                    mProductAdapter.setType(mTypeId);
+                }
+                mProductAdapter.setList(mList);
+                mProductAdapter.notifyDataSetChanged();
                 mProductListView.setVisibility(View.VISIBLE);
             } else {
                 mProductListView.setVisibility(View.INVISIBLE);
@@ -258,7 +283,7 @@ public class ProductNavigationManageActivity extends BaseActivity implements
         } else {
             if ("10004".equals(code)) {
                 Intent intent = new Intent(this, LoginActivity.class);
-                startActivityForResult(intent, SysConstants.GET_ORDER_CODE);
+                startActivityForResult(intent, SysConstants.GET_PRODUCT_CODE);
             } else {
                 ToastUtil.showToast(orderInfoMessage.getMessage());
             }
@@ -288,6 +313,8 @@ public class ProductNavigationManageActivity extends BaseActivity implements
             if (mProductChannelInfoList.size() > 0) {
                 mNavigationAdapter.setDataSet(mProductChannelInfoList);
                 mNavigationAdapter.notifyDataSetChanged();
+                
+                doQueryProductRequest(REQUEST_PRODUCT_LIST, mEditText.getText().toString(), mProductChannelInfoList.get(0).getId());
             }
 
         } else {
@@ -316,7 +343,7 @@ public class ProductNavigationManageActivity extends BaseActivity implements
     public void onRefresh(PullToRefreshBase<ListView> refreshView) {
         if (refreshView.getCurrentMode() == Mode.PULL_FROM_START) {
             if (mProductChannelInfoList != null && mProductChannelInfoList.size() > 0) {
-                doQueryCustomersRequest(REQUEST_PRODUCT_LIST,
+                doQueryProductRequest(REQUEST_PRODUCT_LIST,
                         mEditText.getText().toString().trim(), mProductChannelInfoList.get(pos)
                                 .getId());
             } else {
@@ -324,7 +351,7 @@ public class ProductNavigationManageActivity extends BaseActivity implements
             }
         } else if (refreshView.getCurrentMode() == Mode.PULL_FROM_END) {
             if (mProductChannelInfoList != null && mProductChannelInfoList.size() > 0) {
-                doQueryCustomersRequest(REQUEST_PRODUCT_NEXT_LIST,
+                doQueryProductRequest(REQUEST_PRODUCT_NEXT_LIST,
                         mEditText.getText().toString().trim(), mProductChannelInfoList.get(pos)
                                 .getId());
             } else {
@@ -339,9 +366,8 @@ public class ProductNavigationManageActivity extends BaseActivity implements
         mNavigationAdapter.notifyDataSetChanged();
         pos = position;
 
-        // doQueryCustomersRequest(REQUEST_PRODUCT_LIST,
-        // mEditText.getText().toString().trim(),
-        // mStatusList.get(position).getId());
+        ProductChannelInfo info = (ProductChannelInfo) mNavigationAdapter.getItem(position);
+        doQueryProductRequest(REQUEST_PRODUCT_LIST, mEditText.getText().toString(), info.getId());
 
     }
 

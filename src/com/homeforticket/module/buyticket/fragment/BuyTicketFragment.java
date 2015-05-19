@@ -109,7 +109,7 @@ public class BuyTicketFragment extends BaseFragment implements OnRefreshListener
             jsonObject.put("currentPage", pageNum);
             jsonObject.put("pageSize", "10");
             jsonObject.put("isCurrent", "1");
-            jsonObject.put("productType", "1");
+            jsonObject.put("productType", "2");
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -261,6 +261,8 @@
 
     <!-- 产品导航 -->
     <string name="product_channel_title">店铺产品导航</string>
+    <string name="sell_price">门市价：</string>
+    <string name="preferential_price">优惠价：</string>
 
     <!-- 店铺信息 -->
     <string name="store_title">店铺名称</string>

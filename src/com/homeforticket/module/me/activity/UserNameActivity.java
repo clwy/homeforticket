@@ -28,7 +28,7 @@ import com.homeforticket.util.SharedPreferencesUtil;
 import com.homeforticket.util.ToastUtil;
 
 public class UserNameActivity extends BaseActivity implements OnClickListener, RequestListener {
-    private static final int MIN_USERNAME_LENGTH = 6;
+    private static final int MIN_USERNAME_LENGTH = 2;
     private TextView mTxtTitle;
     private RelativeLayout mBtnBack;
     private EditText mEditText;
@@ -136,7 +136,7 @@ public class UserNameActivity extends BaseActivity implements OnClickListener, R
             case R.id.save_button:
                 String username = mEditText.getText().toString().trim();
                 if (TextUtils.isEmpty(username) || username.length() < MIN_USERNAME_LENGTH) {
-                    ToastUtil.showToast(R.string.username_length_short);
+                    ToastUtil.showToast("您输入的昵称长度不足6位");
                     return;
                 }
                 setUserInfo();

@@ -112,6 +112,7 @@ public class StoreManageAcitivity extends BaseActivity implements OnRefreshListe
             jsonObject.put("method", "getProduct");
             jsonObject.put("currentPage", pageNum);
             jsonObject.put("pageSize", "10");
+            jsonObject.put("type", "1");
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -31,10 +31,10 @@ import android.widget.Toast;
  */
 public class WXPay {
     private static final String PARTNER_KEY = "d927506efd4a431b1ab75be3303befba";
-    private static final String APP_SECRET = "b7fce94608f9c39587bf806003b7f35c";
+    private static final String APP_SECRET = "e691e9f89363d72458aaf25481e5f570";
     private static final String APP_KEY = "pzjGvP3o6VWzbnyRCBltrxtScWILf3ql";
     private static final String PARTNER_ID = "1220934701";
-    private static final String WX_APPID = "wx6bd2495267822927";
+    private static final String WX_APPID = "wx30ad8acd84d14334";
 
     private Context mContext;
     
