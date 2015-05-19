@@ -169,9 +169,9 @@ public class OftenBehalfActivity extends BaseActivity implements OnClickListener
             if ("10004".equals(code)) {
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivityForResult(intent, SysConstants.BUY_TICKET_CODE);
-            } else {
-                ToastUtil.showToast(behalfMessage.getMessage());
-            }
+            } 
+                
+            ToastUtil.showToast(behalfMessage.getMessage());
         }
         
         mBehalfListView.onRefreshComplete();

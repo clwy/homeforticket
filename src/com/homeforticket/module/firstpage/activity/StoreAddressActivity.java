@@ -113,9 +113,10 @@ public class StoreAddressActivity extends BaseActivity implements OnClickListene
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivityForResult(intent, SysConstants.SET_STORE_NAME);
             }
+            
+            ToastUtil.showToast(message.getMessage());
         }
         
-        ToastUtil.showToast(message.getMessage());
     }
 
     @Override

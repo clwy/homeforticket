@@ -265,6 +265,11 @@ public class RequestJob {
             signString = MD5Utils.stringToMD5(data);
         }
 
+        try {
+            data = URLEncoder.encode(data, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         List<NameValuePair> nameValueParams = new ArrayList<NameValuePair>();
         nameValueParams.add(new BasicNameValuePair("data", data));
         nameValueParams.add(new BasicNameValuePair("sign", signString));

@@ -186,9 +186,9 @@ public class StoreSettingActivity extends BaseActivity implements OnClickListene
             if ("10004".equals(code)) {
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivityForResult(intent, SysConstants.GET_ORDER_STATUS);
-            } else {
-                ToastUtil.showToast(uploadImgMessage.getMessage());
-            }
+            } 
+                
+            ToastUtil.showToast(uploadImgMessage.getMessage());
         }
     }
 
@@ -327,8 +327,7 @@ public class StoreSettingActivity extends BaseActivity implements OnClickListene
                 } else if (requestCode == REQUEST_CODE_CAPTURE_CAMEIA) {
                     Bundle bundle = data.getExtras();
                     if (bundle != null) {
-                        Bitmap photo = (Bitmap) bundle.get("data"); // get
-                                                                    // bitmap
+                        Bitmap photo = (Bitmap) bundle.get("data"); 
                         dealBitmap(photo, path);
                     }
 

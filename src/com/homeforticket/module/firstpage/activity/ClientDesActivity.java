@@ -113,9 +113,9 @@ public class ClientDesActivity extends BaseActivity implements OnClickListener, 
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivityForResult(intent, SysConstants.SET_CLIENT_INFO);
             }
+            ToastUtil.showToast(message.getMessage());
         }
         
-        ToastUtil.showToast(message.getMessage());
     }
 
     @Override

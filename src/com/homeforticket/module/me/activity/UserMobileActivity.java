@@ -131,9 +131,9 @@ public class UserMobileActivity extends BaseActivity implements OnClickListener,
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivityForResult(intent, SysConstants.SET_USER_MOBILE);
             }
+            
+            ToastUtil.showToast(message.getMessage());
         }
-        
-        ToastUtil.showToast(message.getMessage());
     }
 
     @Override

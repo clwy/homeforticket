@@ -163,9 +163,9 @@ public class UserInfoActivity extends BaseActivity implements OnClickListener, R
             if ("10004".equals(code)) {
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivityForResult(intent, SysConstants.GET_ORDER_STATUS);
-            } else {
-                ToastUtil.showToast(uploadImgMessage.getMessage());
-            }
+            } 
+                
+            ToastUtil.showToast(uploadImgMessage.getMessage());
         }
     }
 

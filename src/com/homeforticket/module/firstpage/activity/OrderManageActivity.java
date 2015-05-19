@@ -265,9 +265,9 @@ public class OrderManageActivity extends BaseActivity implements OnRefreshListen
             if ("10004".equals(code)) {
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivityForResult(intent, SysConstants.GET_ORDER_CODE);
-            } else {
-                ToastUtil.showToast(orderInfoMessage.getMessage());
             }
+             
+            ToastUtil.showToast(orderInfoMessage.getMessage());
         }
     }
     
@@ -299,9 +299,9 @@ public class OrderManageActivity extends BaseActivity implements OnRefreshListen
             if ("10004".equals(code)) {
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivityForResult(intent, SysConstants.GET_ORDER_STATUS);
-            } else {
-                ToastUtil.showToast(orderStatusMessage.getMessage());
-            }
+            } 
+                
+            ToastUtil.showToast(orderStatusMessage.getMessage());
         }
     }
 

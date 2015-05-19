@@ -152,9 +152,10 @@ public class SystemMessageAcitivity extends BaseActivity implements OnClickListe
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivityForResult(intent, SysConstants.GET_SYSTEM_MESSAGE);
             }
+            
+            ToastUtil.showToast(message.getMessage());
         }
         
-        ToastUtil.showToast(message.getMessage());
         mMessageListView.onRefreshComplete();
     }
 

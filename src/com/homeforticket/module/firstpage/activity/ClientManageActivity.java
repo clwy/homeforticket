@@ -176,9 +176,9 @@ public class ClientManageActivity extends BaseActivity implements OnRefreshListe
             if ("10004".equals(code)) {
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivityForResult(intent, SysConstants.GET_CUSTOMER_CODE);
-            } else {
-                ToastUtil.showToast(clientInfoMessage.getMessage());
-            }
+            } 
+            
+            ToastUtil.showToast(clientInfoMessage.getMessage());
         }
         
         mClientListView.onRefreshComplete();

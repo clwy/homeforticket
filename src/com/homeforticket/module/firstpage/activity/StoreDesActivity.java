@@ -113,9 +113,9 @@ public class StoreDesActivity extends BaseActivity implements OnClickListener, R
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivityForResult(intent, SysConstants.SET_STORE_NAME);
             }
+            
+            ToastUtil.showToast(message.getMessage());
         }
-        
-        ToastUtil.showToast(message.getMessage());
     }
 
     @Override

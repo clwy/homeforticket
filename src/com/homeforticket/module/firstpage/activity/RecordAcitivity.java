@@ -146,9 +146,9 @@ public class RecordAcitivity extends BaseActivity implements OnClickListener, Re
             if ("10004".equals(code)) {
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivityForResult(intent, SysConstants.GET_RECORD_CODE);
-            } else {
-                ToastUtil.showToast(recordInfoMessage.getMessage());
-            }
+            } 
+                
+            ToastUtil.showToast(recordInfoMessage.getMessage());
         }
         
         mRecordListView.onRefreshComplete();

@@ -141,9 +141,9 @@ public class StoreMobileActivity extends BaseActivity implements OnClickListener
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivityForResult(intent, SysConstants.SET_STORE_INFO);
             }
+            
+            ToastUtil.showToast(message.getMessage());
         }
-        
-        ToastUtil.showToast(message.getMessage());
     }
 
     @Override

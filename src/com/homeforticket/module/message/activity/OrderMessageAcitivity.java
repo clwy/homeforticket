@@ -156,9 +156,10 @@ public class OrderMessageAcitivity extends BaseActivity implements OnClickListen
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivityForResult(intent, SysConstants.GET_ORDER_CODE);
             }
+            
+            ToastUtil.showToast(message.getMessage());
         }
         
-        ToastUtil.showToast(message.getMessage());
         mMessageListView.onRefreshComplete();
     }
 

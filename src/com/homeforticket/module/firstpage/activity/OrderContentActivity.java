@@ -176,9 +176,9 @@ public class OrderContentActivity extends BaseActivity implements OnClickListene
             if ("10004".equals(code)) {
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivityForResult(intent, SysConstants.GET_RECORD_CODE);
-            } else {
-                ToastUtil.showToast(message.getMessage());
-            }
+            } 
+                
+            ToastUtil.showToast(message.getMessage());
         }
         
         mOrderContentListView.onRefreshComplete();

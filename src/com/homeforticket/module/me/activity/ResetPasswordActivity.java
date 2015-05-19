@@ -104,9 +104,9 @@ public class ResetPasswordActivity extends BaseActivity implements OnClickListen
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivityForResult(intent, SysConstants.RESET_PASSWORD);
             }
+            
+            ToastUtil.showToast(message.getMessage());
         }
-        
-        ToastUtil.showToast(message.getMessage());
     }
 
     @Override

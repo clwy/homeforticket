@@ -207,9 +207,9 @@ public class MessageFragment extends BaseFragment implements OnClickListener, Re
                 Intent intent = new Intent(getActivity(), LoginActivity.class);
                 startActivityForResult(intent, SysConstants.GET_SYSTEM_MESSAGE);
             }
+            
+            ToastUtil.showToast(message.getMessage());
         }
-        
-        ToastUtil.showToast(message.getMessage());
     }
 
     @Override

@@ -284,9 +284,9 @@ public class ProductNavigationManageActivity extends BaseActivity implements
             if ("10004".equals(code)) {
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivityForResult(intent, SysConstants.GET_PRODUCT_CODE);
-            } else {
-                ToastUtil.showToast(orderInfoMessage.getMessage());
-            }
+            } 
+                
+            ToastUtil.showToast(orderInfoMessage.getMessage());
         }
     }
 
@@ -321,9 +321,9 @@ public class ProductNavigationManageActivity extends BaseActivity implements
             if ("10004".equals(code)) {
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivityForResult(intent, SysConstants.GET_PRODUCT_CHANNEL);
-            } else {
-                ToastUtil.showToast(message.getMessage());
-            }
+            } 
+                
+            ToastUtil.showToast(message.getMessage());
         }
     }
 

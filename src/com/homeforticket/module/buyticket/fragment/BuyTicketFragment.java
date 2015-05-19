@@ -204,9 +204,9 @@ public class BuyTicketFragment extends BaseFragment implements OnRefreshListener
             if ("10004".equals(code)) {
                 Intent intent = new Intent(getActivity(), LoginActivity.class);
                 startActivityForResult(intent, SysConstants.BUY_TICKET_CODE);
-            } else {
-                ToastUtil.showToast(buyticketInfo.getMessage());
             }
+            
+            ToastUtil.showToast(buyticketInfo.getMessage());
         }
         
         mBuyticketListView.onRefreshComplete();

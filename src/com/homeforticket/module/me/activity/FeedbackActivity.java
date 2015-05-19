@@ -144,9 +144,9 @@ public class FeedbackActivity extends BaseActivity implements OnClickListener, R
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivityForResult(intent, SysConstants.SUBMIT_FEEDBACK);
             }
+            
+            ToastUtil.showToast(message.getMessage());
         }
-        
-        ToastUtil.showToast(message.getMessage());
     }
 
     @Override
