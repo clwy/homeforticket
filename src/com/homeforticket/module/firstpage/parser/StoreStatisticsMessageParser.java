@@ -39,6 +39,7 @@ public class StoreStatisticsMessageParser extends AbstractParser<StoreStatistics
             message.setTel(getString(jb, "tel"));
             message.setId(getString(jb, "id"));
             message.setImg(getString(jb, "img"));
+            message.setUrl(getString(jb, "url"));
         } catch (Exception e) {
 
         }

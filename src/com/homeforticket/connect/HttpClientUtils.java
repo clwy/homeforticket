@@ -37,9 +37,9 @@ public class HttpClientUtils {
 	 * @param images 文件键值对
 	 * @return
 	 */
-	public String imgUpload(String requestUrl, List<NameValuePair> strings, List<NameValuePair> images)
+	public String imgUpload(String requestUrl, List<NameValuePair> strings, List<NameValuePair> images, String token)
 			throws Exception {
-		return mHttpApi.doUploadRequest(requestUrl, strings, images);
+		return mHttpApi.doUploadRequest(requestUrl, strings, images, token);
 	}
 
 	/**
@@ -48,7 +48,7 @@ public class HttpClientUtils {
 	 * @param requestUrl
 	 * @return
 	 */
-	public HttpEntity offlineDownLoad(String requestUrl) throws Exception {
-		return mHttpApi.getHttpEntity(requestUrl);
+	public HttpEntity offlineDownLoad(String requestUrl, String token) throws Exception {
+		return mHttpApi.getHttpEntity(requestUrl, token);
 	}
 }

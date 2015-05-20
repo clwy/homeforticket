@@ -35,16 +35,22 @@ public class RequestTask extends AsyncTask<Void, Integer, BaseType> {
     protected BaseType doInBackground(Void... params) {
         QuareManager qm = AppApplication.getInstance().getQuareManager();
         try {
-            if (TextUtils.isEmpty(mType)) {
-                return qm.doHttpRequest(mJob.getRequestUrl(), mJob.getNameValuePairs(),
-                        mJob.getParser(),
-                        mJob.getRequestType());
-            } else if ("1".equals(mType)) {
-                return qm.doUploadRequest(mJob.getRequestUrl(), mJob.getNameValuePairs(), mJob.getFilePairs(),
-                        mJob.getParser());
-                
-            }
+            String token = "";
+            if (SharedPreferencesUtil.readBoolean(SysConstants.IS_LOGIN, false)) {
+                token = SharedPreferencesUtil.readString(SysConstants.TOKEN,
+                        SysConstants.EMPTY_STRING);
+            } 
             
+            if (TextUtils.isEmpty(mType)) {
+                return qm.doHttpRequest(mJob.getRequestUrl(), mJob.getNameValuePairs(), mJob
+                        .getParser(), mJob.getRequestType(), token);
+            } else if ("1".equals(mType)) {
+                return qm.doUploadRequest(mJob.getRequestUrl(), mJob.getNameValuePairs(),
+                        mJob.getFilePairs(),
+                        mJob.getParser(), token);
+
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -74,14 +80,13 @@ public class RequestTask extends AsyncTask<Void, Integer, BaseType> {
 
     // CODE MESSAGE
     // 10000 成功
-    //10002   参数错误
-    //10002   用户名或密码错误
-    //10003   服务器异常
-    //10004   token失效请登录
-    //10005   旧密码错误
-    //10006   修改信息失败
-    //10007   上传文件为空
-    //10008   验签失败
-
+    // 10002 参数错误
+    // 10002 用户名或密码错误
+    // 10003 服务器异常
+    // 10004 token失效请登录
+    // 10005 旧密码错误
+    // 10006 修改信息失败
+    // 10007 上传文件为空
+    // 10008 验签失败
 
 }

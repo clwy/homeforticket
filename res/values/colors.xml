@@ -7,4 +7,5 @@
     <color name="head_title_color">#ffffff</color>
     <color name="function_title_color">#7e7f8a</color>
     <color name="me_item_color">#414358</color>
+    <color name="transparent">#00000000</color>
 </resources>

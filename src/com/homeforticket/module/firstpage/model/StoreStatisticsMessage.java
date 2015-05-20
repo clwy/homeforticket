@@ -18,6 +18,7 @@ public class StoreStatisticsMessage extends ReturnMessage {
     private String autoRecevie; // 自动接收 以天为单位
     private String id;
     private String img;
+    private String url;
 
     public String getDescription() {
         return description;
@@ -89,6 +90,20 @@ public class StoreStatisticsMessage extends ReturnMessage {
 
     public void setImg(String img) {
         this.img = img;
+    }
+
+    /**
+     * @return the url
+     */
+    public String getUrl() {
+        return url;
+    }
+
+    /**
+     * @param url the url to set
+     */
+    public void setUrl(String url) {
+        this.url = url;
     }
 
 }

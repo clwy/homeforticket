@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <RelativeLayout
+        android:id="@+id/pop_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#ffffff" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:text="分享"
+            android:textColor="#414358"
+            android:textSize="16dp" />
+
+        <ImageView
+            android:id="@+id/line"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="58dp"
+            android:background="@drawable/upload_photo_line" />
+
+        <TextView
+            android:id="@+id/bt_circle"
+            style="@style/share_view_item_style"
+            android:layout_below="@id/line"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:drawableTop="@drawable/share_circle"
+            android:text="@string/shareto_circle" />
+
+        <TextView
+            android:id="@+id/bt_weixin"
+            style="@style/share_view_item_style"
+            android:layout_alignTop="@id/bt_circle"
+            android:layout_toRightOf="@id/bt_circle"
+            android:layout_marginLeft="20dp"
+            android:drawableTop="@drawable/share_weixin"
+            android:text="@string/shareto_weixin" />
+
+        <TextView
+            android:id="@+id/bt_sina"
+            style="@style/share_view_item_style"
+            android:layout_alignTop="@id/bt_circle"
+            android:layout_toRightOf="@id/bt_weixin"
+            android:layout_marginLeft="20dp"
+            android:drawableTop="@drawable/share_sinaweibo"
+            android:text="@string/shareto_sinaweibo" />
+
+        <Button
+            android:id="@+id/btn_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/bt_sina"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/upload_cancel_layout"
+            android:gravity="center"
+            android:text="@string/cancel"
+            android:textColor="#ffffff"
+            android:textSize="17dp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="23dp"
+            android:layout_below="@id/btn_cancel"
+            android:background="@null" >
+        </RelativeLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

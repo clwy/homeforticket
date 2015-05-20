@@ -72,7 +72,7 @@ public class StoreAdapter extends BaseAdapter {
         }
 
         final StoreInfo info = list.get(position);
-        Glide.with(mContext).load(info.getImg()).into(holder.itemPic);
+        Glide.with(mContext).load(info.getImg()).centerCrop().into(holder.itemPic);
         holder.name.setText(info.getName());
         holder.level.setText(info.getLevel());
         holder.price.setText(info.getPrice());

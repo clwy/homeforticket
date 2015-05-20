@@ -21,6 +21,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -34,6 +35,7 @@ public class ProductAdapter extends BaseAdapter {
     private Context mContext;
     private List<ProductInfo> list;
     private String mType;
+    private String mProductType;
 
     public ProductAdapter(Context context) {
         this.mContext = context;
@@ -146,6 +148,9 @@ public class ProductAdapter extends BaseAdapter {
                     intent.putExtra("id", info.getSceneId());
                     intent.putExtra("current", info.getRetailPrice());
                     intent.putExtra("original", info.getMarketPrice());
+                    if (TextUtils.isEmpty(mProductType)) {
+                        intent.putExtra("productType", mProductType);
+                    }
                     mContext.startActivity(intent);
                 }
             }
@@ -181,6 +186,20 @@ public class ProductAdapter extends BaseAdapter {
      */
     public void setType(String mType) {
         this.mType = mType;
+    }
+
+    /**
+     * @return the mProductType
+     */
+    public String getProductType() {
+        return mProductType;
+    }
+
+    /**
+     * @param mProductType the mProductType to set
+     */
+    public void setProductType(String mProductType) {
+        this.mProductType = mProductType;
     }
 
     static class ViewHolder {

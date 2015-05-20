@@ -273,6 +273,9 @@ public class ProductNavigationManageActivity extends BaseActivity implements
                 if (!TextUtils.isEmpty(mTypeId)) {
                     mProductAdapter.setType(mTypeId);
                 }
+                if (TYPE_TICKET.equals(mTypeId)) {
+                    mProductAdapter.setProductType("1");
+                }
                 mProductAdapter.setList(mList);
                 mProductAdapter.notifyDataSetChanged();
                 mProductListView.setVisibility(View.VISIBLE);

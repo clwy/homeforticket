@@ -27,6 +27,7 @@ public class OrderContentMessage extends ReturnMessage {
 	private String sceneAddress;
 	private String provice;
 	private String county;
+	private String price;
     /**
      * @return the list
      */
@@ -266,6 +267,18 @@ public class OrderContentMessage extends ReturnMessage {
      */
     public void setCounty(String county) {
         this.county = county;
+    }
+    /**
+     * @return the price
+     */
+    public String getPrice() {
+        return price;
+    }
+    /**
+     * @param price the price to set
+     */
+    public void setPrice(String price) {
+        this.price = price;
     }
 
 

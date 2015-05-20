@@ -26,8 +26,8 @@ public class QuareManager {
 
 	// post/get请求
 	public BaseType doHttpRequest(String requestUrl, List<NameValuePair> nameValuePairs,
-			Parser<? extends BaseType> parser, int requestType) throws Exception {
-		return mHttpApi.doHttpRequest(requestUrl, nameValuePairs, parser, requestType);
+			Parser<? extends BaseType> parser, int requestType, String token) throws Exception {
+		return mHttpApi.doHttpRequest(requestUrl, nameValuePairs, parser, requestType, token);
 	}
 
     /**
@@ -38,21 +38,21 @@ public class QuareManager {
      * @param images 参数为文件名
      * @return
      */
-    public BaseType doUploadRequest(String requestUrl, List<NameValuePair> strings, List<NameValuePair> images, Parser<? extends BaseType> parser)
+    public BaseType doUploadRequest(String requestUrl, List<NameValuePair> strings, List<NameValuePair> images, Parser<? extends BaseType> parser, String token)
             throws Exception {
-        return mHttpApi.doUploadRequest(requestUrl, strings, images, parser);
+        return mHttpApi.doUploadRequest(requestUrl, strings, images, parser, token);
     }
 
-	public String doHttpGet(String requestUrl, List<NameValuePair> nameValuePairs) throws Exception {
-		return mHttpApi.doHttpGet(requestUrl, nameValuePairs);
+	public String doHttpGet(String requestUrl, List<NameValuePair> nameValuePairs, String token) throws Exception {
+		return mHttpApi.doHttpGet(requestUrl, nameValuePairs, token);
 	}
 
-	public String doHttpPost(String requestUrl, List<NameValuePair> nameValuePairs) throws Exception {
-		return mHttpApi.doHttpPost(requestUrl, nameValuePairs);
+	public String doHttpPost(String requestUrl, List<NameValuePair> nameValuePairs, String token) throws Exception {
+		return mHttpApi.doHttpPost(requestUrl, nameValuePairs, token);
 	}
 
-	public HttpPost newsHttpPost(String requestUrl, List<NameValuePair> nameValuePairs) {
-		HttpPost httpPost = mHttpApi.createHttpPost(SysConstants.SERVER + requestUrl, nameValuePairs);
+	public HttpPost newsHttpPost(String requestUrl, List<NameValuePair> nameValuePairs, String token) {
+		HttpPost httpPost = mHttpApi.createHttpPost(SysConstants.SERVER + requestUrl, nameValuePairs, token);
 		httpPost.addHeader(SysConstants.CLIENT_VERSION_HEADER, SysConstants.USER_AGENT);
 		// httpPost.setHeader(SysConstants.ACCEPT_ENCODING,
 		// SysConstants.ACCEPT_ENCODING_STRING);
@@ -60,8 +60,8 @@ public class QuareManager {
 		return httpPost;
 	}
 
-	public HttpGet newsHttpGet(String requestUrl, List<NameValuePair> nameValuePairs) {
-		HttpGet httpGet = mHttpApi.createHttpGet(SysConstants.SERVER + requestUrl, nameValuePairs);
+	public HttpGet newsHttpGet(String requestUrl, List<NameValuePair> nameValuePairs, String token) {
+		HttpGet httpGet = mHttpApi.createHttpGet(SysConstants.SERVER + requestUrl, nameValuePairs, token);
 		httpGet.addHeader(SysConstants.CLIENT_VERSION_HEADER, SysConstants.USER_AGENT);
 		// httpGet.setHeader(SysConstants.ACCEPT_ENCODING,
 		// SysConstants.ACCEPT_ENCODING_STRING);
@@ -74,8 +74,8 @@ public class QuareManager {
 		mHttpClient.getCookieStore().clear();
 	}
 
-	public HttpGet storedownload(String url) {
-		HttpGet httpGet = mHttpApi.createHttpGet(url, null);
+	public HttpGet storedownload(String url, String token) {
+		HttpGet httpGet = mHttpApi.createHttpGet(url, null, token);
 		httpGet.addHeader(SysConstants.CLIENT_VERSION_HEADER, SysConstants.USER_AGENT);
 		httpGet.addHeader(SysConstants.ACCEPT_ENCODING, SysConstants.ACCEPT_ENCODING_STRING);
 		return httpGet;
@@ -90,8 +90,8 @@ public class QuareManager {
 	 * @throws BaseException
 	 * @throws ParseException
 	 */
-	public HttpEntity offlineDownLoad(String requestUrl) throws Exception {
-		return mHttpApi.getHttpEntity(requestUrl);
+	public HttpEntity offlineDownLoad(String requestUrl, String token) throws Exception {
+		return mHttpApi.getHttpEntity(requestUrl, token);
 	}
 
 }

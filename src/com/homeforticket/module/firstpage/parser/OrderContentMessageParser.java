@@ -48,6 +48,7 @@ public class OrderContentMessageParser extends AbstractParser<OrderContentMessag
             message.setSceneAddress(getString(jb, "sceneAddress"));
             message.setProvice(getString(jb, "provice"));
             message.setCounty(getString(jb, "county"));
+            message.setPrice(getString(jb, "price"));
 
             List<OrderContentInfo> infos = new ArrayList<OrderContentInfo>();
             String list = getString(jb, "list");

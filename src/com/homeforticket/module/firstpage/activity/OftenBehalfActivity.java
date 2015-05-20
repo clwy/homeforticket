@@ -161,6 +161,7 @@ public class OftenBehalfActivity extends BaseActivity implements OnClickListener
             mBehalfInfoList.addAll(behalfMessage.getBehalfInfos());
             
             if (mBehalfInfoList.size() > 0) {
+                mBehalfAdapter.setProductType("1");
                 mBehalfAdapter.setList(mBehalfInfoList);
                 mBehalfAdapter.notifyDataSetChanged();
             }

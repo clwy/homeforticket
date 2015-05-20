@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.homeforticket.R;
+import com.homeforticket.common.share.ShareUtilsView;
 import com.homeforticket.constant.SysConstants;
 import com.homeforticket.framework.BaseActivity;
 import com.homeforticket.framework.pullrefrash.PullToRefreshBase;
@@ -31,14 +32,17 @@ import com.homeforticket.framework.pullrefrash.PullToRefreshBase.OnRefreshListen
 import com.homeforticket.module.firstpage.adapter.StoreAdapter;
 import com.homeforticket.module.firstpage.model.StoreInfo;
 import com.homeforticket.module.firstpage.model.StoreInfoMessage;
+import com.homeforticket.module.firstpage.model.StoreStatisticsMessage;
 import com.homeforticket.module.firstpage.model.WalletMessage;
 import com.homeforticket.module.firstpage.parser.RecordInfoMessageParser;
 import com.homeforticket.module.firstpage.parser.ResellerMessageParser;
 import com.homeforticket.module.firstpage.parser.StoreInfoMessageParser;
+import com.homeforticket.module.firstpage.parser.StoreStatisticsMessageParser;
 import com.homeforticket.module.firstpage.parser.WalletMessageParser;
 import com.homeforticket.module.login.activity.LoginActivity;
 import com.homeforticket.request.RequestJob;
 import com.homeforticket.request.RequestListener;
+import com.homeforticket.util.BitmapUtils;
 import com.homeforticket.util.CircleTransform;
 import com.homeforticket.util.SharedPreferencesUtil;
 import com.homeforticket.util.ToastUtil;
@@ -47,6 +51,7 @@ public class StoreManageAcitivity extends BaseActivity implements OnRefreshListe
         OnClickListener, RequestListener {
     private static final int REQUEST_STORE_LIST = 0;
     private static final int REQUEST_STORE_NEXT_LIST = REQUEST_STORE_LIST + 1;
+    private static final int REQUEST_CODE_STORE_CONTENT = 2;
 
     private TextView mTxtTitle;
     private RelativeLayout mBtnBack;
@@ -67,6 +72,9 @@ public class StoreManageAcitivity extends BaseActivity implements OnRefreshListe
     private RequestJob mJob;
     private int mPageCount;
     private List<StoreInfo> mInfos = new ArrayList<StoreInfo>();
+    
+    private StoreStatisticsMessage mStoreStatisticsMessage;
+    private ShareUtilsView mShareUtilsView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,8 +92,8 @@ public class StoreManageAcitivity extends BaseActivity implements OnRefreshListe
         mStoreListView.setAdapter(mAdapter);
         mStoreListView.setMode(Mode.BOTH);
         mStoreListView.setOnRefreshListener(this);
-        Glide.with(this).load(SharedPreferencesUtil.readString(SysConstants.USER_PHOTO, ""))
-                .transform(new CircleTransform(this)).into(mUserHeadImg);
+//        Glide.with(this).load(SharedPreferencesUtil.readString(SysConstants.USER_PHOTO, ""))
+//                .transform(new CircleTransform(this)).into(mUserHeadImg);
         mUserName.setText(SharedPreferencesUtil.readString(SysConstants.USERNAME, "")
                 + getString(R.string.store_end));
         doGetStoreRequest(REQUEST_STORE_LIST);
@@ -103,7 +111,25 @@ public class StoreManageAcitivity extends BaseActivity implements OnRefreshListe
             mPageCount++;
         }
 
+        doGetWebsite();
         getStoreListRequest(requestId, String.valueOf(mPageCount));
+    }
+    
+    private void doGetWebsite() {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("method", "getWebsite");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        if (jsonObject != null) {
+            RequestJob job = new RequestJob(SysConstants.SERVER, jsonObject.toString(),
+                    new StoreStatisticsMessageParser(), SysConstants.REQUEST_POST);
+            job.setRequestListener(this);
+            job.setRequestId(REQUEST_CODE_STORE_CONTENT);
+            job.doRequest();
+        }
     }
 
     private void getStoreListRequest(int requestId, String pageNum) {
@@ -158,6 +184,49 @@ public class StoreManageAcitivity extends BaseActivity implements OnRefreshListe
 
     @Override
     public void onSuccess(RequestJob job) {
+        switch (job.getRequestId()) {
+            case REQUEST_CODE_STORE_CONTENT:
+                dealStoreContent(job);
+                break;
+            case REQUEST_STORE_LIST:
+            case REQUEST_STORE_NEXT_LIST:
+                dealList(job);
+                break;
+
+            default:
+                break;
+        }
+
+    }
+
+    @Override
+    public void onFail(RequestJob job) {
+        ToastUtil.showToast(job.getFailNotice());
+    }
+    
+    private void dealStoreContent(RequestJob job) {
+        mStoreStatisticsMessage = (StoreStatisticsMessage) job.getBaseType();
+        String code = mStoreStatisticsMessage.getCode();
+
+        if ("10000".equals(code)) {
+            String token = mStoreStatisticsMessage.getToken();
+            if (!TextUtils.isEmpty(token)) {
+                SharedPreferencesUtil.saveString(SysConstants.TOKEN, token);
+            }
+
+            Glide.with(this).load(mStoreStatisticsMessage.getImg()).transform(new CircleTransform(this))
+                    .into(mUserHeadImg);
+        } else {
+            if ("10004".equals(code)) {
+                Intent intent = new Intent(this, LoginActivity.class);
+                startActivityForResult(intent, REQUEST_CODE_STORE_CONTENT);
+            }
+
+            ToastUtil.showToast(mStoreStatisticsMessage.getMessage());
+        }
+    }
+    
+    private void dealList(RequestJob job) {
         StoreInfoMessage message = (StoreInfoMessage) job.getBaseType();
         String code = message.getCode();
 
@@ -186,11 +255,6 @@ public class StoreManageAcitivity extends BaseActivity implements OnRefreshListe
             
             ToastUtil.showToast(message.getMessage());
         }
-    }
-
-    @Override
-    public void onFail(RequestJob job) {
-        ToastUtil.showToast(job.getFailNotice());
     }
 
     @Override
@@ -227,9 +291,17 @@ public class StoreManageAcitivity extends BaseActivity implements OnRefreshListe
                 mAdapter.notifyDataSetChanged();
                 break;
             case R.id.store_setting:
-                startActivity(new Intent(this, StoreSettingActivity.class));
+                if (mStoreStatisticsMessage != null) {
+                    Intent intent = new Intent(this, StoreSettingActivity.class);
+                    intent.putExtra("StoreStatisticsMessage", mStoreStatisticsMessage);
+                    startActivity(intent);
+                }
                 break;
             case R.id.store_share:
+                mShareUtilsView = new ShareUtilsView(this, mStoreStatisticsMessage.getUrl(), 
+                        mStoreStatisticsMessage.getName(), mStoreStatisticsMessage.getDescription(), 
+                        null);
+                mShareUtilsView.showAsDropDown(mTxtTitle);
                 break;
         }
     }

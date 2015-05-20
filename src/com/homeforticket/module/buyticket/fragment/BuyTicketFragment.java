@@ -196,6 +196,7 @@ public class BuyTicketFragment extends BaseFragment implements OnRefreshListener
             mBuyticketList.addAll(buyticketInfo.getTicketInfos());
             
             if (mBuyticketList.size() > 0) {
+                mBuyticketAdapter.setProductType("2");
                 mBuyticketAdapter.setList(mBuyticketList);
                 mBuyticketAdapter.notifyDataSetChanged();
             }

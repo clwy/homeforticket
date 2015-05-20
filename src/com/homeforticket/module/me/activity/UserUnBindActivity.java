@@ -159,6 +159,13 @@ public class UserUnBindActivity extends BaseActivity implements OnClickListener,
                 finish();
                 break;
             case R.id.bind_button:
+                if (TextUtils.isEmpty(mInputCardName.getText().toString())
+                        || TextUtils.isEmpty(mInputCardBank.getText().toString())
+                        || TextUtils.isEmpty(mInputCardNum.getText().toString())
+                        || TextUtils.isEmpty(mInputCode.getText().toString())) {
+                    ToastUtil.showToast("您输入的资料不全，请输入");
+                    return;
+                }
                 bindCardRequest();
                 break;
             case R.id.get_captcha:
@@ -202,7 +209,7 @@ public class UserUnBindActivity extends BaseActivity implements OnClickListener,
             RequestJob job = new RequestJob(SysConstants.SERVER, jsonObject.toString(),
                     new BindCardMessageParser(), SysConstants.REQUEST_POST);
             job.setRequestListener(this);
-            job.setRequestId(REQUEST_GET_CODE);
+            job.setRequestId(REQUEST_BIND_CARD);
             job.doRequest();
         }
     }

@@ -474,5 +474,10 @@
     <!-- WXPayEntryActivity -->
     <string name="pay_result_tip">这个界面用于显示第三方app通过微信支付的结果</string>
     <string name="pay_result_callback_msg" formatted="false">微信支付结果：%s</string>
+    
+    <!-- 分享 -->
+    <string name="shareto_sinaweibo">新浪微博</string>
+    <string name="shareto_weixin">微信</string>
+    <string name="shareto_circle">朋友圈</string>
 
 </resources>

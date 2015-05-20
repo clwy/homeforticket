@@ -81,7 +81,6 @@ public class ProductActivity extends BaseActivity implements OnClickListener, Re
         Intent intent = getIntent();
         mTicketInfo = (SceneTicketInfo) intent.getSerializableExtra("SceneTicketInfo");
         mProductType.setText(mTicketInfo.getProductName());
-        mProductName.setText(intent.getStringExtra("name"));
         mLocation = intent.getStringExtra("location");
         getInfoRequest();
     }
@@ -118,8 +117,9 @@ public class ProductActivity extends BaseActivity implements OnClickListener, Re
                 SharedPreferencesUtil.saveString(SysConstants.TOKEN, token);
             }
             
-            mProductContent.setText(Html.fromHtml(mProductInfo.getCosts()));
-            mProductImportant.setText(mProductInfo.getSpecialNote());
+            mProductName.setText(Html.fromHtml(mProductInfo.getCosts()));
+            mProductContent.setText(Html.fromHtml(mProductInfo.getNotice()));
+            mProductImportant.setText(Html.fromHtml(mProductInfo.getSpecialNote()));
             
         } else {
             if ("10004".equals(code)) {

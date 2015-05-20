@@ -13,6 +13,7 @@ import com.homeforticket.module.message.model.MessageInfo;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -25,6 +26,7 @@ public class OftenBehalfAdapter extends BaseAdapter {
 
 	private Context mContext;
 	private List<BehalfInfo> list;
+	private String mProductType;
 
     public OftenBehalfAdapter(Context context) {
         this.mContext = context;
@@ -87,6 +89,9 @@ public class OftenBehalfAdapter extends BaseAdapter {
                     intent.putExtra("id", behalfInfo.getSceneId());
                     intent.putExtra("current", behalfInfo.getRetailPrice());
                     intent.putExtra("original", behalfInfo.getMarketPrice());
+                    if (!TextUtils.isEmpty(mProductType)) {
+                        intent.putExtra("productType", mProductType);
+                    }
                     mContext.startActivity(intent);
                 }
             });
@@ -110,7 +115,21 @@ public class OftenBehalfAdapter extends BaseAdapter {
 		this.list = list;
 	}
 
-	static class ViewHolder {
+	/**
+     * @return the mProductType
+     */
+    public String getProductType() {
+        return mProductType;
+    }
+
+    /**
+     * @param mProductType the mProductType to set
+     */
+    public void setProductType(String mProductType) {
+        this.mProductType = mProductType;
+    }
+
+    static class ViewHolder {
 	    ImageView itemPic;
 	    TextView posName;
 	    TextView TicketName;

@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.homeforticket.R;
+import com.homeforticket.common.share.ShareUtilsView;
 import com.homeforticket.constant.SysConstants;
 import com.homeforticket.fragment.BaseFragment;
 import com.homeforticket.module.firstpage.activity.WalletAcitivity;
@@ -44,6 +45,7 @@ public class MeFragment extends BaseFragment implements OnClickListener {
     private RelativeLayout mHelpLayout;
     private RelativeLayout mAboutLayout;
     private RelativeLayout mShareLayout;
+    private ShareUtilsView mShareUtilsView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -175,6 +177,8 @@ public class MeFragment extends BaseFragment implements OnClickListener {
                 startActivity(new Intent(getActivity(), AboutActivity.class));
                 break;
             case R.id.share_layout:
+                mShareUtilsView = new ShareUtilsView(getActivity(), "www.baidu.com", "票之家", "欢迎下载票之家", "");
+                mShareUtilsView.showAsDropDown(mTxtTitle);
                 break;
             default:
                 break;

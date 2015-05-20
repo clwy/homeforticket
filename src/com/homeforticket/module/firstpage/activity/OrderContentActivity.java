@@ -159,10 +159,10 @@ public class OrderContentActivity extends BaseActivity implements OnClickListene
             mInfos = message.getInfos();
             mOrderTitle.setText(message.getSceneName());
             mOrderCount.setText("X" + message.getTotal_num());
-            mOrderTotal.setText("￥" + message.getOrderAmount());
+            mOrderTotal.setText("￥" + message.getPrice());
             mOrderTime.setText(message.getCreateTime());
             mOrderPayCount.setText(message.getTotal_num());
-            mOrderPayTotal.setText(message.getPaidAmount());
+            mOrderPayTotal.setText(message.getOrderAmount());
             mScenicCity.setText(message.getProvice() + message.getCity() + message.getCounty());
             mScenicAddress.setText(message.getSceneAddress());
 

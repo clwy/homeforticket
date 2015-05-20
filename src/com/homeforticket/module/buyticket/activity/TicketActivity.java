@@ -83,6 +83,7 @@ public class TicketActivity extends BaseActivity implements OnClickListener, Req
     private int mCurrentIndex; // 当前页
     private PullToRefreshListView mTicketListView;
     private TicketTypeAdapter mTicketTypeAdapter;
+    private String mProductType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,7 +100,7 @@ public class TicketActivity extends BaseActivity implements OnClickListener, Req
         mTxtTitle = (TextView) findViewById(R.id.top_title);
         mBtnBack = (RelativeLayout) findViewById(R.id.left_top_button);
         mShareButton = (Button) findViewById(R.id.right_button);
-        mShareButton.setVisibility(View.VISIBLE);
+        mShareButton.setVisibility(View.INVISIBLE);
 
         mViewPager = (ViewPager) findViewById(R.id.viewpager_top);
         mLayoutDots = (LinearLayout) findViewById(R.id.layout_top_dots);
@@ -144,6 +145,7 @@ public class TicketActivity extends BaseActivity implements OnClickListener, Req
         mId = intent.getStringExtra("id");
         mCurrentPriceCount = intent.getStringExtra("current");
         mOriginalPriceCount = intent.getStringExtra("original");
+        mProductType = intent.getStringExtra("productType");
 
         mTxtTitle.setText(R.string.ticket_title);
         mShareButton.setText(R.string.share_text);
@@ -159,7 +161,7 @@ public class TicketActivity extends BaseActivity implements OnClickListener, Req
         try {
             jsonObject.put("method", "queryScene");
             jsonObject.put("sceneId", mId);
-            jsonObject.put("productType", "1");
+            jsonObject.put("productType", mProductType);
         } catch (JSONException e) {
             e.printStackTrace();
         }

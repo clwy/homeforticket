@@ -129,18 +129,18 @@ abstract public class AbstractHttpApi implements HttpApi {
     }
 
     public BaseType doHttpRequest(String requestUrl, List<NameValuePair> nameValuePairs,
-            Parser<? extends BaseType> parser, int requestType) throws Exception {
-        return executeHttpRequest(requestUrl, nameValuePairs, parser, requestType);
+            Parser<? extends BaseType> parser, int requestType, String token) throws Exception {
+        return executeHttpRequest(requestUrl, nameValuePairs, parser, requestType, token);
     }
 
     public BaseType doUploadRequest(String requestUrl, List<NameValuePair> strings,
-            List<NameValuePair> images, Parser<? extends BaseType> parser)
+            List<NameValuePair> images, Parser<? extends BaseType> parser, String token)
             throws Exception {
-        return executeUploadRequest(requestUrl, strings, images, parser);
+        return executeUploadRequest(requestUrl, strings, images, parser, token);
     }
 
     private HttpPost setLoadHttpRequestBase(String requestUrl, List<NameValuePair> nameValuePairs,
-            List<NameValuePair> images) throws Exception {
+            List<NameValuePair> images, String token) throws Exception {
         HttpPost httpPost = createHttpPost(requestUrl);
         MultipartEntity entity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
         if (nameValuePairs != null) {
@@ -151,7 +151,7 @@ abstract public class AbstractHttpApi implements HttpApi {
                 }
             }
         }
-        
+
         for (NameValuePair pair : images) {
             if (!TextUtils.isEmpty(pair.getValue())) {
                 entity.addPart(pair.getName(), new FileBody(new File(pair.getValue())));
@@ -163,81 +163,81 @@ abstract public class AbstractHttpApi implements HttpApi {
     }
 
     private HttpRequestBase setHttpRequestBase(String requestUrl,
-            List<NameValuePair> nameValuePairs, int requestType) {
+            List<NameValuePair> nameValuePairs, int requestType, String token) {
         HttpRequestBase httpRequest = null;
 
         if (requestType == SysConstants.REQUEST_POST) {
-            httpRequest = createHttpPost(requestUrl, nameValuePairs);
+            httpRequest = createHttpPost(requestUrl, nameValuePairs, token);
         } else if (requestType == SysConstants.REQUEST_GET) {
-            httpRequest = createHttpGet(requestUrl, nameValuePairs);
+            httpRequest = createHttpGet(requestUrl, nameValuePairs, token);
         }
         return httpRequest;
     }
 
     @Override
     public String doUploadRequest(String requestUrl, List<NameValuePair> strings,
-            List<NameValuePair> images)
+            List<NameValuePair> images, String token)
             throws Exception {
         if (TextUtils.isEmpty(requestUrl)) {
             return null;
         }
 
-        HttpEntity resEntity = getHttpEntity(requestUrl, strings, images, -1, UPLOAD_REQUEST_TYPE);
+        HttpEntity resEntity = getHttpEntity(requestUrl, strings, images, -1, UPLOAD_REQUEST_TYPE, token);
         return EntityUtils.toString(resEntity, SysConstants.CHARSET);
     }
 
     @Override
-    public String doHttpPost(String url, List<NameValuePair> nameValuePairs) throws Exception {
+    public String doHttpPost(String url, List<NameValuePair> nameValuePairs, String token) throws Exception {
         if (TextUtils.isEmpty(url)) {
             return null;
         }
 
-        HttpEntity resEntity = getHttpEntity(url, nameValuePairs, null, -1, HTTPPOST_TYPE);
+        HttpEntity resEntity = getHttpEntity(url, nameValuePairs, null, -1, HTTPPOST_TYPE, token);
         return EntityUtils.toString(resEntity, SysConstants.CHARSET);
     }
 
     @Override
-    public String doHttpGet(String url, List<NameValuePair> nameValuePairs) throws Exception {
+    public String doHttpGet(String url, List<NameValuePair> nameValuePairs, String token) throws Exception {
         if (TextUtils.isEmpty(url)) {
             return null;
         }
 
-        HttpEntity resEntity = getHttpEntity(url, nameValuePairs, null, -1, HTTPGET_TYPE);
+        HttpEntity resEntity = getHttpEntity(url, nameValuePairs, null, -1, HTTPGET_TYPE, token);
         return EntityUtils.toString(resEntity, SysConstants.CHARSET);
     }
 
     public BaseType executeUploadRequest(String requestUrl, List<NameValuePair> strings,
-            List<NameValuePair> images, Parser<? extends BaseType> parser)
+            List<NameValuePair> images, Parser<? extends BaseType> parser, String token)
             throws Exception {
         if (TextUtils.isEmpty(requestUrl)) {
             return null;
         }
-        HttpEntity resEntity = getHttpEntity(requestUrl, strings, images, -1, UPLOAD_REQUEST_TYPE);
+        HttpEntity resEntity = getHttpEntity(requestUrl, strings, images, -1, UPLOAD_REQUEST_TYPE, token);
         return resEntity == null ? null : parser.parse(EntityUtils.toString(resEntity,
                 SysConstants.CHARSET));
     }
 
     public BaseType executeHttpRequest(String requestUrl, List<NameValuePair> nameValuePairs,
-            Parser<? extends BaseType> parser, int requestType) throws Exception {
+            Parser<? extends BaseType> parser, int requestType, String token) throws Exception {
 
         if (TextUtils.isEmpty(requestUrl)) {
             return null;
         }
 
         HttpEntity resEntity = getHttpEntity(requestUrl, nameValuePairs, null, requestType,
-                HTTPREQUEST_TYPE);
+                HTTPREQUEST_TYPE, token);
         return resEntity == null ? null : parser.parse(EntityUtils.toString(resEntity,
                 SysConstants.CHARSET));
     }
 
     @Override
-    public HttpEntity getHttpEntity(String url) throws Exception {
+    public HttpEntity getHttpEntity(String url, String token) throws Exception {
 
         if (TextUtils.isEmpty(url)) {
             return null;
         }
 
-        HttpEntity resEntity = getHttpEntity(url, null, null, -1, REQUEST_ZIP_TYPE);
+        HttpEntity resEntity = getHttpEntity(url, null, null, -1, REQUEST_ZIP_TYPE, token);
         return resEntity == null ? null : resEntity;
     }
 
@@ -249,23 +249,23 @@ abstract public class AbstractHttpApi implements HttpApi {
 
     private HttpRequestBase resetHttpRequestBase(String requestUrl,
             List<NameValuePair> nameValuePairs,
-            List<NameValuePair> fileNameValuePairs, int requestType, int entityType)
+            List<NameValuePair> fileNameValuePairs, int requestType, int entityType, String token)
             throws Exception {
 
         HttpRequestBase httpRequest = null;
 
         switch (entityType) {
             case UPLOAD_REQUEST_TYPE:
-                httpRequest = setLoadHttpRequestBase(requestUrl, nameValuePairs, fileNameValuePairs);
+                httpRequest = setLoadHttpRequestBase(requestUrl, nameValuePairs, fileNameValuePairs, token);
                 break;
             case HTTPPOST_TYPE:
-                httpRequest = createHttpPost(requestUrl, nameValuePairs);
+                httpRequest = createHttpPost(requestUrl, nameValuePairs, token);
                 break;
             case HTTPGET_TYPE:
-                httpRequest = createHttpGet(requestUrl, nameValuePairs);
+                httpRequest = createHttpGet(requestUrl, nameValuePairs, token);
                 break;
             case HTTPREQUEST_TYPE:
-                httpRequest = setHttpRequestBase(requestUrl, nameValuePairs, requestType);
+                httpRequest = setHttpRequestBase(requestUrl, nameValuePairs, requestType, token);
                 break;
             case REQUEST_ZIP_TYPE:
                 httpRequest = new HttpGet(requestUrl);
@@ -275,9 +275,8 @@ abstract public class AbstractHttpApi implements HttpApi {
                 break;
         }
 
-        if (SharedPreferencesUtil.readBoolean(SysConstants.IS_LOGIN, false)) {
-            httpRequest.addHeader(SysConstants.TOKEN, SharedPreferencesUtil.readString(
-                            SysConstants.TOKEN, SysConstants.EMPTY_STRING));
+        if (!TextUtils.isEmpty(token)) {
+            httpRequest.addHeader(SysConstants.TOKEN, token);
         }
         httpRequest.addHeader(SysConstants.ACCEPT_ENCODING, SysConstants.ACCEPT_ENCODING_STRING);
         return httpRequest;
@@ -285,12 +284,12 @@ abstract public class AbstractHttpApi implements HttpApi {
     }
 
     public HttpEntity getHttpEntity(String requestUrl, List<NameValuePair> nameValuePairs,
-            List<NameValuePair> fileNameValuePairs, int requestType, int entityType)
+            List<NameValuePair> fileNameValuePairs, int requestType, int entityType, String token)
             throws Exception {
 
         HttpRequestBase httpRequest = resetHttpRequestBase(requestUrl, nameValuePairs,
                 fileNameValuePairs, requestType,
-                entityType);
+                entityType, token);
         HttpResponse response = executeHttpRequest(httpRequest);
         int statusCode = response.getStatusLine().getStatusCode();
         switch (statusCode) {
@@ -428,7 +427,7 @@ abstract public class AbstractHttpApi implements HttpApi {
     }
 
     @Override
-    public HttpGet createHttpGet(String url, List<NameValuePair> nameValuePairs) {
+    public HttpGet createHttpGet(String url, List<NameValuePair> nameValuePairs, String token) {
         HttpGet httpGet;
 
         if (nameValuePairs != null) {
@@ -442,7 +441,7 @@ abstract public class AbstractHttpApi implements HttpApi {
         return httpGet;
     }
 
-    public HttpPost createHttpPost(String url, List<NameValuePair> nameValuePairs) {
+    public HttpPost createHttpPost(String url, List<NameValuePair> nameValuePairs, String token) {
         HttpPost httpPost = new HttpPost(url);
 
         try {
