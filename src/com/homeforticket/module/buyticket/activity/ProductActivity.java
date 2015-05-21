@@ -156,7 +156,7 @@ public class ProductActivity extends BaseActivity implements OnClickListener, Re
                 if (mProductInfo != null && !TextUtils.isEmpty(mProductName.getText().toString())) {
                     Intent intent = new Intent(this, PlaceOrderActivity.class);
                     intent.putExtra("ProductInfo", mProductInfo);
-                    intent.putExtra("name", mProductName.getText().toString());
+                    intent.putExtra("name", mTicketInfo.getProductName());
                     intent.putExtra("location", mLocation);
                     startActivity(intent);
                 }

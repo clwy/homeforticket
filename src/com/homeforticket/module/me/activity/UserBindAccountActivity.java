@@ -27,7 +27,8 @@ import com.homeforticket.request.RequestListener;
 import com.homeforticket.util.SharedPreferencesUtil;
 import com.homeforticket.util.ToastUtil;
 
-public class UserBindAccountActivity extends BaseActivity implements OnClickListener, RequestListener {
+public class UserBindAccountActivity extends BaseActivity implements OnClickListener,
+        RequestListener {
     private TextView mTxtTitle;
     private RelativeLayout mBtnBack;
     private TextView mBankCard;
@@ -66,7 +67,7 @@ public class UserBindAccountActivity extends BaseActivity implements OnClickList
         mTxtTitle.setText(R.string.fetch_account_title);
         getBindAccountRequest();
     }
-    
+
     private void getBindAccountRequest() {
         JSONObject jsonObject = new JSONObject();
         try {
@@ -98,18 +99,24 @@ public class UserBindAccountActivity extends BaseActivity implements OnClickList
             if (!TextUtils.isEmpty(token)) {
                 SharedPreferencesUtil.saveString(SysConstants.TOKEN, token);
             }
-            
+
             mBcard = message.getBcard();
             mBname = message.getBname();
-            mBankCard.setText(mBname + " " + getResources().getString(R.string.bank_card_end) + mBcard);
+            if (TextUtils.isEmpty(mBname) || TextUtils.isEmpty(mBcard)) {
+
+            } else {
+                mBankCard.setText(mBname + " " + getResources().getString(R.string.bank_card_end)
+                        + mBcard);
+            }
+
             mEditText.setHint(getResources().getString(R.string.current_remain_count) + "元");
 
         } else {
             if ("10004".equals(code)) {
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivityForResult(intent, SysConstants.GET_BIND_BANK);
-            } 
-                
+            }
+
             ToastUtil.showToast(message.getMessage());
         }
     }
@@ -118,13 +125,13 @@ public class UserBindAccountActivity extends BaseActivity implements OnClickList
     public void onFail(RequestJob job) {
         ToastUtil.showToast(job.getFailNotice());
     }
-    
+
     @Override
     public void onActivityResult(int requestCode, int responseCode, Intent data) {
         if (responseCode == SysConstants.REQUEST_TYPE_LOGIN) {
             if (requestCode == SysConstants.GET_BIND_BANK) {
                 getBindAccountRequest();
-            } 
+            }
         }
         super.onActivityResult(requestCode, responseCode, data);
     }
@@ -136,6 +143,15 @@ public class UserBindAccountActivity extends BaseActivity implements OnClickList
                 finish();
                 break;
             case R.id.next_button:
+                if (TextUtils.isEmpty(mBankCard.getText().toString())
+                        || TextUtils.isEmpty(mEditText.getText().toString())) {
+                } else {
+                    Intent intent = new Intent(this, FetchSuccessActivity.class);
+                    intent.putExtra("card", mBankCard.getText().toString());
+                    intent.putExtra("price", mEditText.getText().toString());
+                    intent.putExtra("date", mGetAccountTime.getText().toString());
+                    startActivity(intent);
+                }
                 break;
             default:
                 break;

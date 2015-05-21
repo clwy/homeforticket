@@ -1,18 +1,13 @@
 
 package com.homeforticket.request;
 
-import com.homeforticket.LogoActivity;
 import com.homeforticket.R;
 import com.homeforticket.appApplication.AppApplication;
 import com.homeforticket.connect.QuareManager;
 import com.homeforticket.constant.SysConstants;
-import com.homeforticket.framework.HomeTicketActivity;
 import com.homeforticket.model.BaseType;
-import com.homeforticket.model.ReturnMessage;
-import com.homeforticket.module.login.activity.LoginActivity;
 import com.homeforticket.util.SharedPreferencesUtil;
 
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.text.TextUtils;
 

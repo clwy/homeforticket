@@ -8,12 +8,55 @@
         android:id="@+id/title_layout"
         layout="@layout/head_title_layout" />
 
+    <ImageView
+        android:id="@+id/fetch_success_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"
+        android:background="@drawable/fetch_success_icon" />
+
+    <TextView
+        android:id="@+id/fetch_notice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/fetch_success_icon"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="@string/fetch_success"
+        android:textColor="#414358"
+        android:textSize="20dp" />
+
     <RelativeLayout
-        android:id="@+id/bind_account_layout"
+        android:id="@+id/get_date_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/fetch_notice"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp" >
+
+        <TextView
+            android:id="@+id/get_date_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/fetch_get_date"
+            android:textColor="#979797"
+            android:textSize="13dp" />
+
+        <TextView
+            android:id="@+id/get_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#979797"
+            android:textSize="13dp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/card_layout"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_below="@id/title_layout"
-        android:layout_marginTop="34dp"
+        android:layout_below="@id/get_date_layout"
+        android:layout_marginTop="25dp"
         android:background="#ffffff" >
 
         <TextView
@@ -22,25 +65,18 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
             android:text="@string/bank_card"
-            android:textColor="#414358"
-            android:textSize="16dp" />
-
-        <TextView
-            android:id="@+id/bank_card"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="122dp"
-            android:textColor="#1db2f6"
+            android:textColor="#979797"
             android:textSize="15dp" />
 
-        <ImageView
+        <TextView
+            android:id="@+id/card"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="12dp"
-            android:background="@drawable/me_right_arrow" />
+            android:layout_marginRight="20dp"
+            android:textColor="#414358"
+            android:textSize="16dp" />
 
         <View
             android:layout_width="match_parent"
@@ -55,10 +91,10 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/money_layout"
+        android:id="@+id/price_layout"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_below="@id/bind_account_layout"
+        android:layout_below="@id/card_layout"
         android:background="#ffffff" >
 
         <TextView
@@ -67,20 +103,19 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
             android:text="@string/money_count"
-            android:textColor="#414358"
-            android:textSize="16dp" />
-
-        <EditText
-            android:id="@+id/fetch_count"
-            android:layout_width="match_parent"
+            android:textColor="#979797"
+            android:textSize="15dp" />
+        
+        <TextView 
+            android:id="@+id/price_count"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="122dp"
-            android:inputType="number"
-            android:background="@null"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
             android:textColor="#414358"
-            android:textColorHint="#c3c3c3"
-            android:textSize="15dp" />
+            android:textSize="16dp"
+            />
 
         <View
             android:layout_width="match_parent"
@@ -89,37 +124,16 @@
             android:background="@drawable/me_long_line" />
     </RelativeLayout>
 
-    <TextView
-        android:id="@+id/get_account_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/money_layout"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="14dp"
-        android:textColor="#979797"
-        android:textSize="14dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/money_layout"
-        android:layout_marginTop="14dp"
-        android:layout_toLeftOf="@id/get_account_time"
-        android:text="@string/get_account_time"
-        android:textColor="#979797"
-        android:textSize="14dp" />
-
     <Button
-        android:id="@+id/next_button"
+        android:id="@+id/confirm_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/get_account_time"
+        android:layout_below="@id/price_layout"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="60dp"
         android:background="@drawable/blue_button_layout"
         android:gravity="center"
-        android:text="@string/next"
+        android:text="@string/commit"
         android:textColor="#ffffff"
         android:textSize="17dp" />
 

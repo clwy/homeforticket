@@ -479,5 +479,10 @@
     <string name="shareto_sinaweibo">新浪微博</string>
     <string name="shareto_weixin">微信</string>
     <string name="shareto_circle">朋友圈</string>
+    
+    <!-- 提现申请 -->
+    <string name="fetch_success">提现申请已提交</string>
+    <string name="fetch_get_date">预计到账时间：</string>
+    
 
 </resources>

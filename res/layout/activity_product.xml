@@ -37,7 +37,7 @@
             <RelativeLayout
                 android:id="@+id/ticket_type_layout"
                 android:layout_width="match_parent"
-                android:layout_height="112dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:background="#ffffff" >
 
@@ -90,7 +90,8 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
-                    android:layout_centerVertical="true"
+                    android:layout_below="@id/ticket_type_name"
+                    android:layout_marginTop="5dp"
                     android:background="@drawable/me_long_line" />
 
                 <View

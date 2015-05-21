@@ -104,12 +104,15 @@ public class ShareUtilsView extends PopupWindow implements OnClickListener {
                 break;
             case R.id.bt_circle:
                 shareToWeiXin(false);
+                dismiss();
                 break;
             case R.id.bt_weixin:
                 shareToWeiXin(true);
+                dismiss();
                 break;
             case R.id.bt_sina:
                 startShareWeibo();
+                dismiss();
                 break;
 
             default:

@@ -104,6 +104,7 @@ public class PlaceOrderActivity extends BaseActivity implements OnClickListener,
     private int mDay;
     private boolean mIsShowTime;
     private String mIsUnique;
+    private Calendar mCalendar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,7 +138,7 @@ public class PlaceOrderActivity extends BaseActivity implements OnClickListener,
         mConfirmButton = (Button) findViewById(R.id.confirm);
         mBeginPlayTime = (RelativeLayout) findViewById(R.id.begin_play_time_layout);
         mBeginPlayDate = (TextView) findViewById(R.id.begin_play_date);
-        
+
     }
 
     private void initListener() {
@@ -148,6 +149,7 @@ public class PlaceOrderActivity extends BaseActivity implements OnClickListener,
         mBuyTicket.setOnClickListener(this);
         mConfirmButton.setOnClickListener(this);
         mBeginPlayDate.setOnClickListener(this);
+        mBuyCount.setOnClickListener(this);
     }
 
     private void initData() {
@@ -159,20 +161,25 @@ public class PlaceOrderActivity extends BaseActivity implements OnClickListener,
         mTicketType.setText(mProductInfo.getProductName());
         mSinglePrice.setText(mProductInfo.getRetailPrice());
         mIsUnique = mProductInfo.getIsUnique();
-        
+
         if ("1".equals(mProductInfo.getIsPackage()) && "1".equals(mProductInfo.getTheatre())) {
             mBeginPlayTime.setVisibility(View.VISIBLE);
         } else {
             mBeginPlayTime.setVisibility(View.GONE);
         }
 
-        Calendar calendar = Calendar.getInstance();
-        mYear = calendar.get(Calendar.YEAR);
-        mMonth = calendar.get(Calendar.MONTH) + 1;
-        mDay = calendar.get(Calendar.DAY_OF_MONTH);
-        final int currentYear = calendar.get(Calendar.YEAR);
-        final int currentMonth = calendar.get(Calendar.MONTH) + 1;
-        final int currentDay = calendar.get(Calendar.DAY_OF_MONTH);
+        mCalendar = Calendar.getInstance();
+        int advanceDay = 0;
+        if (!TextUtils.isEmpty(mProductInfo.getAdvanceDay())) {
+            advanceDay = Integer.parseInt(mProductInfo.getAdvanceDay());
+        }
+        mCalendar.add(Calendar.DAY_OF_MONTH, advanceDay);
+        mDay = mCalendar.get(Calendar.DAY_OF_MONTH);
+        mYear = mCalendar.get(Calendar.YEAR);
+        mMonth = mCalendar.get(Calendar.MONTH) + 1;
+        final int currentYear = mCalendar.get(Calendar.YEAR);
+        final int currentMonth = mCalendar.get(Calendar.MONTH) + 1;
+        final int currentDay = mCalendar.get(Calendar.DAY_OF_MONTH);
 
         mDatePicker.init(mYear, mMonth - 1, mDay, new OnDateChangedListener() {
 
@@ -193,6 +200,19 @@ public class PlaceOrderActivity extends BaseActivity implements OnClickListener,
             }
         });
 
+        String[] playDate = dealDate();
+        mPlayDate.setText(mYear + "-" + playDate[0] + "-" + playDate[1]);
+
+        mCalendar.add(Calendar.DAY_OF_MONTH, 2);
+        mDay = mCalendar.get(Calendar.DAY_OF_MONTH);
+        mYear = mCalendar.get(Calendar.YEAR);
+        mMonth = mCalendar.get(Calendar.MONTH) + 1;
+        String[] beginPlayDate = dealDate();
+        mBeginPlayDate.setText(mYear + "-" + beginPlayDate[0] + "-" + beginPlayDate[1]);
+    }
+
+    private String[] dealDate() {
+        String[] chooseTime = new String[2];
         String chooseMonth = String.valueOf(mMonth);
         if (chooseMonth.length() < 2) {
             chooseMonth = "0" + String.valueOf(mMonth);
@@ -201,7 +221,57 @@ public class PlaceOrderActivity extends BaseActivity implements OnClickListener,
         if (chooseDay.length() < 2) {
             chooseDay = "0" + String.valueOf(mDay);
         }
-        mPlayDate.setText(mYear + "-" + chooseMonth + "-" + chooseDay);
+        chooseTime[0] = chooseMonth;
+        chooseTime[1] = chooseDay;
+        return chooseTime;
+    }
+
+    private int getWeek(String pTime, Calendar calendar) {
+        int pos = 0;
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            calendar.setTime(format.parse(pTime));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        int week = calendar.get(Calendar.DAY_OF_WEEK);
+        if (week == 1) {
+            pos = 6;
+        } else if (week == 2) {
+            pos = 0;
+        } else if (week == 3) {
+            pos = 1;
+        } else if (week == 4) {
+            pos = 2;
+        } else if (week == 5) {
+            pos = 3;
+        } else if (week == 6) {
+            pos = 4;
+        } else if (week == 7) {
+            pos = 5;
+        }
+        return pos;
+    }
+
+    private int dealWeek(Calendar calendar) {
+        String week = String.valueOf(calendar.get(Calendar.DAY_OF_WEEK));
+        int pos = 0;
+        if ("1".equals(week)) {
+            pos = 6;
+        } else if ("2".equals(week)) {
+            pos = 0;
+        } else if ("3".equals(week)) {
+            pos = 1;
+        } else if ("4".equals(week)) {
+            pos = 2;
+        } else if ("5".equals(week)) {
+            pos = 3;
+        } else if ("6".equals(week)) {
+            pos = 4;
+        } else if ("7".equals(week)) {
+            pos = 5;
+        }
+        return pos;
     }
 
     @Override
@@ -223,7 +293,8 @@ public class PlaceOrderActivity extends BaseActivity implements OnClickListener,
             intent.putExtra("name", mProductInfo.getProductName());
             intent.putExtra("count", String.valueOf(mCount));
             intent.putExtra("price", mProductInfo.getRetailPrice());
-            intent.putExtra("total", String.valueOf(mCount * Float.parseFloat(mProductInfo.getRetailPrice())));
+            intent.putExtra("total",
+                    String.valueOf(mCount * Float.parseFloat(mProductInfo.getRetailPrice())));
             intent.putExtra("orderId", saveOrderMessage.getOrderId());
             intent.putExtra("des", mProductInfo.getNotice());
             intent.putExtra("isUnique", mIsUnique);
@@ -250,6 +321,12 @@ public class PlaceOrderActivity extends BaseActivity implements OnClickListener,
                 saveOrderRequest();
             }
         }
+        if (requestCode == 1001) {
+            int count = data.getIntExtra("count", 0);
+            if (count != 0) {
+                mCount = count;
+            }
+        }
         super.onActivityResult(requestCode, responseCode, data);
     }
 
@@ -258,6 +335,15 @@ public class PlaceOrderActivity extends BaseActivity implements OnClickListener,
         switch (v.getId()) {
             case R.id.left_top_button:
                 finish();
+                break;
+            case R.id.buy_count:
+                if ("0".equals(mIsUnique)) {
+                    if (mCount != 0) {
+                        Intent intent = new Intent(this, InputTicketNumActivity.class);
+                        intent.putExtra("count", mCount);
+                        startActivityForResult(intent, 1001);
+                    }
+                }
                 break;
             case R.id.pay_notice:
                 break;
@@ -278,7 +364,7 @@ public class PlaceOrderActivity extends BaseActivity implements OnClickListener,
                         return;
                     }
                 }
-                
+
                 String name = mBuyPeopleName.getText().toString();
                 String tel = mBuyPeopleTel.getText().toString();
                 String card = mBuyPeopleCard.getText().toString();
@@ -307,6 +393,11 @@ public class PlaceOrderActivity extends BaseActivity implements OnClickListener,
                     return;
                 }
 
+                if (mCardSets.contains(card)) {
+                    ToastUtil.showToast("当前身份证号已经购买过");
+                    return;
+                }
+
                 mCount++;
                 mBuyCount.setText(String.valueOf(mCount));
                 mTotalCount.setText(String.valueOf(mCount));
@@ -323,6 +414,14 @@ public class PlaceOrderActivity extends BaseActivity implements OnClickListener,
                 mBuyPeopleCard.setText("");
                 break;
             case R.id.buy_ticket:
+                int beginTime = Integer.parseInt(mBeginPlayDate.getText().toString()
+                        .replaceAll("-", ""));
+                int playTime = Integer.parseInt(mPlayDate.getText().toString().replaceAll("-", ""));
+                if (beginTime - playTime < 2) {
+                    ToastUtil.showToast(R.string.time_error);
+                    return;
+                }
+
                 if (mCount == 0) {
 
                 } else {
@@ -331,21 +430,22 @@ public class PlaceOrderActivity extends BaseActivity implements OnClickListener,
                 }
                 break;
             case R.id.confirm:
-                String chooseMonth = String.valueOf(mMonth);
-                if (chooseMonth.length() < 2) {
-                    chooseMonth = "0" + String.valueOf(mMonth);
-                }
-                String chooseDay = String.valueOf(mDay);
-                if (chooseDay.length() < 2) {
-                    chooseDay = "0" + String.valueOf(mDay);
-                }
+                String chooseDate = mYear + "-" + dealDate()[0] + "-" + dealDate()[1];
+                int pos = getWeek(chooseDate, mCalendar);
                 
+                if (!TextUtils.isEmpty(mProductInfo.getWeek())) {
+                    if (Integer.parseInt(String.valueOf(mProductInfo.getWeek().charAt(pos))) == 0) {
+                        ToastUtil.showToast("日期不可选");
+                        return;
+                    }
+                }
+
                 if (mIsShowTime) {
-                    mPlayDate.setText(mYear + "-" + chooseMonth + "-" + chooseDay);
+                    mPlayDate.setText(chooseDate);
                 } else {
-                    mBeginPlayDate.setText(mYear + "-" + chooseMonth + "-" + chooseDay);
+                    mBeginPlayDate.setText(chooseDate);
                 }
-                
+
                 mDatePicker.setVisibility(View.INVISIBLE);
                 mConfirmButton.setVisibility(View.INVISIBLE);
                 break;
@@ -370,7 +470,7 @@ public class PlaceOrderActivity extends BaseActivity implements OnClickListener,
             jsonObject.put("method", "saveOrder");
             jsonObject.put("startTime", mPlayDate.getText().toString());
             if (!TextUtils.isEmpty(mBeginPlayDate.getText().toString())) {
-                jsonObject.put("showTime", mBeginPlayDate.getText().toString()); 
+                jsonObject.put("showTime", mBeginPlayDate.getText().toString());
             }
             jsonObject.put("isAuth", "0");
             jsonObject.put("priceId", mProductInfo.getPriceId());
