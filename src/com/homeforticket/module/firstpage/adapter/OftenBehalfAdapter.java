@@ -2,13 +2,26 @@ package com.homeforticket.module.firstpage.adapter;
 
 import java.util.List;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.bumptech.glide.Glide;
 import com.homeforticket.R;
+import com.homeforticket.constant.SysConstants;
 import com.homeforticket.module.buyticket.activity.TicketActivity;
 import com.homeforticket.module.buyticket.model.BuyticketInfo;
 import com.homeforticket.module.buyticket.model.TicketInfo;
+import com.homeforticket.module.firstpage.model.AddSceneMessage;
 import com.homeforticket.module.firstpage.model.BehalfInfo;
+import com.homeforticket.module.firstpage.parser.AddSceneMessageParser;
+import com.homeforticket.module.login.activity.LoginActivity;
+import com.homeforticket.module.me.model.SetUserInfoMessage;
+import com.homeforticket.module.me.parser.SetUserInfoMessageParser;
 import com.homeforticket.module.message.model.MessageInfo;
+import com.homeforticket.request.RequestJob;
+import com.homeforticket.request.RequestListener;
+import com.homeforticket.util.SharedPreferencesUtil;
+import com.homeforticket.util.ToastUtil;
 
 import android.content.Context;
 import android.content.Intent;
@@ -80,22 +93,22 @@ public class OftenBehalfAdapter extends BaseAdapter {
         holder.currentCost.setText(behalfInfo.getRetailPrice());
         holder.originalCost.setText(behalfInfo.getMarketPrice());
         
-        if (convertView != null) {
-            convertView.setOnClickListener(new OnClickListener() {
-                
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(mContext, TicketActivity.class);
-                    intent.putExtra("id", behalfInfo.getSceneId());
-                    intent.putExtra("current", behalfInfo.getRetailPrice());
-                    intent.putExtra("original", behalfInfo.getMarketPrice());
-                    if (!TextUtils.isEmpty(mProductType)) {
-                        intent.putExtra("productType", mProductType);
-                    }
-                    mContext.startActivity(intent);
-                }
-            });
-        }
+//        if (convertView != null) {
+//            convertView.setOnClickListener(new OnClickListener() {
+//                
+//                @Override
+//                public void onClick(View v) {
+//                    Intent intent = new Intent(mContext, TicketActivity.class);
+//                    intent.putExtra("id", behalfInfo.getSceneId());
+//                    intent.putExtra("current", behalfInfo.getRetailPrice());
+//                    intent.putExtra("original", behalfInfo.getMarketPrice());
+//                    if (!TextUtils.isEmpty(mProductType)) {
+//                        intent.putExtra("productType", mProductType);
+//                    }
+//                    mContext.startActivity(intent);
+//                }
+//            });
+//        }
 
         return convertView;
     }

@@ -19,6 +19,8 @@ public class OrderContentMessage extends ReturnMessage {
 	private String orderState;
 	private String startTime;
 	private String expTime;
+	private String showStartTime;
+	private String showEndTime;
 	private String refundTicketType;
 	private String notice;
 	private String costs;
@@ -279,6 +281,30 @@ public class OrderContentMessage extends ReturnMessage {
      */
     public void setPrice(String price) {
         this.price = price;
+    }
+    /**
+     * @return the showStartTime
+     */
+    public String getShowStartTime() {
+        return showStartTime;
+    }
+    /**
+     * @param showStartTime the showStartTime to set
+     */
+    public void setShowStartTime(String showStartTime) {
+        this.showStartTime = showStartTime;
+    }
+    /**
+     * @return the showEndTime
+     */
+    public String getShowEndTime() {
+        return showEndTime;
+    }
+    /**
+     * @param showEndTime the showEndTime to set
+     */
+    public void setShowEndTime(String showEndTime) {
+        this.showEndTime = showEndTime;
     }
 
 

@@ -91,6 +91,7 @@ public class PlaceOrderActivity extends BaseActivity implements OnClickListener,
     private Button mConfirmButton;
     private RelativeLayout mBeginPlayTime;
     private TextView mBeginPlayDate;
+    private TextView mButCountTitle;
 
     private ProductInfo mProductInfo;
     private int mIndex = 0;
@@ -105,6 +106,7 @@ public class PlaceOrderActivity extends BaseActivity implements OnClickListener,
     private boolean mIsShowTime;
     private String mIsUnique;
     private Calendar mCalendar;
+    private int mRange;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,7 +140,7 @@ public class PlaceOrderActivity extends BaseActivity implements OnClickListener,
         mConfirmButton = (Button) findViewById(R.id.confirm);
         mBeginPlayTime = (RelativeLayout) findViewById(R.id.begin_play_time_layout);
         mBeginPlayDate = (TextView) findViewById(R.id.begin_play_date);
-
+        mButCountTitle = (TextView) findViewById(R.id.buy_count_title);
     }
 
     private void initListener() {
@@ -161,8 +163,16 @@ public class PlaceOrderActivity extends BaseActivity implements OnClickListener,
         mTicketType.setText(mProductInfo.getProductName());
         mSinglePrice.setText(mProductInfo.getRetailPrice());
         mIsUnique = mProductInfo.getIsUnique();
+        
+        
+        if ("0".equals(mIsUnique)) {
+            mButCountTitle.setText(R.string.already_buy_count);
+        }
 
         if ("1".equals(mProductInfo.getIsPackage()) && "1".equals(mProductInfo.getTheatre())) {
+            if (!TextUtils.isEmpty(mProductInfo.getRange())) {
+                mRange = Integer.parseInt(mProductInfo.getRange());
+            }
             mBeginPlayTime.setVisibility(View.VISIBLE);
         } else {
             mBeginPlayTime.setVisibility(View.GONE);
@@ -203,7 +213,7 @@ public class PlaceOrderActivity extends BaseActivity implements OnClickListener,
         String[] playDate = dealDate();
         mPlayDate.setText(mYear + "-" + playDate[0] + "-" + playDate[1]);
 
-        mCalendar.add(Calendar.DAY_OF_MONTH, 2);
+        mCalendar.add(Calendar.DAY_OF_MONTH, mRange);
         mDay = mCalendar.get(Calendar.DAY_OF_MONTH);
         mYear = mCalendar.get(Calendar.YEAR);
         mMonth = mCalendar.get(Calendar.MONTH) + 1;
@@ -248,27 +258,6 @@ public class PlaceOrderActivity extends BaseActivity implements OnClickListener,
         } else if (week == 6) {
             pos = 4;
         } else if (week == 7) {
-            pos = 5;
-        }
-        return pos;
-    }
-
-    private int dealWeek(Calendar calendar) {
-        String week = String.valueOf(calendar.get(Calendar.DAY_OF_WEEK));
-        int pos = 0;
-        if ("1".equals(week)) {
-            pos = 6;
-        } else if ("2".equals(week)) {
-            pos = 0;
-        } else if ("3".equals(week)) {
-            pos = 1;
-        } else if ("4".equals(week)) {
-            pos = 2;
-        } else if ("5".equals(week)) {
-            pos = 3;
-        } else if ("6".equals(week)) {
-            pos = 4;
-        } else if ("7".equals(week)) {
             pos = 5;
         }
         return pos;
@@ -414,14 +403,6 @@ public class PlaceOrderActivity extends BaseActivity implements OnClickListener,
                 mBuyPeopleCard.setText("");
                 break;
             case R.id.buy_ticket:
-                int beginTime = Integer.parseInt(mBeginPlayDate.getText().toString()
-                        .replaceAll("-", ""));
-                int playTime = Integer.parseInt(mPlayDate.getText().toString().replaceAll("-", ""));
-                if (beginTime - playTime < 2) {
-                    ToastUtil.showToast(R.string.time_error);
-                    return;
-                }
-
                 if (mCount == 0) {
 
                 } else {
@@ -441,8 +422,27 @@ public class PlaceOrderActivity extends BaseActivity implements OnClickListener,
                 }
 
                 if (mIsShowTime) {
+                    mCalendar.set(Calendar.YEAR, mYear);
+                    mCalendar.set(Calendar.MONTH, mMonth - 1);
+                    mCalendar.set(Calendar.DAY_OF_MONTH, mDay);
                     mPlayDate.setText(chooseDate);
+                    
+                    mCalendar.add(Calendar.DAY_OF_MONTH, mRange);
+                    mDay = mCalendar.get(Calendar.DAY_OF_MONTH);
+                    mYear = mCalendar.get(Calendar.YEAR);
+                    mMonth = mCalendar.get(Calendar.MONTH) + 1;
+                    String[] beginPlayDate = dealDate();
+                    mBeginPlayDate.setText(mYear + "-" + beginPlayDate[0] + "-" + beginPlayDate[1]);
                 } else {
+                    int beginTime = Integer.parseInt(mYear+dealDate()[0]+dealDate()[1]);
+                    int playTime = Integer.parseInt(mPlayDate.getText().toString().replaceAll("-", ""));
+                    
+                    int middle = beginTime - playTime;
+                    if (middle > mRange || middle < 0) {
+                        ToastUtil.showToast("演出日期不可选");
+                        return;
+                    }
+                    
                     mBeginPlayDate.setText(chooseDate);
                 }
 

@@ -25,6 +25,11 @@ public class ProductInfo extends ReturnMessage {
     private String priceId;
     private String isPackage;
     private String theatre;
+    private String sceneAddress;
+    private String provice;
+    private String city;
+    private String county;
+    private String range;
 
     public String getProductId() {
         return productId;
@@ -182,6 +187,76 @@ public class ProductInfo extends ReturnMessage {
      */
     public void setTheatre(String theatre) {
         this.theatre = theatre;
+    }
+
+    /**
+     * @return the sceneAddress
+     */
+    public String getSceneAddress() {
+        return sceneAddress;
+    }
+
+    /**
+     * @param sceneAddress the sceneAddress to set
+     */
+    public void setSceneAddress(String sceneAddress) {
+        this.sceneAddress = sceneAddress;
+    }
+
+    /**
+     * @return the provice
+     */
+    public String getProvice() {
+        return provice;
+    }
+
+    /**
+     * @param provice the provice to set
+     */
+    public void setProvice(String provice) {
+        this.provice = provice;
+    }
+
+    /**
+     * @return the city
+     */
+    public String getCity() {
+        return city;
+    }
+
+    /**
+     * @param city the city to set
+     */
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    /**
+     * @return the county
+     */
+    public String getCounty() {
+        return county;
+    }
+
+    /**
+     * @param county the county to set
+     */
+    public void setCounty(String county) {
+        this.county = county;
+    }
+
+    /**
+     * @return the range
+     */
+    public String getRange() {
+        return range;
+    }
+
+    /**
+     * @param range the range to set
+     */
+    public void setRange(String range) {
+        this.range = range;
     }
 
 }

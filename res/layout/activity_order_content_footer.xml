@@ -168,4 +168,17 @@
             android:background="@drawable/me_long_line" />
     </RelativeLayout>
 
+    <Button
+        android:id="@+id/pay_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/order_total_pay_layout"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/fetch_button_layout"
+        android:gravity="center"
+        android:text="@string/immediately_pay"
+        android:textColor="#ffffff"
+        android:textSize="16dp"
+        android:visibility="gone" />
+
 </RelativeLayout>

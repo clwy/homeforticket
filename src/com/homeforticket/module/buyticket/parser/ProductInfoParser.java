@@ -44,6 +44,12 @@ public class ProductInfoParser extends AbstractParser<ProductInfo> {
             message.setPriceId(getString(jb, "priceid"));
             message.setIsPackage(getString(jb, "isPackage"));
             message.setTheatre(getString(jb, "theatre"));
+            message.setSceneAddress(getString(jb, "sceneAddress"));
+            message.setProvice(getString(jb, "provice"));
+            message.setCity(getString(jb, "city"));
+            message.setCounty(getString(jb, "county"));
+            message.setRange(getString(jb, "range"));
+
         } catch (Exception e) {
 
         }

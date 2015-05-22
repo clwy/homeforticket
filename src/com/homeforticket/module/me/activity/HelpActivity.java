@@ -27,7 +27,7 @@ import com.homeforticket.request.RequestListener;
 import com.homeforticket.util.SharedPreferencesUtil;
 import com.homeforticket.util.ToastUtil;
 
-public class HelpActivity extends BaseActivity implements OnClickListener {
+public class HelpActivity extends BaseActivity implements OnClickListener, RequestListener {
     private TextView mTxtTitle;
     private RelativeLayout mBtnBack;
 
@@ -53,6 +53,23 @@ public class HelpActivity extends BaseActivity implements OnClickListener {
 
     private void initData() {
         mTxtTitle.setText(R.string.help);
+        getHelp();
+    }
+    
+    private void getHelp() {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("method", "getHelp");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        if (jsonObject != null) {
+            RequestJob job = new RequestJob(SysConstants.SERVER, jsonObject.toString(),
+                    new SetUserInfoMessageParser(), SysConstants.REQUEST_POST);
+            job.setRequestListener(this);
+            job.doRequest();
+        }        
     }
 
     @Override
@@ -66,4 +83,18 @@ public class HelpActivity extends BaseActivity implements OnClickListener {
         }
     }
 
+    @Override
+    public void onStartRequest(RequestJob job) {
+        
+    }
+
+    @Override
+    public void onSuccess(RequestJob job) {
+        
+    }
+
+    @Override
+    public void onFail(RequestJob job) {
+        
+    }
 }

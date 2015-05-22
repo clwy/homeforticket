@@ -110,6 +110,8 @@ public class SysConstants {
 	public static final int SET_CLIENT_INFO = 23;
 	public static final int GET_BIND_BANK = 24;
 	public static final int GET_CODE = 25;
+	public static final int GET_BEHALF = 26;
+	public static final int ADD_SCENE = 27;
 	
 	/************************* REQUEST_PARIS ******************************/
 	public static final String CLIENT_FROM = "client";

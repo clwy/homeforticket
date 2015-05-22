@@ -2,6 +2,7 @@
 package com.homeforticket.module.firstpage.activity;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import org.json.JSONException;
@@ -14,6 +15,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -24,6 +26,8 @@ import com.homeforticket.constant.SysConstants;
 import com.homeforticket.framework.BaseActivity;
 import com.homeforticket.framework.pullrefrash.PullToRefreshListView;
 import com.homeforticket.framework.pullrefrash.PullToRefreshBase.Mode;
+import com.homeforticket.module.buyticket.activity.ChoosePayActivity;
+import com.homeforticket.module.buyticket.parser.SaveOrderMessageParser;
 import com.homeforticket.module.firstpage.adapter.MemberAdapter;
 import com.homeforticket.module.firstpage.model.OrderContentInfo;
 import com.homeforticket.module.firstpage.model.OrderContentMessage;
@@ -61,10 +65,14 @@ public class OrderContentActivity extends BaseActivity implements OnClickListene
     private TextView mOrderPayCount;
     private TextView mOrderPayTotal;
     private TextView mOrderIdTextView;
+    private TextView mPlayDate;
+    private TextView mBeginDate;
+    private Button mPayButton;
 
     private String mOrderId;
     private View mHeaderView;
     private View mFooterView;
+    private OrderContentMessage mOrderContentMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,10 +106,14 @@ public class OrderContentActivity extends BaseActivity implements OnClickListene
         mOrderIdTextView = (TextView) mFooterView.findViewById(R.id.order_id);
         mOrderPayCount = (TextView) mFooterView.findViewById(R.id.order_count);
         mOrderPayTotal = (TextView) mFooterView.findViewById(R.id.order_total_pay);
+        mPayButton = (Button) mFooterView.findViewById(R.id.pay_button);
+        mPlayDate = (TextView) mHeaderView.findViewById(R.id.time_play);
+        mBeginDate = (TextView) mHeaderView.findViewById(R.id.time_begin);
     }
 
     private void initListener() {
         mBtnBack.setOnClickListener(this);
+        mPayButton.setOnClickListener(this);
     }
 
     private void initData() {
@@ -118,7 +130,7 @@ public class OrderContentActivity extends BaseActivity implements OnClickListene
         mOrderType.setText(intent.getStringExtra("type"));
         Glide.with(this).load(intent.getStringExtra("pic")).centerCrop().into(mOrderImg);
         mOrderIdTextView.setText(mOrderId);
-
+        
         if (!TextUtils.isEmpty(mOrderId)) {
             getRecordListRequest();
         }
@@ -148,25 +160,30 @@ public class OrderContentActivity extends BaseActivity implements OnClickListene
 
     @Override
     public void onSuccess(RequestJob job) {
-        OrderContentMessage message = (OrderContentMessage) job.getBaseType();
-        String code = message.getCode();
+        mOrderContentMessage = (OrderContentMessage) job.getBaseType();
+        String code = mOrderContentMessage.getCode();
         if ("10000".equals(code)) {
-            String token = message.getToken();
+            String token = mOrderContentMessage.getToken();
             if (!TextUtils.isEmpty(token)) {
                 SharedPreferencesUtil.saveString(SysConstants.TOKEN, token);
             }
 
-            mInfos = message.getInfos();
-            mOrderTitle.setText(message.getSceneName());
-            mOrderCount.setText("X" + message.getTotal_num());
-            mOrderTotal.setText("￥" + message.getPrice());
-            mOrderTime.setText(message.getCreateTime());
-            mOrderPayCount.setText(message.getTotal_num());
-            mOrderPayTotal.setText(message.getOrderAmount());
-            mScenicCity.setText(message.getProvice() + message.getCity() + message.getCounty());
-            mScenicAddress.setText(message.getSceneAddress());
-
+            mInfos = mOrderContentMessage.getInfos();
+            mOrderTitle.setText(mOrderContentMessage.getSceneName());
+            mOrderCount.setText("X" + mOrderContentMessage.getTotal_num());
+            mOrderTotal.setText("￥" + mOrderContentMessage.getPrice());
+            mOrderTime.setText(mOrderContentMessage.getCreateTime());
+            mOrderPayCount.setText(mOrderContentMessage.getTotal_num());
+            mOrderPayTotal.setText(mOrderContentMessage.getOrderAmount());
+            mScenicCity.setText(mOrderContentMessage.getProvice() + mOrderContentMessage.getCity() + mOrderContentMessage.getCounty());
+            mScenicAddress.setText(mOrderContentMessage.getSceneAddress());
+            mPlayDate.setText(mOrderContentMessage.getStartTime());
+            mBeginDate.setText(mOrderContentMessage.getShowStartTime());
             
+            if ("0".equals(mOrderContentMessage.getOrderState())) {
+                mPayButton.setVisibility(View.VISIBLE);
+            }
+
             if (mInfos.size() > 0) {
                 mMemberAdapter.setList(mInfos);
                 mMemberAdapter.notifyDataSetChanged();
@@ -178,7 +195,7 @@ public class OrderContentActivity extends BaseActivity implements OnClickListene
                 startActivityForResult(intent, SysConstants.GET_RECORD_CODE);
             } 
                 
-            ToastUtil.showToast(message.getMessage());
+            ToastUtil.showToast(mOrderContentMessage.getMessage());
         }
         
         mOrderContentListView.onRefreshComplete();
@@ -195,11 +212,22 @@ public class OrderContentActivity extends BaseActivity implements OnClickListene
             case R.id.left_top_button:
                 finish();
                 break;
-
+            case R.id.pay_button:
+                if (mOrderContentMessage != null) {
+                    Intent intent = new Intent(this, ChoosePayActivity.class);
+                    intent.putExtra("name", mOrderContentMessage.getSceneName());
+                    intent.putExtra("count", mOrderContentMessage.getTotal_num());
+                    intent.putExtra("price", mOrderContentMessage.getPrice());
+                    intent.putExtra("total", mOrderContentMessage.getOrderAmount());
+                    intent.putExtra("orderId", mOrderContentMessage.getOrderID());
+                    intent.putExtra("des", mOrderContentMessage.getNotice());
+                    intent.putExtra("isUnique", "");
+                    startActivity(intent); 
+                }
+                
+                break;
             default:
                 break;
         }
-
     }
-
 }
