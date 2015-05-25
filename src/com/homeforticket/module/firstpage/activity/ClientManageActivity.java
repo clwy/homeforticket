@@ -54,6 +54,7 @@ public class ClientManageActivity extends BaseActivity implements OnRefreshListe
     private List<ClientInfo> mList = new ArrayList<ClientInfo>();
     private RequestJob mJob;
     private int mPageCount;
+    private Button mSearchButton;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,10 +74,12 @@ public class ClientManageActivity extends BaseActivity implements OnRefreshListe
         mSearchHintText = (TextView) findViewById(R.id.search_text);
         mClientListView = (PullToRefreshListView) findViewById(R.id.client_list);
         mClientAdapter = new ClientAdapter(this);
+        mSearchButton = (Button) findViewById(R.id.search_button);
     }
 
     private void initListener() {
         mBtnBack.setOnClickListener(this);
+        mSearchButton.setOnClickListener(this);
         mEditText.addTextChangedListener(new TextWatcher() {
             
             @Override
@@ -204,6 +207,9 @@ public class ClientManageActivity extends BaseActivity implements OnRefreshListe
         switch (v.getId()) {
             case R.id.left_top_button:
                 finish();
+                break;
+            case R.id.search_button:
+                doQueryCustomersRequest(REQUEST_CLIENT_LIST, mEditText.getText().toString().trim());
                 break;
             default:
                 break;

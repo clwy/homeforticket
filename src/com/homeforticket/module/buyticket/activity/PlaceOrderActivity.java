@@ -315,6 +315,11 @@ public class PlaceOrderActivity extends BaseActivity implements OnClickListener,
             if (count != 0) {
                 mCount = count;
             }
+            
+            mBuyCount.setText(String.valueOf(mCount));
+            mTotalCount.setText(String.valueOf(mCount));
+            mTotalPrice.setText(String.valueOf(mCount
+                    * Float.parseFloat(mProductInfo.getRetailPrice())));
         }
         super.onActivityResult(requestCode, responseCode, data);
     }

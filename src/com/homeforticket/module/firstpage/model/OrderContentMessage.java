@@ -30,6 +30,7 @@ public class OrderContentMessage extends ReturnMessage {
 	private String provice;
 	private String county;
 	private String price;
+	private String productName;
     /**
      * @return the list
      */
@@ -305,6 +306,18 @@ public class OrderContentMessage extends ReturnMessage {
      */
     public void setShowEndTime(String showEndTime) {
         this.showEndTime = showEndTime;
+    }
+    /**
+     * @return the productName
+     */
+    public String getProductName() {
+        return productName;
+    }
+    /**
+     * @param productName the productName to set
+     */
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
 

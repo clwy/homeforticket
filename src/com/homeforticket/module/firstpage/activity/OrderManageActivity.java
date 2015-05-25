@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.GridView;
@@ -68,6 +69,8 @@ public class OrderManageActivity extends BaseActivity implements OnRefreshListen
     
     private String mId;
     
+    private Button mSearchButton;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,10 +92,12 @@ public class OrderManageActivity extends BaseActivity implements OnRefreshListen
         
         mStstusListView = (GridView) findViewById(R.id.horizontal_grid);
         mStutasAdapter = new HorizontalGridAdapter(this);
+        mSearchButton = (Button) findViewById(R.id.search_button);
     }
 
     private void initListener() {
         mBtnBack.setOnClickListener(this);
+        mSearchButton.setOnClickListener(this);
         mEditText.addTextChangedListener(new TextWatcher() {
             
             @Override
@@ -310,6 +315,18 @@ public class OrderManageActivity extends BaseActivity implements OnRefreshListen
         switch (v.getId()) {
             case R.id.left_top_button:
                 finish();
+                break;
+            case R.id.search_button:
+                if (!TextUtils.isEmpty(mEditText.getText().toString())) {
+                    if (mStatusList != null && mStatusList.size() > 0) {
+                        mOrderType = mStatusList.get(pos).getName();
+                        doQueryCustomersRequest(REQUEST_ORDER_LIST, mEditText.getText().toString().trim(), mStatusList.get(pos).getId());
+                    } else {
+                        mOrderListView.onRefreshComplete();
+                    }
+                } else {
+                    ToastUtil.showToast("请输入搜索内容");
+                }
                 break;
 
             default:

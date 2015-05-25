@@ -29,9 +29,11 @@ import com.homeforticket.framework.pullrefrash.PullToRefreshBase.Mode;
 import com.homeforticket.module.buyticket.activity.ChoosePayActivity;
 import com.homeforticket.module.buyticket.parser.SaveOrderMessageParser;
 import com.homeforticket.module.firstpage.adapter.MemberAdapter;
+import com.homeforticket.module.firstpage.model.CancelOrderMessage;
 import com.homeforticket.module.firstpage.model.OrderContentInfo;
 import com.homeforticket.module.firstpage.model.OrderContentMessage;
 import com.homeforticket.module.firstpage.model.RecordInfoMessage;
+import com.homeforticket.module.firstpage.parser.CancelOrderMessageParser;
 import com.homeforticket.module.firstpage.parser.OrderContentMessageParser;
 import com.homeforticket.module.login.activity.LoginActivity;
 import com.homeforticket.request.RequestJob;
@@ -47,6 +49,8 @@ import com.homeforticket.util.ToastUtil;
  * @date 2015年5月16日 上午10:12:44
  */
 public class OrderContentActivity extends BaseActivity implements OnClickListener, RequestListener {
+    private static final int REQUEST_INFO = 0;
+    private static final int REQUEST_CANCEL = 1;
     private TextView mTxtTitle;
     private RelativeLayout mBtnBack;
     private PullToRefreshListView mOrderContentListView;
@@ -100,7 +104,7 @@ public class OrderContentActivity extends BaseActivity implements OnClickListene
         mLeaveMessage = (TextView) mHeaderView.findViewById(R.id.order_leave_message);
         mOrderCount = (TextView) mHeaderView.findViewById(R.id.order_count);
         mOrderTotal = (TextView) mHeaderView.findViewById(R.id.order_pay);
-        mScenicCity = (TextView) mHeaderView.findViewById(R.id.sence_city) ;
+        mScenicCity = (TextView) mHeaderView.findViewById(R.id.sence_city);
         mScenicAddress = (TextView) mHeaderView.findViewById(R.id.sence_address);
         mOrderTime = (TextView) mFooterView.findViewById(R.id.order_time);
         mOrderIdTextView = (TextView) mFooterView.findViewById(R.id.order_id);
@@ -118,7 +122,7 @@ public class OrderContentActivity extends BaseActivity implements OnClickListene
 
     private void initData() {
         mTxtTitle.setText(R.string.order_info_title);
-        
+
         mOrderContentListView.addHeaderView(mHeaderView);
         mOrderContentListView.addFooterView(mFooterView);
         mOrderContentListView.setAdapter(mMemberAdapter);
@@ -130,13 +134,13 @@ public class OrderContentActivity extends BaseActivity implements OnClickListene
         mOrderType.setText(intent.getStringExtra("type"));
         Glide.with(this).load(intent.getStringExtra("pic")).centerCrop().into(mOrderImg);
         mOrderIdTextView.setText(mOrderId);
-        
+
         if (!TextUtils.isEmpty(mOrderId)) {
-            getRecordListRequest();
+            getOrderContentRequest();
         }
     }
 
-    private void getRecordListRequest() {
+    private void getOrderContentRequest() {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("method", "queryOrder");
@@ -149,6 +153,7 @@ public class OrderContentActivity extends BaseActivity implements OnClickListene
             RequestJob job = new RequestJob(SysConstants.SERVER, jsonObject.toString(),
                     new OrderContentMessageParser(), SysConstants.REQUEST_POST);
             job.setRequestListener(this);
+            job.setRequestId(REQUEST_INFO);
             job.doRequest();
         }
     }
@@ -160,6 +165,47 @@ public class OrderContentActivity extends BaseActivity implements OnClickListene
 
     @Override
     public void onSuccess(RequestJob job) {
+        switch (job.getRequestId()) {
+            case REQUEST_INFO:
+                dealOrderMessage(job);
+                break;
+            case REQUEST_CANCEL:
+                dealCancelOrderMessage(job);
+                break;
+            default:
+                break;
+        }
+
+        mOrderContentListView.onRefreshComplete();
+    }
+
+    @Override
+    public void onFail(RequestJob job) {
+        ToastUtil.showToast(job.getFailNotice());
+    }
+    
+    private void dealCancelOrderMessage(RequestJob job) {
+        CancelOrderMessage message = (CancelOrderMessage) job.getBaseType();
+        String code = message.getCode();
+        if ("10000".equals(code)) {
+            String token = message.getToken();
+            if (!TextUtils.isEmpty(token)) {
+                SharedPreferencesUtil.saveString(SysConstants.TOKEN, token);
+            }
+            
+            ToastUtil.showToast("取消成功");
+            mOrderType.setText("已取消");
+        } else {
+            if ("10004".equals(code)) {
+                Intent intent = new Intent(this, LoginActivity.class);
+                startActivityForResult(intent, REQUEST_CANCEL);
+            }
+
+            ToastUtil.showToast(message.getMessage());
+        }
+    }
+
+    private void dealOrderMessage(RequestJob job) {
         mOrderContentMessage = (OrderContentMessage) job.getBaseType();
         String code = mOrderContentMessage.getCode();
         if ("10000".equals(code)) {
@@ -169,18 +215,22 @@ public class OrderContentActivity extends BaseActivity implements OnClickListene
             }
 
             mInfos = mOrderContentMessage.getInfos();
-            mOrderTitle.setText(mOrderContentMessage.getSceneName());
+            mOrderTitle.setText(mOrderContentMessage.getProductName());
             mOrderCount.setText("X" + mOrderContentMessage.getTotal_num());
             mOrderTotal.setText("￥" + mOrderContentMessage.getPrice());
             mOrderTime.setText(mOrderContentMessage.getCreateTime());
             mOrderPayCount.setText(mOrderContentMessage.getTotal_num());
             mOrderPayTotal.setText(mOrderContentMessage.getOrderAmount());
-            mScenicCity.setText(mOrderContentMessage.getProvice() + mOrderContentMessage.getCity() + mOrderContentMessage.getCounty());
+            mScenicCity.setText(mOrderContentMessage.getProvice() + mOrderContentMessage.getCity()
+                    + mOrderContentMessage.getCounty());
             mScenicAddress.setText(mOrderContentMessage.getSceneAddress());
             mPlayDate.setText(mOrderContentMessage.getStartTime());
             mBeginDate.setText(mOrderContentMessage.getShowStartTime());
-            
+
             if ("0".equals(mOrderContentMessage.getOrderState())) {
+                mPayButton.setVisibility(View.VISIBLE);
+            } else if ("1".equals(mOrderContentMessage.getOrderState())) {
+                mPayButton.setText(R.string.cancel_order);
                 mPayButton.setVisibility(View.VISIBLE);
             }
 
@@ -188,24 +238,16 @@ public class OrderContentActivity extends BaseActivity implements OnClickListene
                 mMemberAdapter.setList(mInfos);
                 mMemberAdapter.notifyDataSetChanged();
             }
-            
+
         } else {
             if ("10004".equals(code)) {
                 Intent intent = new Intent(this, LoginActivity.class);
-                startActivityForResult(intent, SysConstants.GET_RECORD_CODE);
-            } 
-                
+                startActivityForResult(intent, REQUEST_INFO);
+            }
+
             ToastUtil.showToast(mOrderContentMessage.getMessage());
         }
-        
-        mOrderContentListView.onRefreshComplete();
     }
-
-    @Override
-    public void onFail(RequestJob job) {
-        ToastUtil.showToast(job.getFailNotice());
-    }
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -214,20 +256,54 @@ public class OrderContentActivity extends BaseActivity implements OnClickListene
                 break;
             case R.id.pay_button:
                 if (mOrderContentMessage != null) {
-                    Intent intent = new Intent(this, ChoosePayActivity.class);
-                    intent.putExtra("name", mOrderContentMessage.getSceneName());
-                    intent.putExtra("count", mOrderContentMessage.getTotal_num());
-                    intent.putExtra("price", mOrderContentMessage.getPrice());
-                    intent.putExtra("total", mOrderContentMessage.getOrderAmount());
-                    intent.putExtra("orderId", mOrderContentMessage.getOrderID());
-                    intent.putExtra("des", mOrderContentMessage.getNotice());
-                    intent.putExtra("isUnique", "");
-                    startActivity(intent); 
+                    if ("0".equals(mOrderContentMessage.getOrderState())) {
+                        Intent intent = new Intent(this, ChoosePayActivity.class);
+                        intent.putExtra("name", mOrderContentMessage.getSceneName());
+                        intent.putExtra("count", mOrderContentMessage.getTotal_num());
+                        intent.putExtra("price", mOrderContentMessage.getPrice());
+                        intent.putExtra("total", mOrderContentMessage.getOrderAmount());
+                        intent.putExtra("orderId", mOrderContentMessage.getOrderID());
+                        intent.putExtra("des", mOrderContentMessage.getNotice());
+                        intent.putExtra("isUnique", "");
+                        startActivity(intent);
+                    } else if ("1".equals(mOrderContentMessage.getOrderState())) {
+                        getCancelOrderRequest();
+                    }
                 }
-                
+
                 break;
             default:
                 break;
         }
+    }
+    
+    private void getCancelOrderRequest() {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("method", "cancelOrder");
+            jsonObject.put("orderID", mOrderId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        if (jsonObject != null) {
+            RequestJob job = new RequestJob(SysConstants.SERVER, jsonObject.toString(),
+                    new CancelOrderMessageParser(), SysConstants.REQUEST_POST);
+            job.setRequestListener(this);
+            job.setRequestId(REQUEST_CANCEL);
+            job.doRequest();
+        }
+    }
+    
+    @Override
+    public void onActivityResult(int requestCode, int responseCode, Intent data) {
+        if (responseCode == SysConstants.REQUEST_TYPE_LOGIN) {
+            if (requestCode == REQUEST_INFO) {
+                getOrderContentRequest();
+            } else if (requestCode == REQUEST_CANCEL) {
+                getCancelOrderRequest();
+            }
+        }
+        super.onActivityResult(requestCode, responseCode, data);
     }
 }

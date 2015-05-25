@@ -93,22 +93,22 @@ public class OftenBehalfAdapter extends BaseAdapter {
         holder.currentCost.setText(behalfInfo.getRetailPrice());
         holder.originalCost.setText(behalfInfo.getMarketPrice());
         
-//        if (convertView != null) {
-//            convertView.setOnClickListener(new OnClickListener() {
-//                
-//                @Override
-//                public void onClick(View v) {
-//                    Intent intent = new Intent(mContext, TicketActivity.class);
-//                    intent.putExtra("id", behalfInfo.getSceneId());
-//                    intent.putExtra("current", behalfInfo.getRetailPrice());
-//                    intent.putExtra("original", behalfInfo.getMarketPrice());
-//                    if (!TextUtils.isEmpty(mProductType)) {
-//                        intent.putExtra("productType", mProductType);
-//                    }
-//                    mContext.startActivity(intent);
-//                }
-//            });
-//        }
+        if (convertView != null) {
+            convertView.setOnClickListener(new OnClickListener() {
+                
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(mContext, TicketActivity.class);
+                    intent.putExtra("id", behalfInfo.getSceneId());
+                    intent.putExtra("current", behalfInfo.getRetailPrice());
+                    intent.putExtra("original", behalfInfo.getMarketPrice());
+                    if (!TextUtils.isEmpty(mProductType)) {
+                        intent.putExtra("productType", mProductType);
+                    }
+                    mContext.startActivity(intent);
+                }
+            });
+        }
 
         return convertView;
     }

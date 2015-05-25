@@ -139,22 +139,22 @@ public class ProductAdapter extends BaseAdapter {
         holder.ticketLevel.setText(info.getSceneLevel());
         holder.ticketMardPrice.setText(mContext.getResources().getString(R.string.price_sign) + info.getMarketPrice());
         holder.ticketRePrice.setText(info.getRetailPrice());
-        convertView.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if (ProductNavigationManageActivity.TYPE_TICKET.equals(mType)) {
-                    Intent intent = new Intent(mContext, TicketActivity.class);
-                    intent.putExtra("id", info.getSceneId());
-                    intent.putExtra("current", info.getRetailPrice());
-                    intent.putExtra("original", info.getMarketPrice());
-                    if (TextUtils.isEmpty(mProductType)) {
-                        intent.putExtra("productType", mProductType);
-                    }
-                    mContext.startActivity(intent);
-                }
-            }
-        });
+//        convertView.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                if (ProductNavigationManageActivity.TYPE_TICKET.equals(mType)) {
+//                    Intent intent = new Intent(mContext, TicketActivity.class);
+//                    intent.putExtra("id", info.getSceneId());
+//                    intent.putExtra("current", info.getRetailPrice());
+//                    intent.putExtra("original", info.getMarketPrice());
+//                    if (TextUtils.isEmpty(mProductType)) {
+//                        intent.putExtra("productType", mProductType);
+//                    }
+//                    mContext.startActivity(intent);
+//                }
+//            }
+//        });
 
         return convertView;
     }

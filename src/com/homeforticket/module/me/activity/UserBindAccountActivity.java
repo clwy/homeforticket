@@ -102,6 +102,7 @@ public class UserBindAccountActivity extends BaseActivity implements OnClickList
 
             mBcard = message.getBcard();
             mBname = message.getBname();
+            mGetAccountTime.setText(message.getTime());
             if (TextUtils.isEmpty(mBname) || TextUtils.isEmpty(mBcard)) {
 
             } else {
@@ -109,7 +110,7 @@ public class UserBindAccountActivity extends BaseActivity implements OnClickList
                         + mBcard);
             }
 
-            mEditText.setHint(getResources().getString(R.string.current_remain_count) + "元");
+            mEditText.setHint(getResources().getString(R.string.current_remain_count) + message.getAvaBalance() + "元");
 
         } else {
             if ("10004".equals(code)) {

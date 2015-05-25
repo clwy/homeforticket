@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.bumptech.glide.Glide;
 import com.homeforticket.LogoActivity;
 import com.homeforticket.R;
 import com.homeforticket.appApplication.AppApplication;
@@ -101,7 +102,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener, Requ
         }
 
         hideInput();
-//        doLoginRequest("13400000002", "13400000002");
+//        doLoginRequest("13800000004", "13800000004");
         doLoginRequest(username, password);
     }
 
@@ -171,9 +172,9 @@ public class LoginActivity extends BaseActivity implements OnClickListener, Requ
             if ("10004".equals(code)) {
                 startActivity(new Intent(LoginActivity.this, LoginActivity.class));
             }
+            
+            ToastUtil.showToast(loginMessage.getMessage());
         }
-
-        ToastUtil.showToast(loginMessage.getMessage());
     }
 
     @Override

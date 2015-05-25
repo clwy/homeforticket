@@ -88,6 +88,7 @@ public class ShareWeiboActivity extends BaseActivity implements OnClickListener 
 
     private void initListener() {
         mBtnBack.setOnClickListener(this);
+        btShare.setOnClickListener(this);
     }
 
     private void initData() {

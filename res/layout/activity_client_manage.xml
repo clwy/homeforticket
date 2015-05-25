@@ -8,15 +8,30 @@
         android:id="@+id/title_layout"
         layout="@layout/head_title_layout" />
 
+    <Button
+        android:id="@+id/search_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/title_layout"
+        android:layout_marginRight="12dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/get_code_background"
+        android:gravity="center"
+        android:text="@string/search_text"
+        android:textColor="#414358"
+        android:textSize="15dp" />
+
     <RelativeLayout
         android:id="@+id/search_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/title_layout"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
         android:layout_centerHorizontal="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
+        android:layout_toLeftOf="@id/search_button"
         android:background="@drawable/search_box" >
 
         <EditText

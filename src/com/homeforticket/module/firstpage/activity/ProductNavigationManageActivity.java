@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.GridView;
@@ -31,10 +32,12 @@ import com.homeforticket.framework.pullrefrash.PullToRefreshBase;
 import com.homeforticket.framework.pullrefrash.PullToRefreshListView;
 import com.homeforticket.framework.pullrefrash.PullToRefreshBase.Mode;
 import com.homeforticket.framework.pullrefrash.PullToRefreshBase.OnRefreshListener;
+import com.homeforticket.module.buyticket.activity.TicketActivity;
 import com.homeforticket.module.firstpage.adapter.HorizontalGridAdapter;
 import com.homeforticket.module.firstpage.adapter.HorizontalProductChannelGridAdapter;
 import com.homeforticket.module.firstpage.adapter.OrderAdapter;
 import com.homeforticket.module.firstpage.adapter.ProductAdapter;
+import com.homeforticket.module.firstpage.model.AddSceneMessage;
 import com.homeforticket.module.firstpage.model.OrderInfo;
 import com.homeforticket.module.firstpage.model.OrderInfoMessage;
 import com.homeforticket.module.firstpage.model.OrderStatusInfo;
@@ -43,6 +46,7 @@ import com.homeforticket.module.firstpage.model.ProductChannelInfo;
 import com.homeforticket.module.firstpage.model.ProductChannelMessage;
 import com.homeforticket.module.firstpage.model.ProductInfo;
 import com.homeforticket.module.firstpage.model.ProductMessage;
+import com.homeforticket.module.firstpage.parser.AddSceneMessageParser;
 import com.homeforticket.module.firstpage.parser.OrderInfoMessageParser;
 import com.homeforticket.module.firstpage.parser.OrderStatusMessageParser;
 import com.homeforticket.module.firstpage.parser.ProductChannelMessageParser;
@@ -54,7 +58,7 @@ import com.homeforticket.util.SharedPreferencesUtil;
 import com.homeforticket.util.ToastUtil;
 
 public class ProductNavigationManageActivity extends BaseActivity implements
-        OnRefreshListener<ListView>, OnClickListener, RequestListener, OnItemClickListener {
+        OnRefreshListener<ListView>, OnClickListener, RequestListener {
     public static final String TYPE_TICKET = "1";
     public static final String TYPE_HOTEL = "2";
     public static final String TYPE_TRAVEL = "3";
@@ -64,6 +68,7 @@ public class ProductNavigationManageActivity extends BaseActivity implements
     private static final int REQUEST_PRODUCT_LIST = 0;
     private static final int REQUEST_PRODUCT_NEXT_LIST = REQUEST_PRODUCT_LIST + 1;
     private static final int REQUEST_PRODUCT_NAVIGATION = REQUEST_PRODUCT_NEXT_LIST + 1;
+    private static final int ADD_SCENE = REQUEST_PRODUCT_NAVIGATION + 1;
 
     private TextView mTxtTitle;
     private RelativeLayout mBtnBack;
@@ -80,6 +85,10 @@ public class ProductNavigationManageActivity extends BaseActivity implements
     private HorizontalProductChannelGridAdapter mNavigationAdapter;
     private List<ProductChannelInfo> mProductChannelInfoList = new ArrayList<ProductChannelInfo>();
     private String mTypeId;
+    private String mFrom;
+    private int mPos;
+    
+    private Button mSearchButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,10 +110,13 @@ public class ProductNavigationManageActivity extends BaseActivity implements
 
         mNavigationListView = (GridView) findViewById(R.id.horizontal_grid);
         mNavigationAdapter = new HorizontalProductChannelGridAdapter(this);
+        
+        mSearchButton = (Button) findViewById(R.id.search_button);
     }
 
     private void initListener() {
         mBtnBack.setOnClickListener(this);
+        mSearchButton.setOnClickListener(this);
         mEditText.addTextChangedListener(new TextWatcher() {
 
             @Override
@@ -125,10 +137,46 @@ public class ProductNavigationManageActivity extends BaseActivity implements
                 }
             }
         });
-        mNavigationListView.setOnItemClickListener(this);
+        mNavigationListView.setOnItemClickListener(new OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                mNavigationAdapter.setSelectedIndex(position);
+                mNavigationAdapter.notifyDataSetChanged();
+                pos = position;
+
+                ProductChannelInfo info = (ProductChannelInfo) mNavigationAdapter.getItem(position);
+                doQueryProductRequest(REQUEST_PRODUCT_LIST, mEditText.getText().toString(),
+                        info.getId());
+            }
+        });
     }
 
     private void initData() {
+        Intent intent = getIntent();
+        mFrom = intent.getStringExtra("from");
+
+        mProductListView.setOnItemClickListener(new OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (!TextUtils.isEmpty(mFrom)) {
+                    mPos = position;
+                    addCommonScene(mList.get(position - 1).getSceneId());
+                } else {
+                    ProductInfo info = mList.get(position - 1);
+                    if (ProductNavigationManageActivity.TYPE_TICKET.equals(mTypeId)) {
+                        Intent intent = new Intent(ProductNavigationManageActivity.this,
+                                TicketActivity.class);
+                        intent.putExtra("id", info.getSceneId());
+                        intent.putExtra("current", info.getRetailPrice());
+                        intent.putExtra("original", info.getMarketPrice());
+                        intent.putExtra("productType", "1");
+                        ProductNavigationManageActivity.this.startActivity(intent);
+                    }
+                }
+            }
+        });
         mTxtTitle.setText(R.string.product_channel_title);
         mProductListView.setAdapter(mProductAdapter);
         mProductListView.setMode(Mode.BOTH);
@@ -225,6 +273,8 @@ public class ProductNavigationManageActivity extends BaseActivity implements
             case REQUEST_PRODUCT_NAVIGATION:
                 dealProductChannelInfo(job);
                 break;
+            case ADD_SCENE:
+                dealAddScene(job);
             default:
                 break;
         }
@@ -235,6 +285,27 @@ public class ProductNavigationManageActivity extends BaseActivity implements
     @Override
     public void onFail(RequestJob job) {
         ToastUtil.showToast(job.getFailNotice());
+    }
+
+    private void dealAddScene(RequestJob job) {
+        AddSceneMessage message = (AddSceneMessage) job.getBaseType();
+        String code = message.getCode();
+
+        if ("10000".equals(code)) {
+            String token = message.getToken();
+            if (!TextUtils.isEmpty(token)) {
+                SharedPreferencesUtil.saveString(SysConstants.TOKEN, token);
+            }
+
+            ToastUtil.showToast("添加成功！");
+        } else {
+            if ("10004".equals(code)) {
+                Intent intent = new Intent(this, LoginActivity.class);
+                startActivityForResult(intent, SysConstants.ADD_SCENE);
+            }
+
+            ToastUtil.showToast(message.getMessage());
+        }
     }
 
     @Override
@@ -250,6 +321,10 @@ public class ProductNavigationManageActivity extends BaseActivity implements
                 }
             } else if (requestCode == SysConstants.GET_PRODUCT_CHANNEL) {
                 getProductChannelRequest();
+            } else if (requestCode == SysConstants.ADD_SCENE) {
+                if (!TextUtils.isEmpty(mList.get(mPos).getSceneId())) {
+                    addCommonScene(mList.get(mPos).getSceneId());
+                }
             }
         }
         super.onActivityResult(requestCode, responseCode, data);
@@ -284,11 +359,13 @@ public class ProductNavigationManageActivity extends BaseActivity implements
             }
 
         } else {
+            mProductListView.setVisibility(View.INVISIBLE);
+            
             if ("10004".equals(code)) {
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivityForResult(intent, SysConstants.GET_PRODUCT_CODE);
-            } 
-                
+            }
+
             ToastUtil.showToast(orderInfoMessage.getMessage());
         }
     }
@@ -316,16 +393,17 @@ public class ProductNavigationManageActivity extends BaseActivity implements
             if (mProductChannelInfoList.size() > 0) {
                 mNavigationAdapter.setDataSet(mProductChannelInfoList);
                 mNavigationAdapter.notifyDataSetChanged();
-                
-                doQueryProductRequest(REQUEST_PRODUCT_LIST, mEditText.getText().toString(), mProductChannelInfoList.get(0).getId());
+
+                doQueryProductRequest(REQUEST_PRODUCT_LIST, mEditText.getText().toString(),
+                        mProductChannelInfoList.get(0).getId());
             }
 
         } else {
             if ("10004".equals(code)) {
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivityForResult(intent, SysConstants.GET_PRODUCT_CHANNEL);
-            } 
-                
+            }
+
             ToastUtil.showToast(message.getMessage());
         }
     }
@@ -335,6 +413,20 @@ public class ProductNavigationManageActivity extends BaseActivity implements
         switch (v.getId()) {
             case R.id.left_top_button:
                 finish();
+                break;
+                
+            case R.id.search_button:
+                if (!TextUtils.isEmpty(mEditText.getText().toString())) {
+                    if (mProductChannelInfoList != null && mProductChannelInfoList.size() > 0) {
+                        doQueryProductRequest(REQUEST_PRODUCT_LIST,
+                                mEditText.getText().toString().trim(), mProductChannelInfoList.get(pos)
+                                        .getId());
+                    } else {
+                        mProductListView.onRefreshComplete();
+                    }
+                } else {
+                    ToastUtil.showToast("请输入搜索内容");
+                }
                 break;
 
             default:
@@ -363,15 +455,22 @@ public class ProductNavigationManageActivity extends BaseActivity implements
         }
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        mNavigationAdapter.setSelectedIndex(position);
-        mNavigationAdapter.notifyDataSetChanged();
-        pos = position;
+    private void addCommonScene(String id) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("method", "addCommonScene");
+            jsonObject.put("sceneId", id);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
-        ProductChannelInfo info = (ProductChannelInfo) mNavigationAdapter.getItem(position);
-        doQueryProductRequest(REQUEST_PRODUCT_LIST, mEditText.getText().toString(), info.getId());
-
+        if (jsonObject != null) {
+            RequestJob job = new RequestJob(SysConstants.SERVER, jsonObject.toString(),
+                    new AddSceneMessageParser(), SysConstants.REQUEST_POST);
+            job.setRequestListener(this);
+            job.setRequestId(ADD_SCENE);
+            job.doRequest();
+        }
     }
 
 }

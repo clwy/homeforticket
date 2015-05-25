@@ -49,7 +49,7 @@ import com.homeforticket.util.ToastUtil;
  * @author LR   
  * @date 2015年5月6日 上午11:17:18 
  */
-public class OftenBehalfActivity extends BaseActivity implements OnClickListener, RequestListener, OnRefreshListener<ListView>, OnItemClickListener {
+public class OftenBehalfActivity extends BaseActivity implements OnClickListener, RequestListener, OnRefreshListener<ListView> {
     private static final int REQUEST_OFTENBEHALF_LIST = 0;
     private static final int REQUEST_OFTENBEHALF_NEXT_LIST = REQUEST_OFTENBEHALF_LIST + 1;
     private static final int ADD_SCENE = REQUEST_OFTENBEHALF_NEXT_LIST + 1;
@@ -87,7 +87,6 @@ public class OftenBehalfActivity extends BaseActivity implements OnClickListener
     private void initListener() {
         mBtnBack.setOnClickListener(this);
         mAddButton.setOnClickListener(this);
-        mBehalfListView.setOnItemClickListener(this);
     }
 
     private void initData() {
@@ -158,9 +157,6 @@ public class OftenBehalfActivity extends BaseActivity implements OnClickListener
             case REQUEST_OFTENBEHALF_NEXT_LIST:
                 dealGetList(job);
                 break;
-            case ADD_SCENE:
-                dealAddScene(job);
-                break;
 
             default:
                 break;
@@ -168,27 +164,6 @@ public class OftenBehalfActivity extends BaseActivity implements OnClickListener
 
         
         mBehalfListView.onRefreshComplete();
-    }
-    
-    private void dealAddScene(RequestJob job) {
-        AddSceneMessage message = (AddSceneMessage) job.getBaseType();
-        String code = message.getCode();
-
-        if ("10000".equals(code)) {
-            String token = message.getToken();
-            if (!TextUtils.isEmpty(token)) {
-                SharedPreferencesUtil.saveString(SysConstants.TOKEN, token);
-            }
-
-            ToastUtil.showToast("添加成功！");
-        } else {
-            if ("10004".equals(code)) {
-                Intent intent = new Intent(this, LoginActivity.class);
-                startActivityForResult(intent, SysConstants.ADD_SCENE);
-            }
-            
-            ToastUtil.showToast(message.getMessage());
-        }
     }
     
     private void dealGetList(RequestJob job) {
@@ -240,37 +215,11 @@ public class OftenBehalfActivity extends BaseActivity implements OnClickListener
         }
     }
     
-    private void addCommonScene(String id) {
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put("method", "addCommonScene");
-            jsonObject.put("sceneId", id);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        if (jsonObject != null) {
-            RequestJob job = new RequestJob(SysConstants.SERVER, jsonObject.toString(),
-                    new AddSceneMessageParser(), SysConstants.REQUEST_POST);
-            job.setRequestListener(this);
-            job.setRequestId(ADD_SCENE);
-            job.doRequest();
-        }        
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        mPos = position;
-        addCommonScene(mBehalfInfoList.get(position - 1).getSceneId());
-    }
-    
     @Override
     public void onActivityResult(int requestCode, int responseCode, Intent data) {
         if (responseCode == SysConstants.REQUEST_TYPE_LOGIN) {
             if (requestCode == SysConstants.GET_BEHALF) {
                 doGetOftenBehalfList(REQUEST_OFTENBEHALF_LIST);
-            } else if (requestCode == SysConstants.ADD_SCENE) {
-                addCommonScene(mBehalfInfoList.get(mPos).getSceneId());
             }
         }
         super.onActivityResult(requestCode, responseCode, data);

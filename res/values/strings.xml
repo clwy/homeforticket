@@ -203,6 +203,7 @@
     <string name="makesure_pay">订单已经生成，请尽快确认付款！</string>
     <string name="confirm_text">确定</string>
     <string name="already_buy_count">已购张数</string>
+    <string name="cancel_order">取消订单</string>
 
     <!-- 产品详情 -->
     <string name="product_title">产品详情</string>

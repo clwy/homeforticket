@@ -75,7 +75,9 @@ public class AddProductActivity extends BaseActivity implements OnClickListener,
                 finish();
                 break;
             case R.id.add_other_product_layout:
-                startActivity(new Intent(this, ProductNavigationManageActivity.class));
+                Intent intent = new Intent(this, ProductNavigationManageActivity.class);
+                intent.putExtra("from", "often");
+                startActivity(intent);
                 break;
             case R.id.add_self_product_layout:
                 startActivity(new Intent(this, AddProductContentActivity.class));

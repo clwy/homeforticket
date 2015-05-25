@@ -17,8 +17,17 @@ public class BindAccountMessageParser extends AbstractParser<BindAccountMessage>
         JSONObject json = new JSONObject(parser);
         message.setCode(getString(json, "code"));
         message.setMessage(getString(json, "message"));
-        message.setBname(getString(json, "bname"));
-        message.setBcard(getString(json, "bcard"));
+        try {
+            String content = getString(json, "responseBody");
+            JSONObject jb = new JSONObject(content);
+            message.setBname(getString(jb, "bname"));
+            message.setBcard(getString(jb, "bcard"));
+            message.setAvaBalance(getString(jb, "avaBalance"));
+            message.setTime(getString(jb, "time"));
+        } catch (Exception e) {
+
+        }
+        
         
         return message;
     }
