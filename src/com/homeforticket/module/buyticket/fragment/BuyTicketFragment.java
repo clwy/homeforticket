@@ -203,6 +203,7 @@ public class BuyTicketFragment extends BaseFragment implements OnRefreshListener
             
         } else {
             if ("10004".equals(code)) {
+                SharedPreferencesUtil.saveBoolean(SysConstants.IS_LOGIN, false);
                 Intent intent = new Intent(getActivity(), LoginActivity.class);
                 startActivityForResult(intent, SysConstants.BUY_TICKET_CODE);
             }

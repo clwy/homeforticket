@@ -149,6 +149,7 @@ public class SystemMessageAcitivity extends BaseActivity implements OnClickListe
             
         } else {
             if ("10004".equals(code)) {
+                SharedPreferencesUtil.saveBoolean(SysConstants.IS_LOGIN, false);
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivityForResult(intent, SysConstants.GET_SYSTEM_MESSAGE);
             }

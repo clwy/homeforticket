@@ -138,6 +138,7 @@ public class StoreMobileActivity extends BaseActivity implements OnClickListener
             finish();
         } else {
             if ("10004".equals(code)) {
+                SharedPreferencesUtil.saveBoolean(SysConstants.IS_LOGIN, false);
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivityForResult(intent, SysConstants.SET_STORE_INFO);
             }

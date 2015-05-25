@@ -268,6 +268,7 @@ public class OrderManageActivity extends BaseActivity implements OnRefreshListen
             
         } else {
             if ("10004".equals(code)) {
+                SharedPreferencesUtil.saveBoolean(SysConstants.IS_LOGIN, false);
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivityForResult(intent, SysConstants.GET_ORDER_CODE);
             }
@@ -302,6 +303,7 @@ public class OrderManageActivity extends BaseActivity implements OnRefreshListen
             
         } else {
             if ("10004".equals(code)) {
+                SharedPreferencesUtil.saveBoolean(SysConstants.IS_LOGIN, false);
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivityForResult(intent, SysConstants.GET_ORDER_STATUS);
             } 

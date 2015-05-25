@@ -300,6 +300,7 @@ public class ProductNavigationManageActivity extends BaseActivity implements
             ToastUtil.showToast("添加成功！");
         } else {
             if ("10004".equals(code)) {
+                SharedPreferencesUtil.saveBoolean(SysConstants.IS_LOGIN, false);
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivityForResult(intent, SysConstants.ADD_SCENE);
             }
@@ -362,6 +363,7 @@ public class ProductNavigationManageActivity extends BaseActivity implements
             mProductListView.setVisibility(View.INVISIBLE);
             
             if ("10004".equals(code)) {
+                SharedPreferencesUtil.saveBoolean(SysConstants.IS_LOGIN, false);
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivityForResult(intent, SysConstants.GET_PRODUCT_CODE);
             }
@@ -400,6 +402,7 @@ public class ProductNavigationManageActivity extends BaseActivity implements
 
         } else {
             if ("10004".equals(code)) {
+                SharedPreferencesUtil.saveBoolean(SysConstants.IS_LOGIN, false);
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivityForResult(intent, SysConstants.GET_PRODUCT_CHANNEL);
             }

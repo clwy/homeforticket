@@ -197,6 +197,7 @@ public class OrderContentActivity extends BaseActivity implements OnClickListene
             mOrderType.setText("已取消");
         } else {
             if ("10004".equals(code)) {
+                SharedPreferencesUtil.saveBoolean(SysConstants.IS_LOGIN, false);
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivityForResult(intent, REQUEST_CANCEL);
             }
@@ -241,6 +242,7 @@ public class OrderContentActivity extends BaseActivity implements OnClickListene
 
         } else {
             if ("10004".equals(code)) {
+                SharedPreferencesUtil.saveBoolean(SysConstants.IS_LOGIN, false);
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivityForResult(intent, REQUEST_INFO);
             }

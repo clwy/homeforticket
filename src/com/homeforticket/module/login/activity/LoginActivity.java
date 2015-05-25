@@ -169,10 +169,6 @@ public class LoginActivity extends BaseActivity implements OnClickListener, Requ
 
             onLoginSuccess(loginMessage);
         } else {
-            if ("10004".equals(code)) {
-                startActivity(new Intent(LoginActivity.this, LoginActivity.class));
-            }
-            
             ToastUtil.showToast(loginMessage.getMessage());
         }
     }

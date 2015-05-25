@@ -184,6 +184,7 @@ public class StoreSettingActivity extends BaseActivity implements OnClickListene
                     .into(mStoreHeadimg);
         } else {
             if ("10004".equals(code)) {
+                SharedPreferencesUtil.saveBoolean(SysConstants.IS_LOGIN, false);
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivityForResult(intent, SysConstants.GET_ORDER_STATUS);
             } 
@@ -220,6 +221,7 @@ public class StoreSettingActivity extends BaseActivity implements OnClickListene
 
         } else {
             if ("10004".equals(code)) {
+                SharedPreferencesUtil.saveBoolean(SysConstants.IS_LOGIN, false);
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivityForResult(intent, REQUEST_CODE_STORE_CONTENT);
             }

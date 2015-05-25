@@ -193,17 +193,21 @@ public class MessageFragment extends BaseFragment implements OnClickListener, Re
             }
             
             List<SystemInfo> infos = message.getSystemInfos();
-            SystemInfo info = infos.get(0);
-            if ("0".equals(message.getUnRead())) {
-                mSystemMessageCount.setVisibility(View.GONE);
-            } else {
-                mSystemMessageCount.setText(message.getUnRead());
-                mSystemMessageCount.setVisibility(View.VISIBLE);
+            if (infos.size() > 0) {
+                SystemInfo info = infos.get(0);
+                if ("0".equals(message.getUnRead())) {
+                    mSystemMessageCount.setVisibility(View.GONE);
+                } else {
+                    mSystemMessageCount.setText(message.getUnRead());
+                    mSystemMessageCount.setVisibility(View.VISIBLE);
+                }
+                mSystemNewMessageContent.setText(info.getContent());
+                mSystemNewMessageTime.setText(info.getNewsDate());
             }
-            mSystemNewMessageContent.setText(info.getContent());
-            mSystemNewMessageTime.setText(info.getNewsDate());
+            
         } else {
             if ("10004".equals(code)) {
+                SharedPreferencesUtil.saveBoolean(SysConstants.IS_LOGIN, false);
                 Intent intent = new Intent(getActivity(), LoginActivity.class);
                 startActivityForResult(intent, SysConstants.GET_SYSTEM_MESSAGE);
             }

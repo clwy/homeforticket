@@ -212,6 +212,7 @@ public class FirstPageFragment extends BaseFragment implements OnClickListener, 
             mCurrentMonthIncomeNum.setText(SharedPreferencesUtil.readString(SysConstants.CURRENT_MONEY, "0.00"));
         } else {
             if ("10004".equals(code)) {
+                SharedPreferencesUtil.saveBoolean(SysConstants.IS_LOGIN, false);
                 Intent intent = new Intent(getActivity(), LoginActivity.class);
                 startActivityForResult(intent, SysConstants.FIRSTPAGE_CODE);
             } 
