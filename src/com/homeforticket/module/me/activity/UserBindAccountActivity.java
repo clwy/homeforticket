@@ -21,7 +21,9 @@ import com.homeforticket.module.firstpage.model.WalletMessage;
 import com.homeforticket.module.firstpage.parser.WalletMessageParser;
 import com.homeforticket.module.login.activity.LoginActivity;
 import com.homeforticket.module.me.model.BindAccountMessage;
+import com.homeforticket.module.me.model.FetchMessage;
 import com.homeforticket.module.me.parser.BindAccountMessageParser;
+import com.homeforticket.module.me.parser.FetchMessageParser;
 import com.homeforticket.request.RequestJob;
 import com.homeforticket.request.RequestListener;
 import com.homeforticket.util.SharedPreferencesUtil;
@@ -29,6 +31,9 @@ import com.homeforticket.util.ToastUtil;
 
 public class UserBindAccountActivity extends BaseActivity implements OnClickListener,
         RequestListener {
+    private static final int REQUEST_BIND = 0;
+    private static final int REQUEST_FETCH = 1;
+
     private TextView mTxtTitle;
     private RelativeLayout mBtnBack;
     private TextView mBankCard;
@@ -80,6 +85,7 @@ public class UserBindAccountActivity extends BaseActivity implements OnClickList
             RequestJob job = new RequestJob(SysConstants.SERVER, jsonObject.toString(),
                     new BindAccountMessageParser(), SysConstants.REQUEST_POST);
             job.setRequestListener(this);
+            job.setRequestId(REQUEST_BIND);
             job.doRequest();
         }
     }
@@ -91,6 +97,46 @@ public class UserBindAccountActivity extends BaseActivity implements OnClickList
 
     @Override
     public void onSuccess(RequestJob job) {
+        switch (job.getRequestId()) {
+            case REQUEST_BIND:
+                dealBind(job);
+                break;
+            case REQUEST_FETCH:
+                dealFetch(job);
+                break;
+            default:
+                break;
+        }
+
+    }
+
+    private void dealFetch(RequestJob job) {
+        FetchMessage message = (FetchMessage) job.getBaseType();
+        String code = message.getCode();
+
+        if ("10000".equals(code)) {
+            String token = message.getToken();
+            if (!TextUtils.isEmpty(token)) {
+                SharedPreferencesUtil.saveString(SysConstants.TOKEN, token);
+            }
+            
+            Intent intent = new Intent(this, FetchSuccessActivity.class);
+            intent.putExtra("card", mBankCard.getText().toString());
+            intent.putExtra("price", mEditText.getText().toString());
+            intent.putExtra("date", mGetAccountTime.getText().toString());
+            startActivity(intent);
+        } else {
+            if ("10004".equals(code)) {
+                SharedPreferencesUtil.saveBoolean(SysConstants.IS_LOGIN, false);
+                Intent intent = new Intent(this, LoginActivity.class);
+                startActivityForResult(intent, SysConstants.FETCH_MONEY);
+            }
+        }
+        
+        ToastUtil.showToast(message.getMessage());
+    }
+
+    private void dealBind(RequestJob job) {
         BindAccountMessage message = (BindAccountMessage) job.getBaseType();
         String code = message.getCode();
 
@@ -110,7 +156,8 @@ public class UserBindAccountActivity extends BaseActivity implements OnClickList
                         + mBcard);
             }
 
-            mEditText.setHint(getResources().getString(R.string.current_remain_count) + message.getAvaBalance() + "元");
+            mEditText.setHint(getResources().getString(R.string.current_remain_count)
+                    + message.getAvaBalance() + "元");
 
         } else {
             if ("10004".equals(code)) {
@@ -118,9 +165,9 @@ public class UserBindAccountActivity extends BaseActivity implements OnClickList
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivityForResult(intent, SysConstants.GET_BIND_BANK);
             }
-
-            ToastUtil.showToast(message.getMessage());
         }
+        
+        ToastUtil.showToast(message.getMessage());
     }
 
     @Override
@@ -133,6 +180,8 @@ public class UserBindAccountActivity extends BaseActivity implements OnClickList
         if (responseCode == SysConstants.REQUEST_TYPE_LOGIN) {
             if (requestCode == SysConstants.GET_BIND_BANK) {
                 getBindAccountRequest();
+            } else if (requestCode == SysConstants.FETCH_MONEY) {
+                getFetchRequest();
             }
         }
         super.onActivityResult(requestCode, responseCode, data);
@@ -148,15 +197,29 @@ public class UserBindAccountActivity extends BaseActivity implements OnClickList
                 if (TextUtils.isEmpty(mBankCard.getText().toString())
                         || TextUtils.isEmpty(mEditText.getText().toString())) {
                 } else {
-                    Intent intent = new Intent(this, FetchSuccessActivity.class);
-                    intent.putExtra("card", mBankCard.getText().toString());
-                    intent.putExtra("price", mEditText.getText().toString());
-                    intent.putExtra("date", mGetAccountTime.getText().toString());
-                    startActivity(intent);
+                    getFetchRequest();
                 }
                 break;
             default:
                 break;
+        }
+    }
+
+    private void getFetchRequest() {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("method", "withdraw");
+            jsonObject.put("total", mEditText.getText().toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        if (jsonObject != null) {
+            RequestJob job = new RequestJob(SysConstants.SERVER, jsonObject.toString(),
+                    new FetchMessageParser(), SysConstants.REQUEST_POST);
+            job.setRequestListener(this);
+            job.setRequestId(REQUEST_FETCH);
+            job.doRequest();
         }
     }
 

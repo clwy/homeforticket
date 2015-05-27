@@ -1,11 +1,13 @@
 
-package com.homeforticket.common.share;
+package com.homeforticket.wxapi;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.homeforticket.common.share.ShareUtilsView;
+import com.homeforticket.util.ToastUtil;
 import com.tencent.mm.sdk.modelbase.BaseReq;
 import com.tencent.mm.sdk.modelbase.BaseResp;
 import com.tencent.mm.sdk.openapi.IWXAPI;
@@ -17,16 +19,17 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         mApi = WXAPIFactory
                 .createWXAPI(getApplicationContext(), ShareUtilsView.WEIXIN_APPID, false);
         mApi.handleIntent(getIntent(), this);
-        super.onCreate(savedInstanceState);
+        
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
-        mApi.handleIntent(intent, this);
         super.onNewIntent(intent);
+        mApi.handleIntent(intent, this);
     }
 
     @Override
@@ -48,7 +51,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                 break;
         }
 
-        Toast.makeText(this, result, Toast.LENGTH_LONG).show();
+        ToastUtil.showToast(result);
         this.finish();
     }
 

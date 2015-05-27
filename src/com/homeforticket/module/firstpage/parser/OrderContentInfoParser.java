@@ -16,6 +16,7 @@ public class OrderContentInfoParser extends AbstractParser<OrderContentInfo> {
         message.setBuyerICard(getString(json, "buyerICard"));
         message.setBuyerMobile(getString(json, "buyerMobile"));
         message.setBuyerName(getString(json, "buyerName"));
+        message.setSeat(getString(json, "seat"));
         return message;
     }
 }

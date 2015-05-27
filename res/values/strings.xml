@@ -189,6 +189,7 @@
     <string name="connect_people">联系人：</string>
     <string name="connect_people_tel">手机号：</string>
     <string name="connect_people_card">身份证：</string>
+    <string name="people_seat">演出座位号：</string>
     <string name="add_people">添加</string>
     <string name="user_name">姓名：</string>
     <string name="delete_user">删除</string>

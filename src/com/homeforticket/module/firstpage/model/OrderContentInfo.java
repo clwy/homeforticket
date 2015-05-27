@@ -11,6 +11,7 @@ public class OrderContentInfo implements BaseType, Serializable {
 	private String buyerICard;
 	private String buyerMobile;
 	private String buyerName;
+	private String seat;
     /**
      * @return the buyerICard
      */
@@ -46,6 +47,18 @@ public class OrderContentInfo implements BaseType, Serializable {
      */
     public void setBuyerName(String buyerName) {
         this.buyerName = buyerName;
+    }
+    /**
+     * @return the seat
+     */
+    public String getSeat() {
+        return seat;
+    }
+    /**
+     * @param seat the seat to set
+     */
+    public void setSeat(String seat) {
+        this.seat = seat;
     }
         
 

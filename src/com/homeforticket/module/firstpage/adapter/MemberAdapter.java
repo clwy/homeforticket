@@ -60,6 +60,7 @@ public class MemberAdapter extends BaseAdapter {
             holder.name = (TextView) convertView.findViewById(R.id.member_name);
             holder.mobile = (TextView) convertView.findViewById(R.id.member_mobile);
             holder.card = (TextView) convertView.findViewById(R.id.member_card);
+            holder.seat = (TextView) convertView.findViewById(R.id.member_seat);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -69,6 +70,7 @@ public class MemberAdapter extends BaseAdapter {
         holder.name.setText(info.getBuyerName());
         holder.mobile.setText(info.getBuyerMobile());
         holder.card.setText(info.getBuyerICard());
+        holder.seat.setText(info.getSeat());
 
         return convertView;
     }
@@ -92,6 +94,7 @@ public class MemberAdapter extends BaseAdapter {
 	    private TextView name;
 	    private TextView mobile;
 	    private TextView card;
+	    private TextView seat;
 	}
 
 }

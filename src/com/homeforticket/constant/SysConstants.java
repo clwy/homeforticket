@@ -112,6 +112,7 @@ public class SysConstants {
 	public static final int GET_CODE = 25;
 	public static final int GET_BEHALF = 26;
 	public static final int ADD_SCENE = 27;
+	public static final int FETCH_MONEY = 28;
 	
 	/************************* REQUEST_PARIS ******************************/
 	public static final String CLIENT_FROM = "client";
