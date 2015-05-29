@@ -31,6 +31,7 @@ public class OrderContentMessage extends ReturnMessage {
 	private String county;
 	private String price;
 	private String productName;
+	private String resellerName;
     /**
      * @return the list
      */
@@ -318,6 +319,18 @@ public class OrderContentMessage extends ReturnMessage {
      */
     public void setProductName(String productName) {
         this.productName = productName;
+    }
+    /**
+     * @return the resellerName
+     */
+    public String getResellerName() {
+        return resellerName;
+    }
+    /**
+     * @param resellerName the resellerName to set
+     */
+    public void setResellerName(String resellerName) {
+        this.resellerName = resellerName;
     }
 
 

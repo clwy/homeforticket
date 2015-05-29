@@ -92,7 +92,7 @@ public class OrderAdapter extends BaseAdapter {
         final OrderInfo info = list.get(position);
         Glide.with(mContext).load(info.getPic()).centerCrop().into(holder.pic);
         holder.username.setText(info.getBuyName());
-        holder.orderTitle.setText(info.getSceneName());
+        holder.orderTitle.setText(info.getProductName());
         holder.leaveMessage.setText(info.getContractNote());
         holder.singlePrice.setText(mContext.getString(R.string.price_sign) + info.getPrice());
         holder.count.setText(mContext.getString(R.string.X) + info.getTotalnum());

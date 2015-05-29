@@ -25,22 +25,24 @@
             android:textColor="#414358"
             android:textSize="16dp" />
 
-        <TextView
-            android:id="@+id/bank_card"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="122dp"
-            android:textColor="#1db2f6"
-            android:textSize="15dp" />
-
         <ImageView
+            android:id="@+id/right_arrow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="12dp"
             android:background="@drawable/me_right_arrow" />
+
+        <TextView
+            android:id="@+id/bank_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="40dp"
+            android:layout_marginLeft="122dp"
+            android:textColor="#1db2f6"
+            android:textSize="15dp" />
 
         <View
             android:layout_width="match_parent"
@@ -76,8 +78,8 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="122dp"
-            android:inputType="number"
             android:background="@null"
+            android:inputType="number"
             android:textColor="#414358"
             android:textColorHint="#c3c3c3"
             android:textSize="15dp" />

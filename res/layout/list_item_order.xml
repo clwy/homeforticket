@@ -22,8 +22,8 @@
             android:id="@+id/order_state"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             android:layout_marginRight="12dp"
             android:textColor="#ff9024"
             android:textSize="16dp" />
@@ -54,16 +54,6 @@
             android:background="@drawable/order_default_img" />
 
         <TextView
-            android:id="@+id/order_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
-            android:layout_marginTop="30dp"
-            android:layout_toRightOf="@id/item_pic"
-            android:textColor="#414358"
-            android:textSize="16dp" />
-
-        <TextView
             android:id="@+id/leave_words"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -88,12 +78,23 @@
             android:id="@+id/count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/single_price"
             android:layout_alignParentRight="true"
+            android:layout_below="@id/single_price"
             android:layout_marginRight="12dp"
             android:layout_marginTop="30dp"
             android:textColor="#979797"
             android:textSize="13dp" />
+
+        <TextView
+            android:id="@+id/order_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="30dp"
+            android:layout_toLeftOf="@id/single_price"
+            android:layout_toRightOf="@id/item_pic"
+            android:textColor="#414358"
+            android:textSize="16dp" />
 
         <View
             android:id="@+id/short_line"

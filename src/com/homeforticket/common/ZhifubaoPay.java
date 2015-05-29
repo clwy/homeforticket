@@ -6,6 +6,7 @@ import java.net.URLEncoder;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 
 import com.alipay.sdk.app.PayTask;
 import com.homeforticket.framework.BaseActivity;
+import com.homeforticket.framework.HomeTicketActivity;
 import com.homeforticket.module.buyticket.activity.ChoosePayActivity;
 import com.homeforticket.pay.PayResult;
 import com.homeforticket.pay.SignUtils;
@@ -60,6 +62,7 @@ public class ZhifubaoPay {
                     if (TextUtils.equals(resultStatus, "9000")) {
                         Toast.makeText(mContext, "支付成功",
                                 Toast.LENGTH_SHORT).show();
+                        mContext.startActivity(new Intent(mContext, HomeTicketActivity.class));
                         mContext.finish();
                     } else {
                         // 判断resultStatus 为非“9000”则代表可能支付失败

@@ -55,7 +55,7 @@
     <string name="me_income">收入（元）</string>
     <string name="me_account">我的提现账户</string>
     <string name="help">使用帮助</string>
-    <string name="about">关于票之家</string>
+    <string name="about">关于卖游翁</string>
     <string name="share_to_friend">分享给好友</string>
     <string name="account_bind">绑定</string>
     <string name="account_unbind">未绑定</string>
@@ -102,7 +102,7 @@
     <string name="ticket_reserve">门票预订</string>
     <string name="scenic_introduce">景区介绍</string>
     <string name="adult_ticket">成人票</string>
-    <string name="immediately_buy">立即预定</string>
+    <string name="immediately_buy">立即预订</string>
     <string name="original_price_title">原价￥</string>
     <string name="price_sign">￥</string>
     <string name="commission_title">佣金:</string>
@@ -204,7 +204,7 @@
     <string name="makesure_pay">订单已经生成，请尽快确认付款！</string>
     <string name="confirm_text">确定</string>
     <string name="already_buy_count">已购张数</string>
-    <string name="cancel_order">取消订单</string>
+    <string name="cancel_order">退款</string>
 
     <!-- 产品详情 -->
     <string name="product_title">产品详情</string>
@@ -319,6 +319,7 @@
     <string name="sence_address">景区地址：</string>
     <string name="profile_info">人员信息</string>
     <string name="order_info">订单信息</string>
+    <string name="distribution_title">分销商：</string>
     <string name="order_id">订单号：</string>
     <string name="order_time">下单时间：</string>
     <string name="order_pay_count">数量：</string>

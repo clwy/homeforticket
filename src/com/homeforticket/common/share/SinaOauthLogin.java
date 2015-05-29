@@ -40,8 +40,8 @@ public class SinaOauthLogin extends AbsOauthLogin {
 	private static final String SHARE_URL = "https://api.weibo.com/2/statuses/update.json";
 	private static final String UPLOAD_URL = "https://upload.api.weibo.com/2/statuses/upload.json";
 
-	private static final String APP_KEY = "1879287114";
-	private static final String mClientKEY = "938437011f62ded48254ba044172bafe";
+	private static final String APP_KEY = "2733051474";
+	private static final String mClientKEY = "ab5c43e2490879ed992e6890508f3487";
 	private static final String SCOPE = "email,direct_messages_read,direct_messages_write,"
 			+ "friendships_groups_read,friendships_groups_write,statuses_to_me_read,"
 			+ "follow_app_official_microblog, invitation_write";

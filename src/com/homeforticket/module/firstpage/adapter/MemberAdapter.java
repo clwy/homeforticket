@@ -24,6 +24,7 @@ public class MemberAdapter extends BaseAdapter {
 
 	private Context mContext;
 	private List<OrderContentInfo> list;
+	private boolean isShow;
 
     public MemberAdapter(Context context) {
         this.mContext = context;
@@ -61,6 +62,7 @@ public class MemberAdapter extends BaseAdapter {
             holder.mobile = (TextView) convertView.findViewById(R.id.member_mobile);
             holder.card = (TextView) convertView.findViewById(R.id.member_card);
             holder.seat = (TextView) convertView.findViewById(R.id.member_seat);
+            holder.seat.setVisibility(View.GONE);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -70,7 +72,13 @@ public class MemberAdapter extends BaseAdapter {
         holder.name.setText(info.getBuyerName());
         holder.mobile.setText(info.getBuyerMobile());
         holder.card.setText(info.getBuyerICard());
-        holder.seat.setText(info.getSeat());
+        
+        if (isShow) {
+            holder.seat.setVisibility(View.VISIBLE);
+            holder.seat.setText(info.getSeat());
+        } else {
+            holder.seat.setVisibility(View.GONE);
+        }
 
         return convertView;
     }
@@ -90,7 +98,21 @@ public class MemberAdapter extends BaseAdapter {
 		this.list = list;
 	}
 
-	static class ViewHolder {
+	/**
+     * @return the isShow
+     */
+    public boolean isShow() {
+        return isShow;
+    }
+
+    /**
+     * @param isShow the isShow to set
+     */
+    public void setShow(boolean isShow) {
+        this.isShow = isShow;
+    }
+
+    static class ViewHolder {
 	    private TextView name;
 	    private TextView mobile;
 	    private TextView card;

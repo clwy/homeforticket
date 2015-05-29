@@ -8,6 +8,13 @@
         android:id="@+id/title_layout"
         layout="@layout/head_title_layout" />
 
+    <WebView
+        android:id="@+id/webview_help"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/title_layout" />
+
+    <!--
     <RelativeLayout
         android:id="@+id/top_layout"
         android:layout_width="match_parent"
@@ -187,5 +194,6 @@
             android:layout_alignParentBottom="true"
             android:background="@drawable/me_long_line" />
     </RelativeLayout>
+    -->
 
 </RelativeLayout>

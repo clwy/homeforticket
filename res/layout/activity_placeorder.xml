@@ -476,6 +476,7 @@
                     android:layout_marginRight="20dp"
                     android:layout_toRightOf="@id/connect_people_card_title"
                     android:background="@null"
+                    android:digits="0123456789xX"
                     android:inputType="number"
                     android:maxLength="18"
                     android:singleLine="true"
@@ -520,6 +521,12 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/add_people_layout"
                 android:background="#ffffff" >
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_below="@id/buy_people_layout" >
             </RelativeLayout>
         </RelativeLayout>
     </ScrollView>

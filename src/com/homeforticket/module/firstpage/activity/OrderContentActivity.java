@@ -72,6 +72,9 @@ public class OrderContentActivity extends BaseActivity implements OnClickListene
     private TextView mPlayDate;
     private TextView mBeginDate;
     private Button mPayButton;
+    private TextView mDistributionTitle;
+    private RelativeLayout mDistributionLayout;
+    private RelativeLayout mBeginTimeLayout;
 
     private String mOrderId;
     private View mHeaderView;
@@ -113,6 +116,12 @@ public class OrderContentActivity extends BaseActivity implements OnClickListene
         mPayButton = (Button) mFooterView.findViewById(R.id.pay_button);
         mPlayDate = (TextView) mHeaderView.findViewById(R.id.time_play);
         mBeginDate = (TextView) mHeaderView.findViewById(R.id.time_begin);
+        mDistributionTitle = (TextView) mFooterView.findViewById(R.id.distribution);
+        mDistributionLayout = (RelativeLayout) mFooterView.findViewById(R.id.distribution_layout);
+        mBeginTimeLayout = (RelativeLayout) mHeaderView.findViewById(R.id.time_begin_layout);
+        mDistributionLayout.setVisibility(View.GONE);
+        mBeginTimeLayout.setVisibility(View.GONE);
+        
     }
 
     private void initListener() {
@@ -193,8 +202,9 @@ public class OrderContentActivity extends BaseActivity implements OnClickListene
                 SharedPreferencesUtil.saveString(SysConstants.TOKEN, token);
             }
             
-            ToastUtil.showToast("取消成功");
-            mOrderType.setText("已取消");
+            ToastUtil.showToast("退款成功");
+            mOrderType.setText("已退款");
+            mPayButton.setVisibility(View.GONE);
         } else {
             if ("10004".equals(code)) {
                 SharedPreferencesUtil.saveBoolean(SysConstants.IS_LOGIN, false);
@@ -202,7 +212,7 @@ public class OrderContentActivity extends BaseActivity implements OnClickListene
                 startActivityForResult(intent, REQUEST_CANCEL);
             }
 
-            ToastUtil.showToast(message.getMessage());
+            ToastUtil.showToast("退款失败");
         }
     }
 
@@ -226,8 +236,17 @@ public class OrderContentActivity extends BaseActivity implements OnClickListene
                     + mOrderContentMessage.getCounty());
             mScenicAddress.setText(mOrderContentMessage.getSceneAddress());
             mPlayDate.setText(mOrderContentMessage.getStartTime());
-            mBeginDate.setText(mOrderContentMessage.getShowStartTime());
-
+            
+            if (!TextUtils.isEmpty(mOrderContentMessage.getShowStartTime())) {
+                mBeginDate.setText(mOrderContentMessage.getShowStartTime());
+                mBeginTimeLayout.setVisibility(View.VISIBLE);
+            }
+            
+            if (!TextUtils.isEmpty(mOrderContentMessage.getResellerName())) {
+                mDistributionTitle.setText(mOrderContentMessage.getResellerName());
+                mDistributionLayout.setVisibility(View.VISIBLE);
+            }
+            
             if ("0".equals(mOrderContentMessage.getOrderState())) {
                 mPayButton.setVisibility(View.VISIBLE);
             } else if ("1".equals(mOrderContentMessage.getOrderState())) {
@@ -237,6 +256,11 @@ public class OrderContentActivity extends BaseActivity implements OnClickListene
 
             if (mInfos.size() > 0) {
                 mMemberAdapter.setList(mInfos);
+                if (!TextUtils.isEmpty(mOrderContentMessage.getShowStartTime())) {
+                    mMemberAdapter.setShow(true);
+                } else {
+                    mMemberAdapter.setShow(false);
+                }
                 mMemberAdapter.notifyDataSetChanged();
             }
 

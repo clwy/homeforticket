@@ -41,6 +41,8 @@
             android:layout_marginLeft="34dp"
             android:layout_marginRight="34dp"
             android:background="@null"
+            android:digits="0123456789abcdefghigklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+			android:inputType="number"
             android:textColor="#000000"
             android:textColorHint="#c3c3c3"
             android:textSize="16dp" />

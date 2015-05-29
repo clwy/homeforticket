@@ -152,8 +152,15 @@ public class UserBindAccountActivity extends BaseActivity implements OnClickList
             if (TextUtils.isEmpty(mBname) || TextUtils.isEmpty(mBcard)) {
 
             } else {
+                String card = "";
+                try {
+                    card = mBcard.substring(mBcard.length() - 4, mBcard.length());
+                } catch (Exception e) {
+                    card = mBcard;
+                }
+                
                 mBankCard.setText(mBname + " " + getResources().getString(R.string.bank_card_end)
-                        + mBcard);
+                        + card);
             }
 
             mEditText.setHint(getResources().getString(R.string.current_remain_count)
@@ -165,9 +172,9 @@ public class UserBindAccountActivity extends BaseActivity implements OnClickList
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivityForResult(intent, SysConstants.GET_BIND_BANK);
             }
+            
+            ToastUtil.showToast(message.getMessage());
         }
-        
-        ToastUtil.showToast(message.getMessage());
     }
 
     @Override

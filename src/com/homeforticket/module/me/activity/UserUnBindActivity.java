@@ -57,8 +57,8 @@ public class UserUnBindActivity extends BaseActivity implements OnClickListener,
         mBtnBack = (RelativeLayout) findViewById(R.id.left_top_button);
         mSaveButton = (Button) findViewById(R.id.bind_button);
         mInputCardName = (EditText) findViewById(R.id.input_card_name);
-        mInputCardBank = (EditText) findViewById(R.id.input_bank_card_num);
-        mInputCardNum = (EditText) findViewById(R.id.input_bank_name);
+        mInputCardNum = (EditText) findViewById(R.id.input_bank_card_num);
+        mInputCardBank = (EditText) findViewById(R.id.input_bank_name);
         mInputCode = (EditText) findViewById(R.id.input_captcha);
         mGetCode = (Button) findViewById(R.id.get_captcha);
     }

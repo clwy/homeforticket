@@ -158,7 +158,7 @@ public class OrderManageActivity extends BaseActivity implements OnRefreshListen
             jsonObject.put("pageSize", "10");
             jsonObject.put("orderState", state);
             if (!TextUtils.isEmpty(searchText)) {
-                jsonObject.put("orderId", searchText);
+                jsonObject.put("search", searchText);
             } 
             if (!TextUtils.isEmpty(mId)) {
                 jsonObject.put("resellerId", mId);

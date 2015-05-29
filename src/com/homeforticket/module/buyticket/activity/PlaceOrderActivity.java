@@ -13,6 +13,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Random;
 
 import org.json.JSONArray;
@@ -43,6 +44,7 @@ import com.alipay.sdk.app.PayTask;
 import com.homeforticket.R;
 import com.homeforticket.constant.SysConstants;
 import com.homeforticket.framework.BaseActivity;
+import com.homeforticket.module.buyticket.model.PeopleInfo;
 import com.homeforticket.module.buyticket.model.ProductInfo;
 import com.homeforticket.module.buyticket.model.SaveOrderMessage;
 import com.homeforticket.module.buyticket.model.SceneInfo;
@@ -92,14 +94,12 @@ public class PlaceOrderActivity extends BaseActivity implements OnClickListener,
     private RelativeLayout mBeginPlayTime;
     private TextView mBeginPlayDate;
     private TextView mButCountTitle;
-
     private ProductInfo mProductInfo;
+    private RelativeLayout mBuyCountLayout;
     private int mIndex = 0;
     private int mLastIndex = 0;
     private int mCount = 0;
-    private HashSet<String> mNameSets = new HashSet<String>();
-    private HashSet<String> mTelSets = new HashSet<String>();
-    private HashSet<String> mCardSets = new HashSet<String>();
+    private HashMap<String, PeopleInfo> mPeopleMaps = new HashMap<String, PeopleInfo>();
     private int mYear;
     private int mMonth;
     private int mDay;
@@ -141,6 +141,7 @@ public class PlaceOrderActivity extends BaseActivity implements OnClickListener,
         mBeginPlayTime = (RelativeLayout) findViewById(R.id.begin_play_time_layout);
         mBeginPlayDate = (TextView) findViewById(R.id.begin_play_date);
         mButCountTitle = (TextView) findViewById(R.id.buy_count_title);
+        mBuyCountLayout = (RelativeLayout) findViewById(R.id.buy_count_layout);
     }
 
     private void initListener() {
@@ -152,6 +153,7 @@ public class PlaceOrderActivity extends BaseActivity implements OnClickListener,
         mConfirmButton.setOnClickListener(this);
         mBeginPlayDate.setOnClickListener(this);
         mBuyCount.setOnClickListener(this);
+        mBuyCountLayout.setOnClickListener(this);
     }
 
     private void initData() {
@@ -163,8 +165,7 @@ public class PlaceOrderActivity extends BaseActivity implements OnClickListener,
         mTicketType.setText(mProductInfo.getProductName());
         mSinglePrice.setText(mProductInfo.getRetailPrice());
         mIsUnique = mProductInfo.getIsUnique();
-        
-        
+
         if ("0".equals(mIsUnique)) {
             mButCountTitle.setText(R.string.already_buy_count);
         }
@@ -316,7 +317,7 @@ public class PlaceOrderActivity extends BaseActivity implements OnClickListener,
             if (count != 0) {
                 mCount = count;
             }
-            
+
             mBuyCount.setText(String.valueOf(mCount));
             mTotalCount.setText(String.valueOf(mCount));
             mTotalPrice.setText(String.valueOf(mCount
@@ -331,7 +332,7 @@ public class PlaceOrderActivity extends BaseActivity implements OnClickListener,
             case R.id.left_top_button:
                 finish();
                 break;
-            case R.id.buy_count:
+            case R.id.buy_count_layout:
                 if ("0".equals(mIsUnique)) {
                     if (mCount != 0) {
                         Intent intent = new Intent(this, InputTicketNumActivity.class);
@@ -388,7 +389,7 @@ public class PlaceOrderActivity extends BaseActivity implements OnClickListener,
                     return;
                 }
 
-                if (mCardSets.contains(card)) {
+                if (mPeopleMaps.containsKey(card)) {
                     ToastUtil.showToast("当前身份证号已经购买过");
                     return;
                 }
@@ -398,9 +399,11 @@ public class PlaceOrderActivity extends BaseActivity implements OnClickListener,
                 mTotalCount.setText(String.valueOf(mCount));
                 mTotalPrice.setText(String.valueOf(mCount
                         * Float.parseFloat(mProductInfo.getRetailPrice())));
-                mNameSets.add(name);
-                mTelSets.add(tel);
-                mCardSets.add(card);
+                PeopleInfo info = new PeopleInfo();
+                info.setName(name);
+                info.setTel(tel);
+                info.setCard(card);
+                mPeopleMaps.put(card, info);
 
                 mLastIndex = mIndex;
                 mIndex = addBuyPeople(name, tel, card, mLastIndex);
@@ -419,7 +422,7 @@ public class PlaceOrderActivity extends BaseActivity implements OnClickListener,
             case R.id.confirm:
                 String chooseDate = mYear + "-" + dealDate()[0] + "-" + dealDate()[1];
                 int pos = getWeek(chooseDate, mCalendar);
-                
+
                 if (!TextUtils.isEmpty(mProductInfo.getWeek())) {
                     if (Integer.parseInt(String.valueOf(mProductInfo.getWeek().charAt(pos))) == 0) {
                         ToastUtil.showToast("日期不可选");
@@ -432,7 +435,7 @@ public class PlaceOrderActivity extends BaseActivity implements OnClickListener,
                     mCalendar.set(Calendar.MONTH, mMonth - 1);
                     mCalendar.set(Calendar.DAY_OF_MONTH, mDay);
                     mPlayDate.setText(chooseDate);
-                    
+
                     mCalendar.add(Calendar.DAY_OF_MONTH, mRange);
                     mDay = mCalendar.get(Calendar.DAY_OF_MONTH);
                     mYear = mCalendar.get(Calendar.YEAR);
@@ -440,15 +443,16 @@ public class PlaceOrderActivity extends BaseActivity implements OnClickListener,
                     String[] beginPlayDate = dealDate();
                     mBeginPlayDate.setText(mYear + "-" + beginPlayDate[0] + "-" + beginPlayDate[1]);
                 } else {
-                    int beginTime = Integer.parseInt(mYear+dealDate()[0]+dealDate()[1]);
-                    int playTime = Integer.parseInt(mPlayDate.getText().toString().replaceAll("-", ""));
-                    
+                    int beginTime = Integer.parseInt(mYear + dealDate()[0] + dealDate()[1]);
+                    int playTime = Integer.parseInt(mPlayDate.getText().toString()
+                            .replaceAll("-", ""));
+
                     int middle = beginTime - playTime;
                     if (middle > mRange || middle < 0) {
                         ToastUtil.showToast("演出日期不可选");
                         return;
                     }
-                    
+
                     mBeginPlayDate.setText(chooseDate);
                 }
 
@@ -484,9 +488,9 @@ public class PlaceOrderActivity extends BaseActivity implements OnClickListener,
             jsonObject.put("cPaidAmount",
                     String.valueOf(mCount * Float.parseFloat(mProductInfo.getRetailPrice())));
             jsonObject.put("productID", mProductInfo.getProductId());
-            jsonObject.put("buyerIDCard", connectHashSet(mCardSets));
-            jsonObject.put("buyerMobile", connectHashSet(mTelSets));
-            jsonObject.put("buyerName", connectHashSet(mNameSets));
+            jsonObject.put("buyerIDCard", connectHashMap(mPeopleMaps, 2));
+            jsonObject.put("buyerMobile", connectHashMap(mPeopleMaps, 1));
+            jsonObject.put("buyerName", connectHashMap(mPeopleMaps, 0));
             jsonObject.put("ticketNum", String.valueOf(mCount));
         } catch (JSONException e) {
             e.printStackTrace();
@@ -500,7 +504,7 @@ public class PlaceOrderActivity extends BaseActivity implements OnClickListener,
         }
     }
 
-    private int addBuyPeople(final String userName, final String userTel, final String userCrad,
+    private int addBuyPeople(final String userName, final String userTel, final String userCard,
             int index) {
         int initIndex = index;
         final RelativeLayout rl = new RelativeLayout(this);
@@ -569,7 +573,7 @@ public class PlaceOrderActivity extends BaseActivity implements OnClickListener,
 
         index++;
         TextView tx6 = new TextView(this);
-        tx6.setText(userCrad);
+        tx6.setText(userCard);
         tx6.setTextColor(Color.parseColor("#979797"));
         tx6.setTextSize(16);
         tx6.setId(index);
@@ -625,15 +629,13 @@ public class PlaceOrderActivity extends BaseActivity implements OnClickListener,
                 if (mIndex == rl.getId()) {
                     mIndex = mLastIndex;
                 }
-                mBuyPeopleLayout.removeView(rl);
+                rl.setVisibility(View.GONE);
                 mCount--;
                 mBuyCount.setText(String.valueOf(mCount));
                 mTotalCount.setText(String.valueOf(mCount));
                 mTotalPrice.setText(String.valueOf(mCount
                         * Float.parseFloat(mProductInfo.getRetailPrice())));
-                mNameSets.remove(userName);
-                mTelSets.remove(userTel);
-                mCardSets.remove(userCrad);
+                mPeopleMaps.remove(userCard);
             }
         });
 
@@ -650,7 +652,25 @@ public class PlaceOrderActivity extends BaseActivity implements OnClickListener,
         return index;
     }
 
-    private String connectHashSet(HashSet<String> sets) {
-        return TextUtils.join(",", sets);
+    private String connectHashMap(HashMap<String, PeopleInfo> maps, int pos) {
+        String str = "";
+        Iterator iter = maps.entrySet().iterator();
+        while (iter.hasNext()) {
+            Map.Entry entry = (Map.Entry) iter.next();
+            Object key = entry.getKey();
+            PeopleInfo info = (PeopleInfo) entry.getValue();
+            
+            if (pos == 0) {
+                str += info.getName();
+            } else if (pos == 1) {
+                str += info.getTel();
+            } else if (pos == 2) {
+                str += info.getCard();
+            }
+            
+            str += ",";
+        }
+        
+        return str.substring(0,str.length()-1);
     }
 }

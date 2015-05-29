@@ -110,7 +110,7 @@ public class ChoosePayActivity extends BaseActivity implements OnClickListener, 
         mPayTotal.setText(intent.getStringExtra("total") + "元");
         mNeedPay.setText(intent.getStringExtra("total") + "元");
         mOrderId = intent.getStringExtra("orderId");
-        mOrderDes = "票之家";
+        mOrderDes = "卖游翁";
         mTotalPay = intent.getStringExtra("total");
         mIsUnique = intent.getStringExtra("isUnique");
     }

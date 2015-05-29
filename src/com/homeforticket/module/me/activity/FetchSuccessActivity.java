@@ -35,7 +35,10 @@ public class FetchSuccessActivity extends BaseActivity implements OnClickListene
     private void initView() {
         mTxtTitle = (TextView) findViewById(R.id.top_title);
         mBtnBack = (RelativeLayout) findViewById(R.id.left_top_button);
-        mSaveButton = (Button) findViewById(R.id.save_button);
+        mSaveButton = (Button) findViewById(R.id.confirm_button);
+        mBankCard = (TextView) findViewById(R.id.card);
+        mPrice = (TextView) findViewById(R.id.price_count);
+        mGetDate = (TextView) findViewById(R.id.get_date);
     }
 
     private void initListener() {

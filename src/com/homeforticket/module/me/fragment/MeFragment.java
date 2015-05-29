@@ -177,7 +177,7 @@ public class MeFragment extends BaseFragment implements OnClickListener {
                 startActivity(new Intent(getActivity(), AboutActivity.class));
                 break;
             case R.id.share_layout:
-                mShareUtilsView = new ShareUtilsView(getActivity(), "http://testfh.piaozhijia.com", "票之家", "欢迎下载票之家", "");
+                mShareUtilsView = new ShareUtilsView(getActivity(), "http://testfh.piaozhijia.com", "卖游翁", "欢迎下载卖游翁", "");
                 mShareUtilsView.showAsDropDown(mTxtTitle);
                 break;
             default:
