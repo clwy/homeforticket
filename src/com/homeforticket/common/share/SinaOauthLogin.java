@@ -35,7 +35,7 @@ public class SinaOauthLogin extends AbsOauthLogin {
 
 	private static final String OAUTH_URL = "https://api.weibo.com/oauth2/authorize?display=mobile";
 	private static final String ACCESSTOKEN_URL = "https://api.weibo.com/oauth2/access_token";
-	private static final String REDIRECT_URL = "http://login.home.news.cn/cb/sina.do";
+	private static final String REDIRECT_URL = "http://www.piaozhijia.cn";
 	private static final String USER_INFO_URL = "https://api.weibo.com/2/users/show.json";
 	private static final String SHARE_URL = "https://api.weibo.com/2/statuses/update.json";
 	private static final String UPLOAD_URL = "https://upload.api.weibo.com/2/statuses/upload.json";

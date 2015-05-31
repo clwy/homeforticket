@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">HomeForTicket</string>
+    <string name="app_name">卖游翁</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="copyright_en">Copyright © 2000-2015 piaoticket.com</string>

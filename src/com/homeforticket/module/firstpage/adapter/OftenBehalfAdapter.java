@@ -86,7 +86,7 @@ public class OftenBehalfAdapter extends BaseAdapter {
         }
 
         final BehalfInfo behalfInfo = list.get(position);
-        Glide.with(mContext).load(behalfInfo.getPicName()).into(holder.itemPic);
+        Glide.with(mContext).load(behalfInfo.getPicName()).centerCrop().into(holder.itemPic);
         holder.posName.setText(behalfInfo.getCity());
         holder.TicketName.setText(behalfInfo.getSceneName());
         holder.TicketLevel.setText(behalfInfo.getSceneLevel());

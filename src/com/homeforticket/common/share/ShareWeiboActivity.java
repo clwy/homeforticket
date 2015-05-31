@@ -101,7 +101,7 @@ public class ShareWeiboActivity extends BaseActivity implements OnClickListener 
         
         StringBuilder shareContent = new StringBuilder(mTitle);
         if (!TextUtils.isEmpty(mUrl)) {
-            shareContent.append(" ").append(mUrl);
+            shareContent.append(" ").append(mContent).append(" ").append(mUrl);
         }
         
         etMsg.setText(shareContent.toString());
@@ -181,9 +181,6 @@ public class ShareWeiboActivity extends BaseActivity implements OnClickListener 
         Bitmap bitmap = null;
         if (!TextUtils.isEmpty(mPath)) {
             bitmap = BitmapFactory.decodeFile(mPath);
-        }
-        if (bitmap == null) {
-            bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.shared_qrcode);
         }
         sinaOauth.shareToX(message, bitmap);
     }
